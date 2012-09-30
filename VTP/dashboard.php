@@ -29,7 +29,7 @@ $playerWidth = 640;
 <div id="playerDiv">
     <div id="tags" style="position:absolute;"></div>
     
-    <div id="tag" style="border: 2px solid rgb(161, 161, 161); left: 100px; position: relative; width: 100px; top: 150px; height: 100px;>
+    <div id="tag" style="border: 2px solid rgb(161, 161, 161); left: 100px; position: absolute; width: 100px; top: 150px; height: 100px;>
         <a href="https:\\www.google.com">test</a>
     </div>
     <div id="player" style="position:relative; z-index:0;">

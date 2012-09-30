@@ -1,0 +1,13 @@
+#header{
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #c8cdd3;
+    height: 30px;
+    width:  800px;
+    border-radius:25px;
+    -moz-border-radius:25px; /* Firefox 3.6 and earlier */
+}
+
+#playerDiv{
+    margin-top: 40px;
+}

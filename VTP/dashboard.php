@@ -29,7 +29,7 @@ $playerWidth = 640;
 <div id="playerDiv">
     <div id="tags" style="position:absolute;"></div>
     
-    <div id="tag" style="border: 2px solid rgb(161, 161, 161); left: 100px; position: absolute; width: 100px; top: 150px; height: 100px;>
+    <div id="tag" style="border: 2px solid rgb(161, 161, 161); left: 100px; position: absolute; width: 100px; top: 150px; height: 100px;z-index:99;">
         <a href="https:\\www.google.com">test</a>
     </div>
     <div id="player" style="position:relative; z-index:0;">
@@ -59,25 +59,14 @@ $playerWidth = 640;
         width: '<?= $playerWidth; ?>',
         videoId: '<?= $videoId; ?>?enablejsapi=1&html5=1',
         events: {
-            'onReady': onPlayerReady,
             'onStateChange': onPlayerStateChange
         }
         });
     }
 
-    // 4. The API will call this function when the video player is ready.
-    function onPlayerReady(event) {
-        event.target.playVideo();
-    }
-
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-    var done = false;
     function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING && !done) {
-            setTimeout(stopVideo, 1000);
-            done = true;
+        if (event.data == YT.PlayerState.PLAYING) {
+            
         }
     }
     

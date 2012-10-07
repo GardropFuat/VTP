@@ -8,6 +8,37 @@
     -moz-border-radius:25px; /* Firefox 3.6 and earlier */
 }
 
-#playerDiv{
+#container{
+    position: relative;
     margin-top: 40px;
 }
+
+#playerDiv{
+    float: left;
+}
+
+#tagDescription{
+    float: left;
+    margin: auto;
+    height: 340px;
+    width: 500px;
+}
+
+#tagDescription img {
+    display: block;
+    margin: auto;
+    
+}
+
+#tagControls{
+    float: left;
+}
+
+.tag{
+    border: 2px solid rgb(161, 161, 161);
+    position: absolute;
+    z-index:99;
+}
+
+
+

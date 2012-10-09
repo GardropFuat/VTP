@@ -1,16 +1,50 @@
-#header{
+body {
+    color: #111111;
+    font-family: 'Droid Sans',sans-serif;
+}
+
+a {
+    color: #0066CC;
+    text-decoration: none;
+}
+
+a:hover{
+    color: #FF0000;
+    text-decoration: underline;
+}
+
+.header{
     margin-left: auto;
     margin-right: auto;
+    /*    background-image:url('../images/header_01.png');  */
     background-color: #c8cdd3;
     height: 30px;
-    width:  800px;
+    width:  825px;
     border-radius:25px;
     -moz-border-radius:25px; /* Firefox 3.6 and earlier */
+}
+
+.headerTable{
+    width:  800px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.videoTitle{
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 16px;
+    margin-bottom: 3px;
 }
 
 #container{
     position: relative;
     margin-top: 40px;
+    width: 100%;
+}
+
+#contentTop{
+    width: 100%;
 }
 
 #playerDiv{
@@ -26,12 +60,12 @@
 
 #tagDescription img {
     display: block;
-    margin: auto;
-    
+    margin: auto;   
 }
 
 #tagControls{
     float: left;
+    width: 100%;
 }
 
 .tag{
@@ -40,5 +74,16 @@
     z-index:99;
 }
 
+#commentsDiv{
+    float: left;
+    width: 100%;
+}
 
-
+#commentsTbl{
+    margin-top: 10px;
+    text-align: center;
+    width: 500px;
+    border: 2px solid #E9ECEF;
+    border-radius:25px;
+    -moz-border-radius:25px; /* Firefox 3.6 and earlier */
+}

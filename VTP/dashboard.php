@@ -1,38 +1,22 @@
 <!--
     File Name:      dashboard.php
     Parent File:    index.php
-    Description:    
+    Description:
     Created:        09/27/2012
     Last Modified:  Anudeep 10/05
     Copyright:      Echostar Systems @ http://www.echostar.com/
 -->
 <?php
-
-    $videoId = getYtVideoId("http://www.youtube.com/watch?v=BFph8eXlB98&list=UUAwSwbluTDUlhHPivGcBczQ&index=1&feature=plcp");
+$videoId = getYtVideoId("http://www.youtube.com/watch?v=BFph8eXlB98&list=UUAwSwbluTDUlhHPivGcBczQ&index=1&feature=plcp");
 //  get video title from youtube
-    $videoData = file_get_contents("http://youtube.com/get_video_info?video_id=".$videoId);
-    parse_str($videoData, $videoData);
-    $videoTitle = $videoData['title'];
+$videoData = file_get_contents("http://youtube.com/get_video_info?video_id=".$videoId);
+parse_str($videoData, $videoData);
+$videoTitle = $videoData['title'];
 
 $videoLink = "https://www.youtube.com/v/".$videoId."?version=3&enablejsapi=1";
 $playerHeight = 340;
 $playerWidth = 640;
 ?>
-
-<div class='header'>
-    <table class="headerTable">
-        <tr>
-            <td style="width:500px;">
-                Url:    <input type="text" id="ytUrl" style="width: 80%;"/>
-                <input type="button" OnClick="stopVideo()" value="Load" />
-            </td>
-            <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-            <td><a href="#">Liked</a></td>
-            <td><a href="#">Faviorites</a></td>
-            <td><a href="#">Login/Sign Up</a></td>
-        </tr>
-    </table>
-</div>
 
 <div id="container">
     <div id="contentTop">
@@ -52,20 +36,11 @@ $playerWidth = 640;
             </div>
             <div id="playerFrame">
                 <!-- This div will be replaced by JS: onYouTubeIframeAPIReady() -->
-                <iframe id="playerFrame" 
-                    type="text/html" 
-                    width="<?= $playerWidth; ?>" height="<?= $playerHeight; ?>"
-                    src="http://www.youtube.com/embed/<?= $videoId; ?>?enablejsapi=1&html5=1"
-                    frameborder="0">
-                </iframe>  
+                Unable to load video...
             </div>
         </div>
         <div id="tagDescription" style="height:<?= $playerHeight;?> px; ">
             <!-- Display Picture here-->
-            <image id="sdsmtImage" src="http://dakotatoday.typepad.com/photos/sdetc/techlogo.jpg" alt="SDSM&T Logo" style="height:300px; margin-top: 20px; display:none;">
-            <image id="saeResults" src="images/saeResults.png" alt="See Results at http://students.sae.org/competitions/supermileage/results/2012.pdf" style="height:300px; margin-top: 20px; display:none;">
-            <image id="supermileageSae" src="images/supermileageSae.png" alt="More details on Supermileage SAE" style="height:300px; margin-top: 20px; display:none;">
-            <image id="mapMines" src="images/mapMines.png" alt="Mines on Google Maps" style="height:300px; margin-top: 20px; display:none;">
         </div>
     </div>
     <div id="tagControls">
@@ -76,7 +51,7 @@ $playerWidth = 640;
             <td><input type="radio" name="tagFilter" checked/>All</td>
             <td width="280px;"></td>
             <td><a href="#"><img class="ui-icon ui-icon-plusthick"/></a></td>
-            <td><a href="#">Add Tag</a></td>            
+            <td><a href="#">Add Tag</a></td>
         </table>
     </div>
     <div id="commentsDiv">
@@ -90,20 +65,27 @@ $playerWidth = 640;
 
 
 <script  type="text/javascript">
-    // 2. This code loads the IFrame Player API code asynchronously.
+//// Tag Points Should be replace from DB values
+var tags = new Array(1, 2, 3, 5, 7, 10, 14, 20);
+var tagsStart = {};
+    tagsStart[1] = 'action_1';
+    tagsStart[2] = 'action_2';
+    tagsStart[10] = 'action_10';
+    tagsStart[3] = 'action_3';
+    tagsStart[5] = 'action_5';
+    tagsStart[7] = 'action_7';
+    tagsStart[20] = 'action_20';
+    tagsStart[14] = 'action_14';
+
+    var player;
+
+    // Load Youtube Iframe Player API
     var tag = document.createElement('script');
     tag.src = "//www.youtube.com/iframe_api";
     var firstScriptTag = document.getElementsByTagName('script')[0];
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    
-    var tagMines = new Array(1, 4);
-    var tagCar = new Array(9, 15);
-    var tagNucor = new Array(16, 22);
-    var tagSae = new Array(25, 29);
 
-    // 3. This function creates an <iframe> (and YouTube player)
-    //    after the API code downloads.
-    var player;
+    // Load youtube player with specified youtube videoId
     function onYouTubeIframeAPIReady(playerId) {
         player = new YT.Player('playerFrame', {
             height: '<?= $playerHeight; ?>',
@@ -117,67 +99,65 @@ $playerWidth = 640;
         });
     }
 
-    // 4. The API will call this function when the video player is ready.
+    // Player is Ready
     function onPlayerReady(event) {
-        //  event.target.playVideo();
+
     }
 
-    // 5. The API calls this function when the player's state changes.
-    //    The function indicates that when playing a video (state=1),
-    //    the player should play for six seconds and then stop.
-    var done = false;
-    var showTimer, hideTimer;
-    function onPlayerStateChange(event) {        
-        if (event.data == YT.PlayerState.PLAYING) {
-            if(tagMines[0] > player.getCurrentTime()){
-                var start = (tagMines[0] - player.getCurrentTime()) * 1000;
-                showTimer = setTimeout( function(){show("tagMines", "sdsmtImage")}, start);
-                var end = ( tagMines[1] - player.getCurrentTime() ) * 1000;
-                hideTimer = setTimeout( function(){hide("tagMines", "sdsmtImage")}, end);
-            }
-            if(tagCar[0] > player.getCurrentTime()){
-                var start = (tagCar[0] - player.getCurrentTime()) * 1000;
-                showTimer = setTimeout( function(){show("tagCar", "supermileageSae")}, start);
-                var end = ( tagCar[1] - player.getCurrentTime() ) * 1000;
-                hideTimer = setTimeout( function(){hide("tagCar", "supermileageSae")}, end);
-            }
-            if(tagNucor[0] > player.getCurrentTime()){
-                var start = (tagNucor[0] - player.getCurrentTime()) * 1000;
-                showTimer = setTimeout( function(){show("tagNucor", "saeResults")}, start);
-                var end = ( tagNucor[1] - player.getCurrentTime() ) * 1000;
-                hideTimer = setTimeout( function(){hide("tagNucor", "saeResults")}, end);
-            }   
-            if(tagSae[0] > player.getCurrentTime()){
-                var start = (tagSae[0] - player.getCurrentTime()) * 1000;
-                showTimer = setTimeout( function(){show("tagSae", "mapMines")}, start);
-                var end = ( tagSae[1] - player.getCurrentTime() ) * 1000;
-                hideTimer = setTimeout( function(){hide("tagSae", "mapMines")}, end);
-            }
-        }else if(event.data == YT.PlayerState.PAUSED){
-            if(tagMines[0] > player.getCurrentTime()){
-                var diff = ( player.getCurrentTime() - tagMines[1] ) * 1000;
-                clearTimeout(timer);
-            }
+    //  if palyer state is switched between (UNSTARTED (-1), ENDED (0), PLAYING (1), PAUSED (2), BUFFERING (3), VIDEO CUED (5))
+    function onPlayerStateChange(event) {
+        if(YT.PlayerState.PLAYING){
+            updatePlayerInfo();
         }
     }
-    
+
+    //  Stop Youtube video
     function stopVideo() {
         player.stopVideo();
     }
-    
+
+    // monitors the player time
+    function updatePlayerInfo(){
+        var played;
+        var tagPoint;
+
+        played = parseInt(player.getCurrentTime(), 10);
+
+        if (played) {
+            for (var i = 0; tagPoint = tags[i]; i++) {
+                if (tagPoint === played) {
+                    triggerAction(tagPoint);
+                    break;
+                }
+            }
+        }
+        //  if video is playing wait 750ms and repeat
+        if(YT.PlayerState.PLAYING){
+            setTimeout( function(){ updatePlayerInfo(); }, 750);
+        }
+    }
+
+    // Tag Actions should be implemented here...
+    function triggerAction(tagPoint){
+        if(tagsStart.hasOwnProperty(tagPoint)) {
+            console.log(tagsStart[tagPoint]);
+        }
+    }
+
+    // hide HTML elements
+    // need to pass id's as individual parameters
     function hide() {
         $.each(arguments, function(i, id) {
             $('#' + id).hide();
         });
-    }    
-    
+    }
+
+    // show HTML elements
+    // need to pass id's as individual parameters
     function show() {
         $.each(arguments, function(i, id) {
             $('#' + id).show();
         });
     }
-    
-    function echo(msg){
-        $('#JsConsole').append('<br/>' + msg);
-    }
+
 </script>

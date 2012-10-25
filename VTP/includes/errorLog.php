@@ -2,7 +2,7 @@
 /*
  *
  * File Name:       errorLog.php
- * Description:     Capture all PHP errors and record them in .error_log
+ * Description:     Captures all PHP errors and record them in .error_log
  * Author:          Anudeep Potlapally
  * Created:         10/19/2012
  * Last Updated:
@@ -14,7 +14,7 @@ define('USER_ERROR_HANDLER_LOG_FILE', '.error_log');
 define('USER_ERROR_HANDLER_ERROR_TYPES', E_ALL);
 
 // http://us2.php.net/manual/en/errorfunc.configuration.php#ini.error-reporting
-error_reporting(0);
+//  error_reporting(0);
 
 // http://us2.php.net/manual/en/function.set-error-handler.php
 set_error_handler("UserErrorHandler", USER_ERROR_HANDLER_ERROR_TYPES);

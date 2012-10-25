@@ -1,24 +1,36 @@
 <?php
 
 require_once 'libraries/openid.php';
-$openid = new LightOpenID("http://localhost/local/VTP/");
+# Logging in with Google accounts requires setting special identity, so this example shows how to do it.
 
-if ($openid->mode) {
-    if ($openid->mode == 'cancel') {
-        echo "User has canceled authentication !";
-    } elseif($openid->validate()) {
-        $data = $openid->getAttributes();
-        $email = $data['contact/email'];
-        $first = $data['namePerson/first'];
-        echo "Identity : $openid->identity <br>";
-        echo "Email : $email <br>";
-        echo "First name : $first";
+try {
+    # Change 'localhost' to your domain name.
+    $openid = new LightOpenID('localhost');
+    if(!$openid->mode) {
+        if(isset($_GET['login'])) {
+            $openid->identity = 'https://www.google.com/accounts/o8/id';
+            $openid->required = array('contact/email');
+            header('Location: ' . $openid->authUrl());
+        }
+?>
+<form action="?login" method="post">
+    <button>Login with Google</button>
+</form>
+<?php
+    } elseif($openid->mode == 'cancel') {
+        echo 'User has canceled authentication!';
     } else {
-        echo "The user has not logged in";
+        if($openid->validate()) {
+            // logged in
+            echo 'logged in<br/>';
+            echo $openid->identity.'<br/>';
+            $test = $openid->getAttributes();
+            print_r($test);
+        }else{
+            // NOT logged in
+        }
     }
-} else {
-    echo "Go to index page to log in.";
+} catch(ErrorException $e) {
+    echo $e->getMessage();
 }
-
-
 ?>

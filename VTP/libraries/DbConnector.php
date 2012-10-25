@@ -87,6 +87,17 @@ class DbConnector {
         }
         return $rows;
     }
+    
+    /*
+     * Function: getYTTags,
+     * @param string $videoId - youtube video id
+     * Description: Returns all tags linked to the provided youtube video id
+     */
+    function getYTTags($videoId)
+    {
+        $query = "SELECT * FROM `yttags` WHERE `yttags`.`videoId` = '".$videoId."' ";
+        return $this->getAllRows($query);
+    }
 
     /*
      * Function: disconnect

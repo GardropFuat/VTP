@@ -15,20 +15,6 @@
 // increase the default animation speed to exaggerate the effect
 $.fx.speeds._default = 500;
 
-/*******************    jQuery Login Popup Dialog        **************************/
-$(function() {
-    $( "#loginDialog" ).dialog({
-        autoOpen: false,
-        show: "blind",
-        hide: "explode"
-    });
-
-    $( "#loginBtn" ).click(function() {
-        $( "#loginDialog" ).dialog( "open" );
-        return false;
-    });
-});
-
 // on window resize set player height
 $(window).resize(function() {
     $('#playerDiv').height('50%');

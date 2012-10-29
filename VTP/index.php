@@ -29,11 +29,13 @@ $Db = new DbConnector();
         <title>Video Tag Portal</title>
                             <!--    Style Sheets   -->
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
+        <link href="css/jquery.dropdown.css" rel="stylesheet" type="text/css"></link>
         <link href="css/main.css" rel="stylesheet" type="text/css"></link>
                             <!--    Javascript files   -->
         <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
         <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
+        <script src="libraries/jquery.dropdown.js" type="text/javascript"></script>
         <script src="includes/functions.js" type="text/javascript"></script>
         <?php
             include 'includes/headJS.php';        

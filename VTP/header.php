@@ -10,12 +10,14 @@
  */
 ?>
 <!----   include Dialog Boxes here      --->
-<div id="loginDialog" title="Login">
-    <table align="center">
-        <tr><td><img src="images/facebook_login_icon.png" alt="Login with Facebook" onClick="login('facebook');" style="cursor:pointer;"/></td></tr>
-        <tr align="center"><td>OR</td></tr>
-        <tr><td><img src="images/google_login_icon.png" alt="Login with Google" onClick="login('google');" style="cursor:pointer;"/></td></tr>        
-    </table>
+
+<!----   include Dropdown lists here    -->
+<div id="loginDropdown" class="dropdown-menu has-tip">
+    <ul>
+        <li style="padding: 10px;"><img src="images/facebook_login_icon.png" alt="Login with Facebook" onClick="login('facebook');" style="cursor:pointer;"/></li>
+        <li align="center">- OR -</li>
+        <li style="padding: 10px;"><img src="images/google_login_icon.png" alt="Login with Google" onClick="login('google');" style="cursor:pointer;"/></li>
+    </ul>
 </div>
 
 <!----        Header      ----->
@@ -32,8 +34,7 @@
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             <td><a href="#">Liked</a></td>
             <td><a href="#">Faviorites</a></td>
-                <!-- login popup trigger is in headJs.php-->
-            <td><a href="#" id="loginBtn">Login</a></td>
+            <td><a href="#" data-dropdown="#loginDropdown">Login</a></td>
         </tr>
     </table>
 </div>

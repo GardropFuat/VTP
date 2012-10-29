@@ -44,7 +44,7 @@ $Db = new DbConnector();
             include("header.php");
             include("dashboard.php");
             // tailJS.php should be st the end of the page
-            include("includes/tailJS.php");
+            include("includes/bodyJS.php");
         ?>
 	</body>
 </html>

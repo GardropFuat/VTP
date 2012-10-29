@@ -1,36 +1,32 @@
 <?php
 
-require_once 'libraries/openid.php';
-# Logging in with Google accounts requires setting special identity, so this example shows how to do it.
-
-try {
-    # Change 'localhost' to your domain name.
-    $openid = new LightOpenID('localhost');
-    if(!$openid->mode) {
-        if(isset($_GET['login'])) {
-            $openid->identity = 'https://www.google.com/accounts/o8/id';
-            $openid->required = array('contact/email');
-            header('Location: ' . $openid->authUrl());
-        }
-?>
-<form action="?login" method="post">
-    <button>Login with Google</button>
-</form>
-<?php
-    } elseif($openid->mode == 'cancel') {
-        echo 'User has canceled authentication!';
-    } else {
-        if($openid->validate()) {
-            // logged in
-            echo 'logged in<br/>';
-            echo $openid->identity.'<br/>';
-            $test = $openid->getAttributes();
-            print_r($test);
-        }else{
-            // NOT logged in
-        }
+if(!empty($_POST['login'])) {
+    switch($_POST['login']) {
+        case 'facebook':
+            echo 'facebook not implemented yet';
+            break;
+        case 'google':
+            require_once 'libraries/openid.php';
+            $openid = new LightOpenID('localhost');
+            if(!$openid->mode) {
+                $openid->identity = 'https://www.google.com/accounts/o8/id';
+                $openid->required = array('contact/email');
+                echo "<script>window.open('".$openid->authUrl()."', '_blank', 'fullscreen=no,location=no,toolbar=no,top=500,left=500,html=no')</script>";
+            } elseif($openid->mode == 'cancel') {
+                echo '<script>self.close();</script>';
+            } else {
+                if($openid->validate()) {
+                    // logged in
+                    echo 'logged in<br/>';
+                    echo $openid->identity.'<br/>';
+                    $test = $openid->getAttributes();
+                    print_r($test);
+                }else{
+                    // NOT logged in
+                }
+            }
+            break;    
     }
-} catch(ErrorException $e) {
-    echo $e->getMessage();
 }
+echo "<br/>";
 ?>

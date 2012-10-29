@@ -17,15 +17,28 @@ $.fx.speeds._default = 500;
 
 /*******************    jQuery Login Popup Dialog        **************************/
 $(function() {
-    $( "#loginOptions" ).dialog({
+    $( "#loginDialog" ).dialog({
         autoOpen: false,
         show: "blind",
         hide: "explode"
     });
 
     $( "#loginBtn" ).click(function() {
-        $( "#loginOptions" ).dialog( "open" );
+        $( "#loginDialog" ).dialog( "open" );
         return false;
     });
 });
+
+// on window resize set player height
+$(window).resize(function() {
+    $('#playerDiv').height('50%');
+    $('#tagdescription').height('50%');
+});
+
+// 
+function login(type){
+    $.post('login.php', {login: type}, function(data) {
+      $('#loginDialog').html(data);
+    });
+}
 </script>

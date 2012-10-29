@@ -23,8 +23,8 @@ function echoScript($jsCode) {
     echo "<script type='text/javascript'>".$jsCode."</script>";
 }
 
-
-function imageJsYT($videoTag) {
+//  Generates script for image tags
+function imageTagJs($videoTag) {
     $script = "ytVideo.image({
                     start: ".$videoTag['start'].",
                     end: ".$videoTag['end'].",
@@ -36,14 +36,14 @@ function imageJsYT($videoTag) {
     return $script;
 }
 
-function generateYTConent($videoId) {
+function generateVideoScript($videoId) {
     global $Db;
     $videoTags = $Db->getYTTags($videoId);
     // create YT player
-    $content = "var ytVideo = Popcorn.youtube( '#playerFrame', 'http://www.youtube.com/watch?v=".$videoId."' );";
+    $content = "var ytVideo = Popcorn.smart( '#playerFrame', 'http://www.youtube.com/watch?v=".$videoId."' );";
     
     foreach($videoTags as $videoTag) {
-        $action = $videoTag['action'].'JsYT';
+        $action = $videoTag['action'].'TagJs';
         $content = $content.$action($videoTag);
     }
     

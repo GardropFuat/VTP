@@ -21,7 +21,7 @@ $playerWidth = 640;
 <div id="container">
     <div id="contentTop">
         <div class="videoTitle"><?= $videoTitle; ?></div>
-        <div id="playerDiv">
+        <div id="playerDiv" style="width:50%">
             <div id="tagMines" style="display: none; left: 240px; top: 40px; height: 200px; width: 170px;" class="tag">
                 &nbsp;&nbsp;&nbsp;
             </div>
@@ -38,20 +38,20 @@ $playerWidth = 640;
                 <!-- will be replaced by Popcorn javaScript-->
             </div>
         </div>
-        <div id="tagDescription" style="height:<?= $playerHeight;?> px; ">
+        <div id="tagDescription" style="height:<?= $playerHeight;?> px;width:50%">
             <!-- Display Picture here-->
         </div>
     </div>
-    <div id="tagControls">
-        <table id="tagCtrlsTbl">
-            <td>Show Tags: </td>
-            <td><input type="radio" name="tagFilter"/>None</td>
-            <td><input type="radio" name="tagFilter"/>Friends</td>
-            <td><input type="radio" name="tagFilter" checked/>All</td>
-            <td width="280px;"></td>
-            <td><a href="#"><img class="ui-icon ui-icon-plusthick"/></a></td>
-            <td><a href="#">Add Tag</a></td>
-        </table>
+    <div id="tagControls" style="width:50%">
+            Show Tags: 
+            <input type="radio" name="tagFilter"/>None            
+            <input type="radio" name="tagFilter"/>Friends
+            <input type="radio" name="tagFilter" checked/>All
+            <div style="float:right;">
+                <a href="#">
+                    <!--<img class="ui-icon ui-icon-plusthick"/> -->Add Tag
+                </a>
+            </div>
     </div>
     <div id="commentsDiv">
         <div id="commentsTbl">

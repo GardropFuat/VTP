@@ -10,8 +10,12 @@
  */
 ?>
 <!----   include Dialog Boxes here      --->
-<div id="loginOptions" title="Login">
-    <p>google & facebook login buttons</p>
+<div id="loginDialog" title="Login">
+    <table align="center">
+        <tr><td><img src="images/facebook_login_icon.png" alt="Login with Facebook" onClick="login('facebook');" style="cursor:pointer;"/></td></tr>
+        <tr align="center"><td>OR</td></tr>
+        <tr><td><img src="images/google_login_icon.png" alt="Login with Google" onClick="login('google');" style="cursor:pointer;"/></td></tr>        
+    </table>
 </div>
 
 <!----        Header      ----->
@@ -25,7 +29,8 @@
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
             <td><a href="#">Liked</a></td>
             <td><a href="#">Faviorites</a></td>
-            <td><span id="loginBtn">Login</span></td>
+                <!-- login popup trigger is in headJs.php-->
+            <td><a href="#" id="loginBtn">Login</a></td>
         </tr>
     </table>
 </div>

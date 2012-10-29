@@ -26,6 +26,7 @@
 				<form action="index.php" method="post">
 					Url: <input type="text" name="ytUrl" style="width: 80%;"/>
 					<input type="submit" value="Load" />
+					<?php if($_POST["ytUrl"] == ""){$_POST["ytUrl"] = "http://www.youtube.com/watch?v=kweUVUCYRa8";}?>
 				</form> 
             </td>
             <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>

@@ -7,7 +7,7 @@
     Copyright:      Echostar Systems @ http://www.echostar.com/
 -->
 <?php
-$videoId = getYtVideoId("http://www.youtube.com/watch?v=BFph8eXlB98&list=UUAwSwbluTDUlhHPivGcBczQ&index=1&feature=plcp");
+$videoId = getYtVideoId($_POST["ytUrl"]);
 //  get video title from youtube
 $videoData = file_get_contents("http://youtube.com/get_video_info?video_id=".$videoId);
 parse_str($videoData, $videoData);

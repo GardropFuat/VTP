@@ -20,11 +20,4 @@ $(window).resize(function() {
     $('#playerDiv').height('50%');
     $('#tagdescription').height('50%');
 });
-
-// 
-function login(type){
-    $.post('login.php', {login: type}, function(data) {
-      $('#loginDialog').html(data);
-    });
-}
 </script>

@@ -9,6 +9,8 @@
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
 
+session_start();
+ 
 //  set default time zone
 date_default_timezone_set("America/Denver");
 

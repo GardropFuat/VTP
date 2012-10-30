@@ -4,13 +4,15 @@ body {
 }
 
 a {
-    color: #0066CC;
+    color: #0022ff;
     text-decoration: none;
 }
 
 a:hover{
-    color: #FF0000;
+    /*
+    color: #FF0000;  
     text-decoration: underline;
+    */
 }
 
 .header{
@@ -63,7 +65,7 @@ a:hover{
     margin: auto;
 }
 
-#tagControls{
+#tagControls:{
     float: left;
     width: 100%;
 }
@@ -86,4 +88,12 @@ a:hover{
     border: 2px solid #E9ECEF;
     border-radius:25px;
     -moz-border-radius:25px; /* Firefox 3.6 and earlier */
+}
+
+#logout{
+    cursor: pointer;
+}
+
+#logout:hover{
+    color: #0022ff;
 }

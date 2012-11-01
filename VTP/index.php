@@ -10,7 +10,7 @@
  */
 
 session_start();
- 
+
 //  set default time zone
 date_default_timezone_set("America/Denver");
 
@@ -47,7 +47,7 @@ $Db = new DbConnector();
 		<?php
             include("header.php");
             include("dashboard.php");
-            // tailJS.php should be st the end of the page
+            // bodyJS.php should be at the end of the page
             include("includes/bodyJS.php");
         ?>
 	</body>

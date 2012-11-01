@@ -46,7 +46,8 @@ if (isset($_SESSION['token'])) {
 }
 
 if (isset($_REQUEST['logout'])) {
-    unset($_SESSION['token'], $_SESSION['vtpUserId'], $_SESSION['vtpUserName'], $_SESSION['vtpUserType']);
+    //  Delete session
+    session_destroy();
     $client->revokeToken();
     header("location: ../index.php");
 }else{
@@ -71,6 +72,12 @@ if (isset($_REQUEST['logout'])) {
         $_SESSION['vtpUserName'] = $user['given_name'];
         $_SESSION['vtpUserType'] = 'google';
         $_SESSION['token'] = $client->getAccessToken();
+        
+        // Add user to DB
+        require 'DbConnector.php';
+        $Db = new DbConnector();
+        $Db->addGoogleUser($user['id']);
+        
         // Go back to home page
         header("location: ../index.php");
     } else {

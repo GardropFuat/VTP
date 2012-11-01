@@ -12,15 +12,22 @@ session_start();
 
 if(!empty($_REQUEST['login'])) {
     if($_REQUEST['login'] == 'google') {
+        //  Redirect to Google Authentication Script
         header("location: libraries/googleAuthentication.php");
+        
     }else if($_REQUEST['login'] == 'facebook') {
-        echo 'facebook login not implemented yet';
+        //  Redirect to Facebook Authentication Script
+        header("location: libraries/facebookAuthentication.php");
+        
     }else if($_REQUEST['login'] == 'logout') {
         if(!empty($_SESSION['vtpUserType'])) {
             if($_SESSION['vtpUserType'] == 'google') {
                 header("location: libraries/googleAuthentication.php?logout=1");
+                
             }else if($_SESSION['vtpUserType'] == 'facebook') {
-                echo 'facebook logout not implemented yet';
+                //  Delete session
+                session_destroy();
+                header("location: index.php");
             }
         }
     }

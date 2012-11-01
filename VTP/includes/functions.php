@@ -39,8 +39,9 @@ function imageTagJs($videoTag) {
 function generateVideoScript($videoId) {
     global $Db;
     $videoTags = $Db->getYTTags($videoId);
-    // create YT player
-    $content = "var ytVideo = Popcorn.smart( '#playerFrame', 'http://www.youtube.com/watch?v=".$videoId."' );";
+    //  create YT player 
+    //  rel = 0 will disable related videos suggestion at end of each video
+    $content = "var ytVideo = Popcorn.smart( '#playerFrame', 'http://www.youtube.com/watch?v=".$videoId."&rel=0' );";
     
     foreach($videoTags as $videoTag) {
         $action = $videoTag['action'].'TagJs';

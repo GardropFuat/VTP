@@ -100,6 +100,47 @@ class DbConnector {
     }
 
     /*
+     * Function: addUser,
+     * @param int $userId - userId on hostSite
+     * @param string $hostSite - Faceboor or Google
+     * Description: Checks for existing users and adds them to DB
+     */
+    function addUser($userId, $hostSite)
+    {
+        $query = "SELECT `users`.`userId` FROM `users` WHERE `users`.`userId` = '".$userId."' AND `users`.`hostSite` = '".$hostSite."' LIMIT 1";
+        $result = $this->query($query);
+        if(!$this->getNumRows($result)) {
+            $query = "INSERT INTO `users` SET `users`.`userId` = '".$userId."', `users`.`hostSite` = '".$hostSite."'";
+            if($this->query($query)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /*
+     * Function: addFBUser,
+     * @param int $userId - userId on Facebook.com
+     * Description: Checks for existing users and adds them to DB
+     */
+    function addFBUser($userId)
+    {
+        return $this->addUser($userId, 'Facebook');
+    }
+    
+    /*
+     * Function: addGoogleUser,
+     * @param int $userId - userId on Google.com
+     * Description: Checks for existing users and adds them to DB
+     */
+    function addGoogleUser($userId)
+    {
+        return $this->addUser($userId, 'Google');
+    }
+
+    /*
      * Function: disconnect
      * Description: Closes the DB connection
      */

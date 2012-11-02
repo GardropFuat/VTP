@@ -139,6 +139,16 @@ class DbConnector {
     {
         return $this->addUser($userId, 'Google');
     }
+	/*
+     * Function: getFavorites,
+     * @param int $userId 
+     * Description: Finds Favorites for a given user
+     */
+	function getFavorites($userId)
+    {
+        $query = "SELECT * FROM `favorites` WHERE `favorites`.`userId` = '".$userId."' ";
+        return $this->getAllRows($query);
+    }
 
     /*
      * Function: disconnect

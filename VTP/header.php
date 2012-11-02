@@ -43,12 +43,11 @@ if(!empty($_SESSION['vtpUserId'])) {
                     <form action="index.php" method="post">
                         Url: <input type="text" name="ytUrl" style="width: 80%;"/>
                         <input type="submit" value="Load" />
-                        <?php if($_POST["ytUrl"] == ""){$_POST["ytUrl"] = "http://www.youtube.com/watch?v=kweUVUCYRa8";}?>
                     </form> 
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><a href="#">Liked</a></td>
-                <td><a href="#">Faviorites</a></td>
+                <td><a href="http://10.69.69.38/Testing%20folder/favorites.php">Faviorites</a></td>
                 <td><?=$loginBtn;?></td>
             </tr>
         </table>

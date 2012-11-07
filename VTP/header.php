@@ -47,7 +47,7 @@ if(!empty($_SESSION['vtpUserId'])) {
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><a href="#">Liked</a></td>
-                <td><a href="http://10.69.69.38/Testing%20folder/favorites.php">Favorites</a></td>
+                <td><a href="favorites.php">Favorites</a></td>
                 <td><?=$loginBtn;?></td>
             </tr>
         </table>

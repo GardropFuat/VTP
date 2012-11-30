@@ -49,7 +49,7 @@ $playerWidth = 640;
             <input type="radio" name="tagFilter"/>Friends
             <input type="radio" name="tagFilter" checked/>All
             <div style="float:right;">
-                <a href="#">
+                <a href="#" onClick="addTag('<?=$videoId;?>');">
                     <!--<img class="ui-icon ui-icon-plusthick"/> -->Add Tag
                 </a>
             </div>

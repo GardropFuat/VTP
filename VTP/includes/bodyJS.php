@@ -18,3 +18,14 @@ if(!empty($videoId)) {
     echoScript( $ytContent );
 }
 ?>
+
+<script type="text/javascript">
+/**
+ * helps in adding tags to a video 
+ */
+function addTag(videoId) {
+    // remove/clear var ytVideo
+    
+    // generate form to add tag 
+}
+</script>

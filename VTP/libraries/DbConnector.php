@@ -113,7 +113,7 @@ class DbConnector {
             $query = "INSERT INTO `users` SET `users`.`userId` = '".$userId."', `users`.`hostSite` = '".$hostSite."'";
             if($this->query($query)) {
                 return true;
-            } else {
+            }else {
                 return false;
             }
         }
@@ -139,7 +139,21 @@ class DbConnector {
     {
         return $this->addUser($userId, 'Google');
     }
-	/*
+	
+    /*
+     * Function: addYtTags,
+     */
+    function addYtTags($videoId, $tagStartTime, $tagEndTime, $action, $content)
+    {
+        $query = "INSERT INTO `yttags` SET `yttags`.`videoId`= '".$videoId."', `yttags`.`start`= '".$tagStartTime."', `yttags`.`end`= '".$tagEndTime."', `yttags`.`action`= '".$action."', `yttags`.`content`= '".$content."' ";
+        if($this->query($query)) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+    
+    /*
      * Function: getFavorites,
      * @param int $userId 
      * Description: Finds Favorites for a given user

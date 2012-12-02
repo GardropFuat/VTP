@@ -46,8 +46,12 @@ function generateVideoScript($videoId) {
     foreach($videoTags as $videoTag) {
         $action = $videoTag['action'].'TagJs';
         $content = $content.$action($videoTag);
-    }
-    
+    }    
     return $content;
+}
+
+function videoTestMode() {
+    $script = "ytVideo.volume(1);ytVideo.play();";
+    echoScript($script);
 }
 ?>

@@ -20,4 +20,16 @@ $(window).resize(function() {
     $('#playerDiv').height('50%');
     $('#tagdescription').height('50%');
 });
+
+/*
+ * Get the selected value of the radio field
+ * @param name: name of the radio field 
+ */
+function radioVal(name) {
+    var selectedVal = '';
+    var selected = $("input[type='radio'][name='" + name + "']:checked");
+    if (selected.length > 0)
+        selectedVal = selected.val();
+    return selectedVal;
+}
 </script>

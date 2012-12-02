@@ -1,4 +1,14 @@
 <?php
+/**
+ *
+ * File Name:       facebookAuthentication.php
+ * Description:     Authenticates user accounts with Facebook
+ * Reference:       http://facebook.stackoverflow.com/questions/7131666/get-user-basic-information-using-facebook-login-button-plugin
+ * Created:         10/29/2012
+ * Last Modified:   Anudeep 10/29/12
+ * Copyright:       Echostar Systems @ http://www.echostar.com/
+ */
+ 
 session_start();
 
 require 'facebook-api-php-client/facebook.php';
@@ -40,4 +50,3 @@ if ($user) {
     header('location: '.$loginUrl);
 }
 ?>
-

@@ -96,6 +96,7 @@ $playerWidth = 640;
                     <br/>
                     <div id="addTagFormError" class="error"></div>
                     <input type="text" name="videoId" value="<?=$videoId;?>" style="display:none">
+                    <img id="imgPreview" style="display:none;">
                     <input type="submit" value="Save"/>
                     <input type="button" value="Cancel" onClick="hideAddTagForm();"/>
                 </form>

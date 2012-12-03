@@ -66,9 +66,17 @@ function showHideTagTypes(tagType) {
 function testImageUrl(url) {
     $("<img>", {
         src: url,
-        error: function() { formError = Array(true, '*Link is not a valid image'); },
+        error: function() { inValidImage();},
         load: function() { formError = Array(false, ''); }
     });
+    return true;
+}
+
+/*
+ * Tests the url for valid image
+ */
+function inValidImage() {
+    formError = Array(true, '*Link is not a valid image');
 }
 
 /*
@@ -109,7 +117,14 @@ function validateTagInfo() {
                         if(imageUrl === ''  || typeof imageUrl === 'undefined' || imageUrl == null) {
                             formError = Array(true, '*Please provide image Url');
                         }else {
-                            testImageUrl(imageUrl);
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            ////////////////////////////////////testImageUrl(imageUrl);/////////////////////////////////////////////
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
                         }
                         break;
                     case 'upload':
@@ -139,8 +154,10 @@ function validateTagInfo() {
         $('#addTagFormError').html(formError[1]);
         return false;
     }else {
-        $('#addTagFormError').html('');
-        return true;
+        $('#addTagFormError').html(formError[1]);
+        return false;
+        // $('#addTagFormError').html('');
+        // return true;
     }
 }
 //makes a favorite a favorite

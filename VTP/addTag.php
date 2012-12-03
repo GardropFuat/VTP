@@ -10,7 +10,7 @@
  */
 
 require_once("libraries/ImageUpload.php");
-
+require_once("libraries/DbConnector.php");
 $isTagValid = true;
 
 if(empty($_POST['videoId'])) {
@@ -30,7 +30,7 @@ switch($tagType) {
         $imageSrc = $_POST['imageSrc'];
         switch($imageSrc) {
             case 'webLink':
-                $imageUrl = $_POST['imageUrl'];
+                $content = $_POST['imageUrl'];
                 break;
             case 'upload':
                 $imageUpload = new ImageUpload();
@@ -62,14 +62,14 @@ switch($tagType) {
 }
 
 if($isTagValid) {
-    echo $videoId.";".$tagStartTime.";".$tagEndTime.";".$tagType.";".$content;
+    // echo $videoId.";".$tagStartTime.";".$tagEndTime.";".$tagType.";".$content;
     // Create new database instance
-    // $Db = new DbConnector();
-    // if($Db->addYtTags($videoId, $tagStartTime, $tagEndTime, $tagType, $content)) {
-        // header("Location: index.php");
-    // }else {
-        // header("Location: index.php"); 
-    // }
+    $Db = new DbConnector();
+    if($Db->addYtTags($videoId, $tagStartTime, $tagEndTime, $tagType, $content)) {
+        header("Location: index.php");
+    }else {
+        header("Location: index.php"); 
+    }
 }else {
     echo 'Error: contact admin';
 }

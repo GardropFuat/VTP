@@ -23,6 +23,11 @@ if($_SERVER['HTTP_HOST'] == 'localhost') {
     $client->setClientSecret('Uw0lKxBRLxwVkYCvsHYeJlae');
     $client->setDeveloperKey('AIzaSyAlbflcsqSg7b3-Nq-Ggo_4PVzo-MC4Y7s');
     $client->setRedirectUri('http://localhost/vtp/libraries/googleAuthentication.php');
+}else if($_SERVER['HTTP_HOST'] == "vtp.host-ed.me") {
+    $client->setClientId('52837008745-fejaed2r8jd5bb4h1qu5hqtkqcgcal3n.apps.googleusercontent.com');
+    $client->setClientSecret('HWnShZc6TAc60cWeglC0bNU1');
+    $client->setRedirectUri('http://vtp.host-ed.me/vtp/libraries/googleAuthentication.php');
+    $client->setDeveloperKey('AIzaSyAlbflcsqSg7b3-Nq-Ggo_4PVzo-MC4Y7s');
 }else if($_SERVER['HTTP_HOST'] == 'WEBSITENAME') {
     // Authentication is required for each site at: https://code.google.com/apis/console/#project:PROJECT_ID:access
     //  $client->setClientId('CLIENT_ID');

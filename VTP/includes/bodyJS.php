@@ -143,4 +143,12 @@ function validateTagInfo() {
         return true;
     }
 }
+//makes a favorite a favorite
+function make_favorite() {
+		var user = "<?php echo $_SESSION['vtpUserId'];?>";
+		var video = "<?php echo $videoId;?>";
+		$('#favLink').html("Currently in Favorites");
+		var query = "r="+video;
+		$.post("MakeFav.php",query);
+}
 </script>

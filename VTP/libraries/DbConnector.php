@@ -164,6 +164,38 @@ class DbConnector {
         return $this->getAllRows($query);
     }
 
+	/*
+     * Function: addFavorites,
+     * @param int $userId, $videoId
+     * Description: Finds Favorites for a given user
+     */
+	function addFavorites($userId, $videoId)
+	{
+		$query = "INSERT INTO favorites (userId, videoId) VALUES( \"".$userId."\",\"".$videoId."\")";
+		if($this->query($query)) {
+			return true;
+		} 
+		else {
+			return false;
+		}
+	}
+	
+	/*
+     * Function: isFavorites,
+     * @param int $userId, $videoId
+     * Description: Finds Favorites for a given user
+     */
+	function isFavorite($userId, $videoId)
+	{
+		$query = "SELECT * FROM `favorites` WHERE `favorites`.`userId` = '".$userId."' AND `favorites`.`videoId` = '".$videoId."' ";
+		if($this->getAllRows($query)) {
+			return true;
+		} 
+		else {
+			return false;
+		}
+	}
+	
     /*
      * Function: disconnect
      * Description: Closes the DB connection

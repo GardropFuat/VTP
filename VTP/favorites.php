@@ -9,10 +9,13 @@ function getlink (selectedSite)
 }
 -->
 </script>
+<link href="css/main.css" rel="stylesheet" type="text/css"></link>
 </head>
 <?php
+	session_start();
 	echo "<h1>My Favorites</h1>";
-	$userId = '123';
+	echo "<h2> &nbsp </h2>";
+	$userId = $_SESSION['vtpUserId'];
 	require 'libraries\DbConnector.php';
 	$Db = new DbConnector();
 	$fav = $Db->getFavorites($userId);

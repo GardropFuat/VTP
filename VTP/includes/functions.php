@@ -54,4 +54,16 @@ function videoTestMode() {
     $script = "ytVideo.volume(1);ytVideo.play();";
     echoScript($script);
 }
+
+function checkFavorite($userId, $videoId){
+	global $Db;
+	return	$Db->isFavorite($userId, $videoId);
+}
+
+function addToFavorites($userId, $videoId){
+	
+	global $Db;
+	return $Db->addFavorites($userId, $videoId);
+	
+}
 ?>

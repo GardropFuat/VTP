@@ -114,9 +114,29 @@ $playerWidth = 640;
                 </a>
             </div>
     </div>
+	<div id="addFavorite"> 
+	
+		<?php
+		
+			
+			if (!empty($_SESSION['vtpUserId'])){
+				if(checkFavorite($_SESSION['vtpUserId'], $videoId)){
+					echo "Currently in favorites";
+				}
+				else{
+					echo '<a id="favLink" href="#" onClick="make_favorite();">Add to Favorites </a>';
+				}
+				//if (isset($_GET['favorite']) && !checkFavorite($_SESSION['vtpUserId'], $videoId)) 
+				//{
+				//	make_favorite($videoId);
+				//}
+			}
+		?>
+	</div>
     <div id="commentsDiv">
         <div id="commentsTbl">
             No Comments
         </div>
     </div>
 </div>
+<div id="JsConsole" style="margin-top:20px;"><!--testing Output console for javascript--></div>

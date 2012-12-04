@@ -80,3 +80,5 @@
 "03 Dec 2012 18:44:09","C:\Users\1966870\Documents\GitHub\VTP\VTP\includes\functions.php: 46","(Warning) Invalid argument supplied for foreach()"
 "03 Dec 2012 18:44:14","C:\Users\1966870\Documents\GitHub\VTP\VTP\favorites.php: 60","(Warning) Invalid argument supplied for foreach()"
 "03 Dec 2012 18:44:18","C:\Users\1966870\Documents\GitHub\VTP\VTP\includes\functions.php: 46","(Warning) Invalid argument supplied for foreach()"
+"03 Dec 2012 19:39:44","C:\Users\1966870\Documents\GitHub\VTP\VTP\includes\bodyJS.php: 142","(Notice) Undefined index: vtpUserId"
+"03 Dec 2012 19:39:47","C:\Users\1966870\Documents\GitHub\VTP\VTP\includes\bodyJS.php: 142","(Notice) Undefined index: vtpUserId"

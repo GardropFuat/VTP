@@ -25,6 +25,11 @@ if(!empty($videoId)) {
 <script type="text/javascript">
 var tagTypes = Array("commentTr", "imageTr", "mapTr", "linkTr");
 var formError = new Array(false, '');
+var isImgUrlTested = false;
+
+$(document).ready(function() {
+    imageSrcChange('webLink');
+});
 
 /*
  * Hides Add tag form and shows pictures
@@ -42,10 +47,6 @@ function showAddTagForm(videoId) {
     $('#addTagFormDiv').css('display', 'block');
 }
 
-/*******************************************************************************/
-showAddTagForm('<?=$videoId;?>');
-/*******************************************************************************/
-
 /*
  * shows selected tag type and hides rest others
  * Requires all possible adtypes in "tagTypes" array
@@ -58,25 +59,6 @@ function showHideTagTypes(tagType) {
             $('.' + value).css('display', 'none');
         }
     });
-}
-
-/*
- * Tests the url for valid image
- */
-function testImageUrl(url) {
-    $("<img>", {
-        src: url,
-        error: function() { inValidImage();},
-        load: function() { formError = Array(false, ''); }
-    });
-    return true;
-}
-
-/*
- * Tests the url for valid image
- */
-function inValidImage() {
-    formError = Array(true, '*Link is not a valid image');
 }
 
 /*
@@ -103,10 +85,10 @@ function updateVideoTime(idName) {
  * Validates the new tag info before adding into DB
  */
 function validateTagInfo() {
-    var formError = Array(false, '');
-    var tagStartTime =  $('[name=tagStartTime]').val();
-    var tagEndTime = $('[name=tagEndTime]').val();
+    var tagStartTime =  parseInt($('[name=tagStartTime]').val());
+    var tagEndTime = parseInt($('[name=tagEndTime]').val());
     var tagType = radioVal('tagType');
+    
     if(tagStartTime <= tagEndTime) {
         switch(tagType) {
             case 'image':
@@ -117,14 +99,8 @@ function validateTagInfo() {
                         if(imageUrl === ''  || typeof imageUrl === 'undefined' || imageUrl == null) {
                             formError = Array(true, '*Please provide image Url');
                         }else {
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            ////////////////////////////////////testImageUrl(imageUrl);/////////////////////////////////////////////
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            ////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            // do nothing 
+                            //      image url validation should be done from imageSrcChange()
                         }
                         break;
                     case 'upload':
@@ -152,20 +128,71 @@ function validateTagInfo() {
     //  Display Error Message
     if(formError[0] === true) {
         $('#addTagFormError').html(formError[1]);
+        formError = Array(false, '');
         return false;
     }else {
-        $('#addTagFormError').html(formError[1]);
-        return false;
-        // $('#addTagFormError').html('');
-        // return true;
+        $('#addTagFormError').html('');
+        formError = Array(false, '');
+        return true;
     }
 }
+
 //makes a favorite a favorite
 function make_favorite() {
-		var user = "<?php echo $_SESSION['vtpUserId'];?>";
-		var video = "<?php echo $videoId;?>";
-		$('#favLink').html("Currently in Favorites");
-		var query = "r="+video;
-		$.post("MakeFav.php",query);
+    var user = "<?php echo $_SESSION['vtpUserId'];?>";
+    var video = "<?php echo $videoId;?>";
+    $('#favLink').html("Currently in Favorites");
+    var query = "r=" + video;
+    $.post("MakeFav.php", query, function(theResponse){
+        console.log(theResponse);
+    });
+}
+
+/*
+ * Called when Image Tag source is changed
+ */
+function imageSrcChange(src) {
+    if(src === 'webLink') {
+        $('#imgSrcUpload').hide(); 
+        $('#imgSrcLink').show();        
+        $('#previewImgUrl').show();
+        $('#saveAddTagForm').attr('disabled', true);
+    }else if(src === 'upload') {
+        $('#imgSrcLink').hide();
+        $('#imgSrcUpload').show();
+        $('#previewImgUrl').hide();
+        $('#saveAddTagForm').attr('disabled', false);
+        $('#imgPreview').css('display', 'none');
+        formError = Array(false, '');
+        $('#addTagFormError').html(formError[1]);
+    }
+}
+
+/*
+ * Loads the image link for preview
+ * Link is received form 'imageUrl' field
+ */
+function previewImgLink() {
+    var imageUrl = $('[name=imageUrl]').val();
+    $('#imgPreview').attr('src', imageUrl).css('display', 'block');
+    $('#saveAddTagForm').val('Save').attr('onClick', 'submitAddTagForm();');
+}
+
+/*
+ * called when the preview image link is good
+ */
+function validImageUrl() {
+    formError = Array(false, '');
+    $('#saveAddTagForm').attr('disabled', false);
+    $('#addTagFormError').html(formError[1]);
+}
+
+/*
+ * called when the preview image link is bad
+ */
+function invalidImageUrl() {
+    formError = Array(true, '*Link is not a valid image');
+    $('#saveAddTagForm').attr('disabled', true);
+    $('#addTagFormError').html(formError[1]);
 }
 </script>

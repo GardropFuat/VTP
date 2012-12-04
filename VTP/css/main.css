@@ -74,6 +74,10 @@ img {
     color: #0022ff;
 }
 
+.optionsTable tr {
+    width: 397px;
+}
+
 #playerDiv{
     float: left;
 }

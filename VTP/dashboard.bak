@@ -45,16 +45,16 @@ $playerWidth = 640;
                 <!-- Form to add tag for the specific video-->
                 <form id="addTagForm" name="addTagForm" onSubmit="return validateTagInfo();" action="addTag.php" method="POST" enctype="multipart/form-data">
                     <table>
-                        <tr>
-                            <td>Start Time:</td>
-                            <td>
+                        <tr id="addTagFormTr">
+                            <td id="addTagFormTd01">Start Time:</td>
+                            <td id="addTagFormTd02">
                                 <input type="text" id="tagStartTime" value="0:0:0" style="width:50px;" disabled>
                                 <input type="text" name="tagStartTime" value="0" style="display:none">
                                 <input type="button" value="Use Current Time" onClick="updateVideoTime('tagStartTime')">
                             </td>
                         </tr>
                         <tr>
-                            <td>End Time</td>
+                            <td>End Time:</td>
                             <td>
                                 <input type="text" id="tagEndTime" value="0:0:0" style="width:50px;" disabled>
                                 <input type="text" name="tagEndTime" value="0" style="display:none">
@@ -64,24 +64,29 @@ $playerWidth = 640;
                         <tr>
                             <td>Type:</td>
                             <td>
-                                <input type="radio" name="tagType" value="comment" disabled/>Comment
+                                <input type="radio" name="tagType" value="comment"  onClick="showHideTagTypes('commentTr')"/>Comment
                                 <input type="radio" name="tagType" value="image" onClick="showHideTagTypes('imageTr')" checked/>Image
                                 <input type="radio" name="tagType" value="map" disabled/>Map
                                 <input type="radio" name="tagType" value="link" disabled/>Web Link
                             </td>
                         </tr>
-                        <tr class="commentTr" style="display:none;"></tr>
+                    </table>
+                    <table class="optionsTable">
+                        <tr class="commentTr" style="display:none;">
+                            <td>Text:</td>
+                            <td><textarea id="comment" name="comment"></textarea></td>
+                        </tr>
                         <tr class="imageTr">
                             <td>Source:</td>
                             <td>
-                                <input type="radio" name="imageSrc" value="webLink" onClick="imageSrcChange('webLink');" checked/>Web
+                                <input type="radio" name="imageSrc" value="webLink" onClick="imageSrcChange('webLink');" checked />Web
                                 <input type="radio" name="imageSrc" value="upload" onClick="imageSrcChange('upload');"/>My Computer
                             </td>
                         </tr>
                         <tr class="imageTr" id="imgSrcLink">
                             <td>Link:</td>
                             <td>
-                                <input type="text" name="imageUrl" style="width:250px;" onChange="imageSrcChange('webLink');" placeholder="http://example.com/01.jpg"/>
+                                <input type="text" name="imageUrl" style="width:250px;" onChange="imageSrcChange('webLink');" placeholder="http://example.com/01.jpg" value="http://vtp.host-ed.me/vtp/index.php"/>
                             </td>
                         </tr>
                         <tr class="imageTr" id="imgSrcUpload" style="display:none;">
@@ -90,6 +95,8 @@ $playerWidth = 640;
                                 <input type="file" accept="image/*" name="imageUpload" id="imageUpload"> 
                             </td>
                         </tr>
+                    </table>
+                    <table>
                         <tr class="mapTr" style="display:none;"></tr>
                         <tr class="linkTr" style="display:none;"></tr>
                     </table>

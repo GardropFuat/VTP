@@ -1,0 +1,5 @@
+[03-Dec-2012 10:10:04 Europe/Berlin] CSRF state token does not match one provided.
+[03-Dec-2012 10:10:04 Europe/Berlin] PHP Warning:  mysql_num_rows() expects parameter 1 to be resource, boolean given in /home/vtphoste/public_html/vtp/libraries/DbConnector.php on line 56
+[03-Dec-2012 11:45:37 Europe/Berlin] CSRF state token does not match one provided.
+[03-Dec-2012 19:55:12 Europe/Berlin] CSRF state token does not match one provided.
+[04-Dec-2012 00:54:46 Europe/Berlin] CSRF state token does not match one provided.

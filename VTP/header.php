@@ -22,9 +22,9 @@ if(!empty($_SESSION['vtpUserId'])) {
     <div id="loginDropdown" class="dropdown-menu has-tip">
         <form id="loginOptForm" action="login.php">
             <ul>
-                <li style="padding: 10px;"><img src="images/facebook_login_icon.png" onClick="window.location.href = 'login.php?login=facebook';" alt="Login with Facebook" style="cursor:pointer;"/></li>
+                <li style="padding:10px;height:29px;"><img src="images/facebook_login_icon.png" onClick="window.location.href = 'login.php?login=facebook';" alt="Login with Facebook" style="cursor:pointer;"/></li>
                 <li align="center">- OR -</li>
-                <li style="padding: 10px;"><img src="images/google_login_icon.png" onClick="window.location.href = 'login.php?login=google';" alt="Login with Google" style="cursor:pointer;"/></li>
+                <li style="padding:10px;height:29px;"><img src="images/google_login_icon.png" onClick="window.location.href = 'login.php?login=google';" alt="Login with Google" style="cursor:pointer;"/></li>
             </ul>
         </form>
     </div>

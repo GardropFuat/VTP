@@ -61,9 +61,7 @@ function checkFavorite($userId, $videoId){
 }
 
 function addToFavorites($userId, $videoId){
-	
 	global $Db;
 	return $Db->addFavorites($userId, $videoId);
-	
 }
 ?>

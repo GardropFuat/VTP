@@ -48,6 +48,7 @@ if(!empty($_SESSION['vtpUserId'])) {
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><a href="#">Liked</a></td>
                 <td><a href="favorites.php">Favorites</a></td>
+				<td><a href="AddVideo.php">Upload</a></td>
                 <td><?=$loginBtn;?></td>
             </tr>
         </table>

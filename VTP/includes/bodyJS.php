@@ -17,8 +17,8 @@ if(!empty($videoId)) {
     $ytContent = generateVideoScript($videoId);
     echoScript( $ytContent );
 
-    //Enter test Mode
-    videoTestMode();
+    //  Enter test Mode
+    //  videoTestMode();
 }
 ?>
 

@@ -7,7 +7,7 @@
     Copyright:      Echostar Systems @ http://www.echostar.com/
 -->
 <?php
-$ytUrl = (empty($_POST['ytUrl'])) ? "http://www.youtube.com/watch?v=kweUVUCYRa8" : $_POST['ytUrl']; 
+$ytUrl = (empty($_REQUEST['ytUrl'])) ? "http://www.youtube.com/watch?v=kweUVUCYRa8" : $_REQUEST['ytUrl']; 
 $videoId = getYtVideoId($ytUrl);
 //  get video title from youtube
 $videoData = file_get_contents("http://youtube.com/get_video_info?video_id=".$videoId);

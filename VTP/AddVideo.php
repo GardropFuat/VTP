@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<?php/**
+ *
+ * File Name:       index.php
+ * Description:     Base file for the project.
+ * Author:
+ * Created:         1/24/13
+ * Last Modified:   Travis 1/24/13
+ * Copyright:       Echostar Systems @ http://www.echostar.com/
+ */
+ ?>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -30,7 +40,42 @@
 			$unique_id = $_GET['id'];
 			$status = $_GET['status'];
 		}
-		
+		/* 
+     * Accepted Categories:
+     * 
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+     */
         ?>
         
         <!-- Step 1 of the youtube upload process -->
@@ -40,6 +85,43 @@
                 <input type="text" name="video_title" />
                 <label for="video_description">Video Description</label>
                 <textarea id="video-description" name="video_description"></textarea>
+				<label for="category">Category</label>
+				<select id="category" name="category">
+					<option>Film</option>
+					<option>Autos</option>
+					<option>Music</option>
+					<option>Animals</option>
+					<option>Sports</option>
+					<option>Travel</option>
+					<option>Shortmov</option>
+					<option>Games</option>
+					<option>Videblog</option>
+					<option>People</option>
+					<option>Comedy</option>
+					<option>Entertainment</option>
+					<option>News</option>
+					<option>Howto</option>
+					<option>Education</option>
+					<option>Tech</option>
+					<option>Nonprofit</option>
+					<option>Movies</option>
+					<option>Movies_anime_action</option>
+					<option>Movies_action_adventure</option>
+					<option>Movies_classics</option>
+					<option>Movies_comedy</option>
+					<option>Movies_documentary</option>
+					<option>Moves_drama</option>
+					<option>Movies_family</option>
+					<option>Movies_foreign</option>
+					<option>Movies_horror</option>
+					<option>Movies_sci_fi_fantasy</option>
+					<option>Movies_thriller</option>
+					<option>Movies_shorts</option>
+					<option>Shows</option>
+					<option>Trailers</option>
+				</select>
+				<label for="video_keywords">Video Keywords</label>
+				<input type="text" name="video_keywords"/>
 				<label for="emailLogin">Email Login to youtube</label>
 				<input type="text" name="emailLogin" />
 				<label for="pwd">Password to youtube</label>
@@ -61,6 +143,8 @@
                     </span>                        
                 </p>
                 <input type="hidden" name="token" value="<?php echo( $response->token ); ?>"/>
+				<input type="hidden" name="video_keywords" value="<?php echo( $_POST['video_keywords']); ?>"/>
+				<input type="hidden" name="category" value="<?php echo( $_POST['category']); ?>"/>
 				<input type="hidden" name="emailLogin" value="<?php echo( $_POST['emailLogin']); ?>"/>
 				<input type="hidden" name="pwd" value="<?php echo( $_POST['pwd']); ?>"/>
                 <input type="submit" value="Upload Video" />

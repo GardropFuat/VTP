@@ -22,8 +22,8 @@
 
     $youtube_video_title = $video_title; // This is the uploading video title.
     $youtube_video_description = $video_description; // This is the uploading video description.   
-    $youtube_video_keywords = "demo"; // This is the uploading video keywords.
-    $youtube_video_category = "Tech"; // This is the uploading video category. There are only certain categories that are accepted. See below 
+    $youtube_video_keywords = $_POST['video_keywords']; // This is the uploading video keywords.
+    $youtube_video_category = $_POST['category']; // This is the uploading video category. There are only certain categories that are accepted. See below 
     /* 
      * Accepted Categories:
      * 

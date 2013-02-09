@@ -52,6 +52,11 @@ function showAddTagForm(videoId) {
  * Requires all possible adtypes in "tagTypes" array
  */
 function showHideTagTypes(tagType) {
+    $('#previewImgUrl').hide();
+    $('#addTagFormError').html('');
+    formError = Array(false, '');
+    $('#saveAddTagForm').attr('disabled', false);
+    
     $.each(tagTypes, function(index, value) {
         if(tagType === value) {
             $('.' + tagType).css('display', 'block');
@@ -59,6 +64,12 @@ function showHideTagTypes(tagType) {
             $('.' + value).css('display', 'none');
         }
     });
+    
+    // resize maps
+    if(tagType === 'mapTr')
+        google.maps.event.trigger(map, 'resize');
+    else if(tagType === 'imageTr')
+        imageSrcChange('webLink');
 }
 
 /*
@@ -89,8 +100,14 @@ function validateTagInfo() {
     var tagEndTime = parseInt($('[name=tagEndTime]').val());
     var tagType = radioVal('tagType');
     
-    if(tagStartTime <= tagEndTime) {
+    if(tagStartTime < tagEndTime) {
         switch(tagType) {
+            case 'comment':
+                var comment = $('[name=comment]').val();
+                if(comment === ''  || typeof comment === 'undefined' || comment == null) {
+                    formError = Array(true, '*Please enter your comment');
+                }
+                break;
             case 'image':
                 var imageSrc = radioVal('imageSrc');
                 switch(imageSrc) {
@@ -114,15 +131,29 @@ function validateTagInfo() {
                         formError['1'] = 'Please make Image source selection';
                         break;
                 }
-                break
+                break;
+            case 'map':
+                var markerTitle = $('[name=markerTitle]').val();
+                if(markerTitle === ''  || typeof markerTitle === 'undefined' || markerTitle == null) {
+                    formError = Array(true, '*Please provide title for marker');
+                }
+                // update form data
+                $("[name=lng]").val(mapMarker['position']['Ya']);
+                $("[name=lat]").val(mapMarker['position']['Za']);
+                break;
+            case 'link':
+                break;
             default:
                 formError[0] = true;
                 formError[1] = "*Please select a Tag Type";
                 break;
         }
-    }else {
+    }else if(tagStartTime == tagEndTime) {
         formError[0] = true;
-        formError[1] = "*End Time cannot be greater than Start Time."
+        formError[1] = "*End Time cannot be equal to Start Time.";
+    }else{
+        formError[0] = true;
+        formError[1] = "*End Time cannot be greater than Start Time.";
     }
     
     //  Display Error Message

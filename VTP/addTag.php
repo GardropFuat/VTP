@@ -25,6 +25,7 @@ $tagType = $_POST['tagType'];
 
 switch($tagType) {
     case 'comment':
+        $content = $_POST['comment'];
         break;
     case 'image':
         $imageSrc = $_POST['imageSrc'];
@@ -53,8 +54,14 @@ switch($tagType) {
         }
         break;
     case 'map':
+        $content = array();
+        array_push($content, array("markerTitle" =>  $_POST['markerTitle']));
+        array_push($content, array("lng" =>  $_POST['lng']));
+        array_push($content, array("lat" =>  $_POST['lat']));        
+        $content = json_encode($content);        
         break;
     case 'link':
+        $isTagValid = false;
         break;
     default:
         $isTagValid = false;

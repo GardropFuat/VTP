@@ -23,18 +23,6 @@ $playerWidth = 640;
     <div id="contentTop">
         <div class="videoTitle"><?= $videoTitle; ?></div>
         <div id="playerDiv" style="width:50%">
-            <div id="tagMines" style="display: none; left: 240px; top: 40px; height: 200px; width: 170px;" class="tag">
-                &nbsp;&nbsp;&nbsp;
-            </div>
-            <div id="tagCar" style="top: 150px; height: 100px; display: none; left: 300px; width: 200px;" class="tag">
-                &nbsp;&nbsp;&nbsp;
-            </div>
-            <div id="tagNucor" style="top: 150px; height: 100px; display: none; width: 140px; left: 280px;" class="tag">
-                &nbsp;&nbsp;&nbsp;
-            </div>
-            <div id="tagSae" style="height: 100px; display: none; left: 70px; top: 160px; width: 90px;" class="tag">
-                &nbsp;&nbsp;&nbsp;
-            </div>
             <div id="playerFrame">
                 <!-- will be replaced by Video from Popcorn javaScript-->
             </div>
@@ -45,60 +33,87 @@ $playerWidth = 640;
                 <!-- Form to add tag for the specific video-->
                 <form id="addTagForm" name="addTagForm" onSubmit="return validateTagInfo();" action="addTag.php" method="POST" enctype="multipart/form-data">
                     <table>
-                        <tr>
-                            <td>Start Time:</td>
-                            <td>
-                                <input type="text" id="tagStartTime" value="0:0:0" style="width:50px;" disabled>
-                                <input type="text" name="tagStartTime" value="0" style="display:none">
-                                <input type="button" value="Use Current Time" onClick="updateVideoTime('tagStartTime')">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>End Time</td>
-                            <td>
-                                <input type="text" id="tagEndTime" value="0:0:0" style="width:50px;" disabled>
-                                <input type="text" name="tagEndTime" value="0" style="display:none">
-                                <input type="button" value="Use Current Time" onClick="updateVideoTime('tagEndTime')">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Type:</td>
-                            <td>
-                                <input type="radio" name="tagType" value="comment" disabled/>Comment
-                                <input type="radio" name="tagType" value="image" onClick="showHideTagTypes('imageTr')" checked/>Image
-                                <input type="radio" name="tagType" value="map" disabled/>Map
-                                <input type="radio" name="tagType" value="link" disabled/>Web Link
-                            </td>
-                        </tr>
-                        <tr class="commentTr" style="display:none;"></tr>
-                        <tr class="imageTr">
-                            <td>Source:</td>
-                            <td>
-                                <input type="radio" name="imageSrc" value="webLink" onClick="imageSrcChange('webLink');" checked/>Web
-                                <input type="radio" name="imageSrc" value="upload" onClick="imageSrcChange('upload');"/>My Computer
-                            </td>
-                        </tr>
-                        <tr class="imageTr" id="imgSrcLink">
-                            <td>Link:</td>
-                            <td>
-                                <input type="text" name="imageUrl" style="width:250px;" onChange="imageSrcChange('webLink');" placeholder="http://example.com/01.jpg"/>
-                            </td>
-                        </tr>
-                        <tr class="imageTr" id="imgSrcUpload" style="display:none;">
-                            <td>Upload:</td>
-                            <td>
-                                <input type="file" accept="image/*" name="imageUpload" id="imageUpload"> 
-                            </td>
-                        </tr>
-                        <tr class="mapTr" style="display:none;"></tr>
-                        <tr class="linkTr" style="display:none;"></tr>
+                        <tbody>
+                            <tr>
+                                <td>Start Time:</td>
+                                <td>
+                                    <input type="text" id="tagStartTime" value="0:0:0" style="width:50px;" disabled>
+                                    <input type="text" name="tagStartTime" value="0" style="display:none">
+                                    <input type="button" value="Use Current Time" onClick="updateVideoTime('tagStartTime')">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>End Time</td>
+                                <td>
+                                    <input type="text" id="tagEndTime" value="0:0:0" style="width:50px;" disabled>
+                                    <input type="text" name="tagEndTime" value="0" style="display:none">
+                                    <input type="button" value="Use Current Time" onClick="updateVideoTime('tagEndTime')">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Type:</td>
+                                <td>
+                                    <input type="radio" name="tagType" value="comment" onClick="showHideTagTypes('commentTr')"/>Comment
+                                    <input type="radio" name="tagType" value="image" onClick="showHideTagTypes('imageTr')" checked/>Image
+                                    <input type="radio" name="tagType" value="map" onClick="showHideTagTypes('mapTr')"/>Map
+                                    <input type="radio" name="tagType" value="link" onClick="showHideTagTypes('linkTr')"/>Web Link
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <tbody>
+                            <tr class="commentTr" style="display:none;">
+                                <td>Comment:</td>
+                                <td><textarea rows='4' cols='25' id='comment' name='comment'></textarea></td>
+                            </tr>
+                            <tr class="imageTr">
+                                <td>Source:</td>
+                                <td>
+                                    <input type="radio" name="imageSrc" value="webLink" onClick="imageSrcChange('webLink');" checked/>Web
+                                    <input type="radio" name="imageSrc" value="upload" onClick="imageSrcChange('upload');"/>My Computer
+                                </td>
+                            </tr>
+                            <tr class="imageTr" id="imgSrcLink">
+                                <td>Link:</td>
+                                <td>
+                                    <input type="text" name="imageUrl" style="width:250px;" placeholder="http://example.com/01.jpg"/>
+                                </td>
+                            </tr>
+                            <tr class="imageTr" id="imgSrcUpload" style="display:none;">
+                                <td>Upload:</td>
+                                <td>
+                                    <input type="file" accept="image/*" name="imageUpload" id="imageUpload"> 
+                                </td>
+                            </tr>
+                            <tr class="mapTr" style="display:none;">
+                                <td>Marker Title:</td>
+                                <td><input name="markerTitle" id="markerTitle" maxlength="25"></td>
+                            </tr>
+                            <tr class="mapTr" style="display:none;">
+                                <td style="font-size:11px;">Drag and drop the marker to the prefered location</td>
+                                <td style="display:none;">
+                                    <!-- Hidden Stuff for form data-->
+                                    <input type="text" name="lng" id="lng" value=''>
+                                    <input type="text" name="lat" id="lat" value=''>
+                                </td>
+                            </tr>
+                            <tr class="mapTr" style="display:none;">
+                                <td></td>
+                                <td id="map_canvas" class="map"></td>
+                            </tr>
+                            <tr class="linkTr" style="display:none;">
+                                <td>Url:</td>
+                                <td><input name="webLink" id="webLink" placeholder="http://www.google.com"/></td>
+                            </tr>
+                        </tbody>
                     </table>
                     <br/>
                     <div id="addTagFormError" class="error"></div>
                     <input type="text" name="videoId" value="<?=$videoId;?>" style="display:none">
                     <img id="imgPreview" style="display:none;" onError="invalidImageUrl();" onLoad="validImageUrl();">
                     <input type="button" id="previewImgUrl" value="Preview" onClick="previewImgLink();"/>
-                    <input type="submit" id="saveAddTagForm" value="Save" onClick="submitAddTagForm();"/>
+                    <input type="submit" id="saveAddTagForm" value="Save"/>
                     <input type="button" value="Cancel" onClick="hideAddTagForm();"/>
                 </form>
             </div>
@@ -118,7 +133,7 @@ $playerWidth = 640;
     </div>
     <div id="addFavorite"> 
         <?php
-        if (!empty($_SESSION['vtpUserId'])){
+        if (!empty($_SESSION['vtpUserId'])) {
             if(checkFavorite($_SESSION['vtpUserId'], $videoId)){
                 echo "Currently in favorites";
             }
@@ -138,4 +153,6 @@ $playerWidth = 640;
             No Comments
         </div>
     </div>
+    
+    <div id="map"></div>
 </div>

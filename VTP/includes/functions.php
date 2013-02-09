@@ -36,6 +36,43 @@ function imageTagJs($videoTag) {
     return $script;
 }
 
+function commentTagJs($videoTag) {
+    // $script = "ytVideo.timeline({
+                    // start: ".$videoTag['start'].",
+                    // target: 'commentsTbl',
+                    // title: '',
+                    // text: '".$videoTag['content']."',
+                    // innerHTML: ''                    
+                // });";
+    // return $script;    
+
+    $script = 'ytVideo.timeline({
+                start: 1,
+                target: "commentsTbl",
+                title: "This is a title",
+                text: "this is some interesting text that goes inside",
+                innerHTML: "Click here for <a href=\'http://www.google.ca\'>Google</a>" ,
+                direction: "down"
+              })';
+    //  return $script;
+    return '';
+}
+
+function mapTagJs($videoTag) {
+    $script = "var content = JSON.parse('".$videoTag['content']."');";
+    $script = $script."ytVideo.googlemap({
+                        start: ".$videoTag['start'].",
+                        end: ".$videoTag['end'].",
+                        type: 'ROADMAP',
+                        target: 'map',
+                        lat: content[1]['lng'],
+                        lng: content[2]['lat'],
+                        onmaploaded: alert('Map Loaded')
+                    })";
+    //  return $script;
+    return '';
+}
+
 function generateVideoScript($videoId) {
     global $Db;
     $videoTags = $Db->getYTTags($videoId);

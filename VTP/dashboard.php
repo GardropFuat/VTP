@@ -1,12 +1,13 @@
-<!--
-    File Name:      dashboard.php
-    Parent File:    index.php
-    Description:
-    Created:        09/27/2012
-    Last Modified:  Anudeep 10/25
-    Copyright:      Echostar Systems @ http://www.echostar.com/
--->
 <?php
+/*
+ * File Name:      dashboard.php
+ * Parent File:    index.php
+ * Description:
+ * Created:        09/27/2012
+ * Last Modified:  Anudeep 10/25
+ * Copyright:      Echostar Systems @ http://www.echostar.com/
+ */
+
 $ytUrl = (empty($_REQUEST['ytUrl'])) ? "http://www.youtube.com/watch?v=kweUVUCYRa8" : $_REQUEST['ytUrl']; 
 $videoId = getYtVideoId($ytUrl);
 //  get video title from youtube

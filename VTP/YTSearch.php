@@ -9,62 +9,22 @@
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
 
-session_start();
-
-//  set default time zone
-date_default_timezone_set("America/Denver");
-
-//  display/hide PHP errors 0->hide , 1-> show(default)
-ini_set('display_errors', 1);
-
-include("includes/errorLog.php");
-include("libraries/DbConnector.php");
-include("includes/functions.php");
-
-// Create new database instance
-$Db = new DbConnector();
+include_once( "head_std.php" );
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Video Tag Portal</title>
-                            <!--    Style Sheets   -->
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
-        <link href="css/jquery.dropdown.css" rel="stylesheet" type="text/css"></link>
-        <link href="css/main.css" rel="stylesheet" type="text/css"></link>
-                            <!--    Javascript files   -->
-        <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
-        <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-        <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
-        <script src="libraries/jquery.dropdown.js" type="text/javascript"></script>
-        <script src="includes/functions.js" type="text/javascript"></script>
-        <?php
-            include 'includes/headJS.php';        
-        ?>
-    </head>
-    <body>
-		<?php
-            //  include("header.php");
-        ?>
-        <div id="buttons" align="center">
-            <label> 
-                <input id="query" value='nba' type="text"/> 
-                <button id="search-button" disabled onclick="search()">Search</button>
-                <div id="searchAuthDiv" style="display:none;">
-                    <input type='button' id="login-link" value='Authorize Youtube search'/>
-                </div>
-            </label>
+<div id="buttons" align="center">
+    <label> 
+        <input id="query" value='nba' type="text"/> 
+        <button id="search-button" disabled onclick="search()">Search</button>
+        <div id="searchAuthDiv" style="display:none;">
+            <input type='button' id="login-link" value='Authorize Youtube search'/>
         </div>
+    </label>
+</div>
+<div id="container"></div>
 
-        
-        <div id="container"></div>
-        <script src="includes/GoogleAuth.js"></script>
-        <script src="includes/YTSearch.js"></script>
-        <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
-        <?php
-            // bodyJS.php should be at the end of the page
-            include("includes/bodyJS.php");
-        ?>
-	</body>
-</html>
+<script src="includes/GoogleAuth.js"></script>
+<script src="includes/YTSearch.js"></script>
+<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+<?php
+    include_once( "tail_std.php" );
+?>

@@ -1,0 +1,6 @@
+"11 Mar 2013 21:20:20","/home/vtphoste/public_html/vtp/src/libraries/facebookAuthentication.php: 5","(Notice) A session had already been started - ignoring session_start()"
+"11 Mar 2013 21:20:21","/home/vtphoste/public_html/vtp/src/libraries/facebookAuthentication.php: 5","(Notice) A session had already been started - ignoring session_start()"
+"11 Mar 2013 21:20:25","/home/vtphoste/public_html/vtp/src/libraries/DbConnector.php: 56","(Warning) mysql_num_rows() expects parameter 1 to be resource, boolean given"
+"11 Mar 2013 21:20:48","/home/vtphoste/public_html/vtp/src/libraries/facebookAuthentication.php: 5","(Notice) A session had already been started - ignoring session_start()"
+"11 Mar 2013 21:21:03","/home/vtphoste/public_html/vtp/src/libraries/facebookAuthentication.php: 5","(Notice) A session had already been started - ignoring session_start()"
+"11 Mar 2013 21:21:03","/home/vtphoste/public_html/vtp/src/libraries/DbConnector.php: 56","(Warning) mysql_num_rows() expects parameter 1 to be resource, boolean given"

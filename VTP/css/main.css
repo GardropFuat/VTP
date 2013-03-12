@@ -87,11 +87,11 @@ img {
     margin-left: auto;
 }
 
-#logout{
+.link{
     cursor: pointer;
 }
 
-#logout:hover{
+.link:hover{
     color: #0022ff;
 }
 

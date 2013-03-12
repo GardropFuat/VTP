@@ -1,14 +1,12 @@
 <?php
-#https://github.com/facebook/facebook-php-sdk
-session_start();
+//  Ref:    https://github.com/facebook/facebook-php-sdk
 
-require 'facebook-api-php-client/facebook.php';
+include_once 'config.php';
+
+require 'libraries/facebook-api-php-client/facebook.php';
 
 // Create our Application instance (replace this with your appId and secret).
-$facebook = new Facebook(array(
-    'appId'  => '200590423408456',
-    'secret' => '22eae2f5ee955789dcf2529993a04ca6',
- ));
+$facebook = new Facebook(array( 'appId'  => FACEBOOK_API_ID, 'secret' => FACEBOOK_SECRET_KEY ));
 
 // Get User ID
 $user = $facebook->getUser();
@@ -17,29 +15,41 @@ if ($user) {
     try {
         // get user profile details
         $user_profile = $facebook->api('/me');
-        
-        //  Set session variable to access this data in other pages
-        $_SESSION['vtpUserId'] = $user_profile['id'];
-        $_SESSION['vtpUserName'] = $user_profile['first_name'];
-        $_SESSION['vtpUserType'] = 'facebook';
-        $_SESSION['vtpFBLogoutUrl']= $facebook->getLogoutUrl();
-        
-        //  add user to DB
-        require 'DbConnector.php';
+
+        include_once 'libraries/DbConnector.php';
         $Db = new DbConnector();
-        $Db->addFBUser($user_profile['id']);
-        
-        // Redirect to home page
-        header('location: ../index.php');
+
+        if( !empty($_SESSION['vtpUserId']) && !empty($_SESSION['googleId']) ) {
+            // Linking Google account
+            $Db->linkFacebookAccount($_SESSION['vtpUserId'], $user_profile['id'], $_SESSION['googleId']);
+        }else {
+            // new login
+            $_SESSION['vtpUserId'] = $user_profile['id'];
+            $_SESSION['facebookId'] = $user_profile['id'];
+            $_SESSION['vtpUserName'] = $user_profile['first_name'];
+            $_SESSION['vtpUserType'] = 'facebook';
+            //  $_SESSION['vtpFBLogoutUrl']= $facebook->getLogoutUrl();
+
+            $Db->addFBUser($user_profile['id']);
+
+            // Redirect to home page
+            header('location: index.php');
+            exit;
+        }
+        // Go back to home page
+        header('Location: '.$_SERVER['PHP_SELF']);
+        exit;
     } catch (FacebookApiException $e) {
         error_log($e);
         $user = null;
         //  Redirect
         header('Location: notfound.html');
+        exit;
     }
 } else {
     //  Redirect to Facebook Authentication approval page
     $loginUrl = $facebook->getLoginUrl();
     header('location: '.$loginUrl);
+    exit;
 }
 ?>

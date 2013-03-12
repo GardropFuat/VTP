@@ -87,7 +87,7 @@ class DbConnector {
         }
         return $rows;
     }
-    
+
     /*
      * Function: getYTTags,
      * @param string $videoId - youtube video id
@@ -101,47 +101,54 @@ class DbConnector {
 
     /*
      * Function: addUser,
-     * @param int $userId - userId on hostSite
+     * @param $userId - userId on hostSite
      * @param string $hostSite - Faceboor or Google
      * Description: Checks for existing users and adds them to DB
      */
-    function addUser($userId, $hostSite)
+    function addUser($userId, $hostSite, $otherSite)
     {
-        $query = "SELECT `users`.`userId` FROM `users` WHERE `users`.`userId` = '".$userId."' AND `users`.`hostSite` = '".$hostSite."' LIMIT 1";
-        $result = $this->query($query);
-        if(!$this->getNumRows($result)) {
-            $query = "INSERT INTO `users` SET `users`.`userId` = '".$userId."', `users`.`hostSite` = '".$hostSite."'";
+        global $_SESSION;
+        // check if user already existed
+        $query = "SELECT `users`.`id`, `users`.`".$otherSite."` FROM `users` WHERE `users`.`".$hostSite."` = '".$userId."' LIMIT 1";
+        $user = $this->getAllRows($query);
+        if($user) {
+            $_SESSION['vtpUserId'] = $user[0]['id'];
+            $_SESSION[$otherSite] = $user[0][$otherSite];
+            return true;
+        } else {
+            $query = "INSERT INTO `users` SET `users`.`".$hostSite."` = '".$userId."'";
             if($this->query($query)) {
                 return true;
             }else {
                 return false;
             }
         }
-        return true;
+        return false;
     }
-    
+
     /*
      * Function: addFBUser,
-     * @param int $userId - userId on Facebook.com
+     * @param $facebookId - userId on Facebook.com
      * Description: Checks for existing users and adds them to DB
      */
-    function addFBUser($userId)
+    function addFBUser($facebookId)
     {
-        return $this->addUser($userId, 'Facebook');
+        return $this->addUser($facebookId, 'facebookId', 'googleId');
     }
-    
+
     /*
      * Function: addGoogleUser,
-     * @param int $userId - userId on Google.com
+     * @param $googleId - userId on Google.com
      * Description: Checks for existing users and adds them to DB
      */
-    function addGoogleUser($userId)
+    function addGoogleUser($googleId)
     {
-        return $this->addUser($userId, 'Google');
+        return $this->addUser($googleId, 'googleId', 'facebookId');
     }
-	
+
     /*
      * Function: addYtTags,
+     * Description: adds YouTube tags to the DB
      */
     function addYtTags($videoId, $tagStartTime, $tagEndTime, $action, $content)
     {
@@ -152,10 +159,10 @@ class DbConnector {
             return false;
         }
     }
-    
+
     /*
      * Function: getFavorites,
-     * @param int $userId 
+     * @param int $userId
      * Description: Finds Favorites for a given user
      */
 	function getFavorites($userId)
@@ -174,12 +181,12 @@ class DbConnector {
 		$query = "INSERT INTO favorites (userId, videoId) VALUES( \"".$userId."\",\"".$videoId."\")";
 		if($this->query($query)) {
 			return true;
-		} 
+		}
 		else {
 			return false;
 		}
 	}
-	
+
 	/*
      * Function: isFavorites,
      * @param int $userId, $videoId
@@ -190,11 +197,81 @@ class DbConnector {
 		$query = "SELECT * FROM `favorites` WHERE `favorites`.`userId` = '".$userId."' AND `favorites`.`videoId` = '".$videoId."' ";
 		if($this->getAllRows($query)) {
 			return true;
-		} 
+		}
 		else {
 			return false;
 		}
 	}
+
+    /*
+     * Function: getFriends,
+     * @param int $userId
+     * Description: Finds the freinds that use the site
+     */
+    function getFriends($userId)
+    {
+        $query = "SELECT * FROM `users` WHERE `facebookId` = '".$userId."'";
+        if($this->getAllRows($query)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
+    /*
+     * Function: linkUserAccounts,
+     * @param $vtpUserId:   userId in VTP DB
+     *        $hostId:      userId of the hosting site (Google or Facebook)
+     *        $hostSite:    name of the hosting site (Google or Facebook)
+     *        $otherId:      userId of the other site (Facebook or Google)
+     *        $otherSite:    name of the other site (Facebook or Google)
+     * Description: links user accounts from different hosts
+     */
+    function linkUserAccounts($vtpUserId, $hostId, $hostSite, $otherId, $otherSite)
+    {
+        global $_SESSION;
+        $query = "SELECT `users`.`id` FROM `users` WHERE `users`.`id` = '".$vtpUserId."' AND `users`.`".$hostSite."` = '".$hostId."' LIMIT 1";
+        $user = $this->getAllRows($query);
+        if($user) {
+            // user account exists
+            $query = "UPDATE `users` SET `users`.`".$otherSite."` = '".$otherId."' WHERE `users`.`id` = '".$vtpUserId."' ";
+            if($this->query($query))
+            {   
+                $_SESSION[$otherSite] = $otherId;
+                return true;
+            }
+        } else {
+            // user account does not exists
+            return false;
+        }
+        return false;
+    }
+    
+    /*
+     * Function: linkGoogleAccount,
+     * @param $vtpUserId:   userId in VTP DB
+     *        $facebookId:    userId in Facebook
+     *        $googleId:      userId in Google
+     * Description: links Google account to existing Facebook account
+     */
+    function linkGoogleAccount($vtpUserId, $facebookId, $googleId)
+    {
+        return $this->linkUserAccounts($vtpUserId, $facebookId, 'facebookId', $googleId, 'googleId');
+    }
+
+    /*
+     * Function: linkFacebookAccount,
+     * @param $vtpUserId:   userId in VTP DB
+     *        $facebookId:    userId in Facebook
+     *        $googleId:      userId in Google
+     * Description: links Facebook account to existing Google Account
+     */
+    function linkFacebookAccount($vtpUserId, $facebookId, $googleId)
+    {
+        return $this->linkUserAccounts($vtpUserId, $googleId, 'googleId', $facebookId, 'facebookId');
+    }
 
     /*
      * Function: disconnect

@@ -8,30 +8,14 @@
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
 
-session_start();
+include_once 'config.php';
 
-if(!empty($_REQUEST['login'])) {
-    if($_REQUEST['login'] == 'google') {
-        //  Redirect to Google Authentication Script
-        header("location: libraries/googleAuthentication.php");
-        
-    }else if($_REQUEST['login'] == 'facebook') {
-        //  Redirect to Facebook Authentication Script
-        header("location: libraries/facebookAuthentication.php");
-        
-    }else if($_REQUEST['login'] == 'logout') {
-        if(!empty($_SESSION['vtpUserType'])) {
-            if($_SESSION['vtpUserType'] == 'google') {
-                header("location: libraries/googleAuthentication.php?logout=1");
-                
-            }else if($_SESSION['vtpUserType'] == 'facebook') {
-                //  Delete session
-                session_destroy();
-                header("location: index.php");
-            }
-        }
-    }
+if( !empty($_REQUEST['login']) && ($_REQUEST['login'] == 'logout') ) {
+    session_destroy();
 }else{
-    echo 'login not set';
+    //Invalid request
 }
+
+header("location: index.php");
+exit;
 ?>

@@ -18,6 +18,7 @@ $videoTitle = $videoData['title'];
 $videoLink = "https://www.youtube.com/v/".$videoId."?version=3&enablejsapi=1";
 $playerHeight = 340;
 $playerWidth = 640;
+//print_r($_SESSION);
 ?>
 
 <div id="container">
@@ -95,6 +96,7 @@ $playerWidth = 640;
                                 <td style="font-size:11px;">Drag and drop the marker to the prefered location</td>
                                 <td style="display:none;">
                                     <!-- Hidden Stuff for form data-->
+                                    <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['vtpUserId']?>">
                                     <input type="text" name="lng" id="lng" value=''>
                                     <input type="text" name="lat" id="lat" value=''>
                                 </td>

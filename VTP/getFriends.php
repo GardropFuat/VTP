@@ -14,61 +14,32 @@
 
 
 //  set default time zone
-date_default_timezone_set("America/Denver");
+//date_default_timezone_set("America/Denver");
 
 //  display/hide PHP errors 0->hide , 1-> show(default)
-ini_set('display_errors', 1);
+//ini_set('display_errors', 1);
 
-include("includes/errorLog.php");
+//include("includes/errorLog.php");
 include("libraries/facebook-api-php-client/facebook.php");
-include("libraries/DbConnector.php");
-include("includes/functions.php");
+//include("libraries/DbConnector.php");
+//include("includes/functions.php");
 
 // Create new database instance
-$Db = new DbConnector();
+//$Db = new DbConnector();
 
 // Get user Favorites from DB
 //$userId = $_SESSION['vtpUserId'];
 //$fav = $Db->getFavorites($userId);
-
+include_once( "head_std.php" );
 ?>
-<!DOCTYPE html>
-<html>
-    <head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Video Tag Portal</title>
-                            <!--    Style Sheets   -->
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" />
-        <link href="css/jquery.dropdown.css" rel="stylesheet" type="text/css"></link>
-        <link href="css/main.css" rel="stylesheet" type="text/css"></link>
-                            <!--    Javascript files   -->
-        <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
-        <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-        <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
-        <script src="libraries/jquery.dropdown.js" type="text/javascript"></script>
-        <script src="includes/functions.js" type="text/javascript"></script>
-		
-		
-		
-		
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Upload To YouTube</title>
-        <style type="text/css">
-            label,
-            input {
-                display: block;
-                margin: 0 0 5px 0;
-            }
-        </style>
-        <script language="JavaScript" type="text/javascript">
-        
-        </script>
-    </head>
+
+
+        <h1>Friends</h1>
         <?php
             //print_r ($_SESSION['fb_200590423408456_access_token']);
             function getUserFriendList ($facebook)
             {
-                $friends = $facebook->api('me/friends');
+                $friends = $facebook->api('me/friends?fields=link,name,id');
                 return $friends;
             }
 
@@ -83,12 +54,13 @@ $Db = new DbConnector();
             
             foreach ($k as $key) {
                 if($Db->getFriends($key['id']) ){
-                    echo('<img src="http://graph.facebook.com/'.$key[id].'/picture" >');
-                    echo($key['name']);
+                    echo('<a href="friendPage.php?link='.$key['link'].'&id='.$key['id'].'&name='.$key['name'].'">'.$key['name'].'</a><br>');
+                    echo('<img src="http://graph.facebook.com/'.$key[id].'/picture" ><br>');
                 }
             }
         ?>
 
-    <body>
-    </body>
-</html>
+        <?php
+            include_once( "tail_std.php" );
+        ?>
+

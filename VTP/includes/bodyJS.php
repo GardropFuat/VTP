@@ -172,7 +172,8 @@ function validateTagInfo() {
 function make_favorite() {
     var user = "<?php echo $_SESSION['vtpUserId'];?>";
     var video = "<?php echo $videoId;?>";
-    $('#favLink').html("Currently in Favorites");
+    //$('#favLink').html("Currently in Favorites");
+    $('#favLink').slideUp();
     var query = "r=" + video;
     $.post("MakeFav.php", query, function(theResponse){
         console.log(theResponse);

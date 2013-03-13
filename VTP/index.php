@@ -8,7 +8,7 @@
  * Last Modified:   Anudeep 10/09/12
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
-
+header('Access-Control-Allow-Origin: *');
 // perform login operations
 if( $_REQUEST['action'] == 'login') {
     if($_REQUEST['method'] == 'google') {

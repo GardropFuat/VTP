@@ -150,9 +150,9 @@ class DbConnector {
      * Function: addYtTags,
      * Description: adds YouTube tags to the DB
      */
-    function addYtTags($videoId, $tagStartTime, $tagEndTime, $action, $content)
+    function addYtTags($videoId, $userId, $tagStartTime, $tagEndTime, $action, $content)
     {
-        $query = "INSERT INTO `yttags` SET `yttags`.`videoId`= '".$videoId."', `yttags`.`start`= '".$tagStartTime."', `yttags`.`end`= '".$tagEndTime."', `yttags`.`action`= '".$action."', `yttags`.`content`= '".$content."' ";
+        $query = "INSERT INTO `yttags` SET `yttags`.`videoId`= '".$videoId."',`yttags`.`userId`='".$userId."', `yttags`.`start`= '".$tagStartTime."', `yttags`.`end`= '".$tagEndTime."', `yttags`.`action`= '".$action."', `yttags`.`content`= '".$content."' ";
         if($this->query($query)) {
             return true;
         }else {
@@ -277,6 +277,13 @@ class DbConnector {
      * Function: disconnect
      * Description: Closes the DB connection
      */
+    function getFriendId($facebookID)
+    {
+        $query = "SELECT `id` FROM `users` WHERE `users`.`facebookid` = '".$facebookID."' ";
+        return $this->getAllRows($query);
+
+    }
+
     function disconnect()
     {
         mysql_close($this->link);

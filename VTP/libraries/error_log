@@ -20,3 +20,6 @@
 [12-Mar-2013 02:07:56 Europe/Berlin] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/vtphoste/public_html/vtp/src/libraries/DbConnector.php:56) in /home/vtphoste/public_html/vtp/src/libraries/googleAuthentication.php on line 22
 [11-Mar-2013 21:20:25 America/Denver] CSRF state token does not match one provided.
 [11-Mar-2013 21:21:03 America/Denver] CSRF state token does not match one provided.
+[13-Mar-2013 21:11:40 Europe/Berlin] PHP Warning:  include_once(config.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory in /home/vtphoste/public_html/vtp/prototype/06/libraries/googleAuthentication.php on line 7
+[13-Mar-2013 21:11:40 Europe/Berlin] PHP Warning:  include_once() [<a href='function.include'>function.include</a>]: Failed opening 'config.php' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php') in /home/vtphoste/public_html/vtp/prototype/06/libraries/googleAuthentication.php on line 7
+[13-Mar-2013 14:12:14 America/Denver] PHP Fatal error:  Class 'DbConnector' not found in /home/vtphoste/public_html/vtp/prototype/06/libraries/googleAuthentication.php on line 11

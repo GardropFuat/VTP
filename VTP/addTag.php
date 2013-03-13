@@ -69,13 +69,14 @@ switch($tagType) {
 }
 
 if($isTagValid) {
-    // echo $videoId.";".$tagStartTime.";".$tagEndTime.";".$tagType.";".$content;
+     //echo $videoId.";".$tagStartTime.";".$tagEndTime.";".$tagType.";".$content;
+     //echo $_POST['userId'];
     // Create new database instance
     $Db = new DbConnector();
-    if($Db->addYtTags($videoId, $tagStartTime, $tagEndTime, $tagType, $content)) {
-        header("Location: index.php");
+    if($Db->addYtTags($videoId, $_POST['userId'], $tagStartTime, $tagEndTime, $tagType, $content)) {
+        header("Location: index.php?ytUrl=http://www.youtube.com/watch?v=".$_POST['videoId']."&rel=0");
     }else {
-        header("Location: index.php"); 
+        header("Location: index.php?ytUrl=http://www.youtube.com/watch?v=".$_POST['videoId']."&rel=0"); 
     }
 }else {
     echo 'Error: contact admin';

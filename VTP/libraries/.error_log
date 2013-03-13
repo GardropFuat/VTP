@@ -4,3 +4,5 @@
 "11 Mar 2013 21:20:48","/home/vtphoste/public_html/vtp/src/libraries/facebookAuthentication.php: 5","(Notice) A session had already been started - ignoring session_start()"
 "11 Mar 2013 21:21:03","/home/vtphoste/public_html/vtp/src/libraries/facebookAuthentication.php: 5","(Notice) A session had already been started - ignoring session_start()"
 "11 Mar 2013 21:21:03","/home/vtphoste/public_html/vtp/src/libraries/DbConnector.php: 56","(Warning) mysql_num_rows() expects parameter 1 to be resource, boolean given"
+"13 Mar 2013 14:12:14","/home/vtphoste/public_html/vtp/prototype/06/libraries/googleAuthentication.php: 10","(Warning) include_once(libraries/DbConnector.php) [<a href='function.include-once'>function.include-once</a>]: failed to open stream: No such file or directory"
+"13 Mar 2013 14:12:14","/home/vtphoste/public_html/vtp/prototype/06/libraries/googleAuthentication.php: 10","(Warning) include_once() [<a href='function.include'>function.include</a>]: Failed opening 'libraries/DbConnector.php' for inclusion (include_path='.:/usr/lib/php:/usr/local/lib/php')"

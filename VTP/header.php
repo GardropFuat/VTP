@@ -31,7 +31,7 @@ if(!empty($_SESSION['vtpUserId'])) {
             <ul>
                 <li style="padding:10px;height:29px;"><img src="images/facebook_login_icon.png" onClick="window.location.href = 'index.php?action=login&method=facebook';" alt="Login with Facebook" style="cursor:pointer;"/></li>
                 <li align="center">- OR -</li>
-                <li style="padding:10px;height:29px;"><img src="images/google_login_icon.png" onClick="window.location.href = 'index.php?action=login&method=google';" alt="Login with Google" style="cursor:pointer;"/></li>
+                <li style="padding:10px;height:29px;"><img src="images/google_login_icon.png" onClick="window.location.href = 'libraries/googleAuthentication.php?action=login&method=google';" alt="Login with Google" style="cursor:pointer;"/></li>
             </ul>
         </form>
     </div>

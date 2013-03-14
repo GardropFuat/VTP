@@ -1,11 +1,12 @@
 // Once the api loads call enable the search box.
 function handleAPILoaded() {
-    $('#search-button').attr('disabled', false);
-    search();
+    isUserLoggedIn = true;
+    $('#search-button').text('Search/Load');
+    //  $('#search-button').attr('disabled', false);
 }
 
-// Search for a given string.
-function search() {
+// Search for a given string. 
+function yTSearch() {
     var q = $('#query').val();
     
     // For more parameters see ref: https://developers.google.com/youtube/v3/docs/search/list
@@ -24,7 +25,7 @@ function search() {
     request.execute(function(response) {
         var searchResponse = JSON.parse( JSON.stringify(response.result) );
         var videoResults = searchResponse['items'];
-        var htmlResult = '<table class="videoResults" align="center">';
+        var htmlResult = '<table class="videoResults" align="center" style="cursor:pointer;">';
         
         $.each(videoResults, function(index, value) {
             var refId = '';
@@ -45,11 +46,10 @@ function search() {
             var videoDescription = value['snippet']['description'];
             var videoThumbnail = value['snippet']['thumbnails']['medium']['url'];
             
-            htmlResult += '<tr><td><a href="index.php?ytUrl=http://www.youtube.com/watch?v=' + refId + '"><img src="'+ videoThumbnail +'" alt="'+videoTitle+'"/></td><td id="info"><span>'+ '<span id="title">' + videoTitle + '</span><br/><span id="description">' + videoDescription + '</span></span></a></td></tr>';
+            htmlResult += '<tr onclick="document.location = \'index.php?ytUrl=http://www.youtube.com/watch?v=' + refId + '\'"><td><img src="'+ videoThumbnail +'" alt="'+videoTitle+'"/></td><td id="info"><span>'+ '<span id="title">' + videoTitle + '</span><br/><span id="description">' + videoDescription + '</span></span></td></tr>';
         });
         htmlResult += '</table>';
         
         $('#container').html(htmlResult);
-        console.log(videoResults);
     });
 }

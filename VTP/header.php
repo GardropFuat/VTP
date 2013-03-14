@@ -12,9 +12,9 @@
 if(!empty($_SESSION['vtpUserId'])) {
     $loginBtn = "<a href='#' data-dropdown='#logoutDropdown'>".$_SESSION['vtpUserName']."</a>";
     if(empty($_SESSION['facebookId'])) {
-        $addlBtn = '<li style="padding: 10px;"><span onClick="window.location.href = \'index.php?action=login&method=facebook\';" class="link">Link Facebook Account</span></li>';
+        $addlBtn = '<li style="padding:10px;height:29px;"><img src="images/link_Facebook_Account.png" onClick="window.location.href = \'index.php?action=login&method=facebook\';" alt="Link Facebook Account" style="cursor:pointer;"/></li>';
     }else if(empty($_SESSION['googleId'])) {
-        $addlBtn = '<li style="padding: 10px;"><span onClick="window.location.href = \'index.php?action=login&method=google\';" class="link">Link Google Account</span></li>';
+        $addlBtn = '<li style="padding:10px;height:29px;"><img src="images/link_Google_Account.png" onClick="window.location.href = \'index.php?action=login&method=google\';" alt="Link Google Account" style="cursor:pointer;"/></li>';
     }else {
         $addlBtn = '';
     }    
@@ -50,17 +50,15 @@ if(!empty($_SESSION['vtpUserId'])) {
 
         <table class="headerTable">
             <tr>
-                <td style="width:500px;">
-                    <form action="index.php" method="post">
-                        Url: <input type="text" name="ytUrl" style="width: 80%;"/>
-                        <input type="submit" value="Load" />
-                    </form> 
+                <td>
+                    <input id="query" value='' type="text" style="width:400px;"/> 
+                    <button id="search-button" onclick="processSearch();">Load</button> 
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td><a href="YTSearch.php">Search</a></td>
                 <td><a href="favorites.php">Favorites</a></td>
 				<td><a href="AddVideo.php">Upload</a></td>
                 <td><?=$loginBtn;?></td>
             </tr>
         </table>
     </div>
+    

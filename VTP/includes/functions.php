@@ -13,9 +13,16 @@ function getYtVideoId($url){
 }
 
 function parseUrl($url, $key) {
-    $url = parse_url($url);
-    parse_str($url['query'], $query);
-    return $query[$key];
+    $isShortUrl = strpos($url, 'youtu.be/');
+    
+    if($isShortUrl === false) {
+        $url = parse_url($url);
+        parse_str($url['query'], $query);
+        return $query[$key];
+    } else {
+        $url = explode('/', $url);
+        return end($url);
+    }
 }
 
 // add script tags to JavaScript
@@ -102,7 +109,6 @@ function addToFavorites($userId, $videoId){
 	return $Db->addFavorites($userId, $videoId);
 }
 
-// get this page url
 function curPageURL() {
     $pageURL = 'http';
     if ($_SERVER["HTTPS"] == "on") {
@@ -118,23 +124,5 @@ function curPageURL() {
     }
     
     return $pageURL;
-}
-
-//  send curl POST request to a url
-function post_request($url, $data) 
-{
-    $ch = curl_init();
-    curl_setopt($ch,CURLOPT_URL,$url);
-    curl_setopt($ch,CURLOPT_FOLLOWLOCATION,1);
-    curl_setopt($ch,CURLOPT_AUTOREFERER,1);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER,false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($ch,CURLOPT_POST,1); 
-    curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
-    curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-    $response = curl_exec($ch);
-    curl_close($ch);
-    
-    return $response;
 }
 ?>

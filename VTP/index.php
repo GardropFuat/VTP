@@ -8,7 +8,7 @@
  * Last Modified:   Anudeep 10/09/12
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
-header('Access-Control-Allow-Origin: *');
+
 // perform login operations
 if( $_REQUEST['action'] == 'login') {
     if($_REQUEST['method'] == 'google') {
@@ -23,7 +23,15 @@ include_once 'head_std.php';
 
 //  main code 
 include_once 'dashboard.php';
+?>
 
+<script src="includes/search.js"></script>
+<!-----Scripts for YTSearch---->
+<script src="includes/GoogleAuth.js"></script>
+<script src="includes/YTSearch.js"></script>
+<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+
+<?php
 //std tail
 include_once 'tail_std.php';
 ?>

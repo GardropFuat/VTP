@@ -52,7 +52,7 @@ if(!empty($_SESSION['vtpUserId'])) {
             <tr>
                 <td>
                     <input id="query" value='' type="text" style="width:400px;"/> 
-                    <button id="search-button" onclick="processSearch();">Load</button> 
+                    <button id="search-button" onclick="processSearch();">Load/Search</button> 
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
                 <td><a href="favorites.php">Favorites</a></td>

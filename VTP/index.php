@@ -26,10 +26,6 @@ include_once 'dashboard.php';
 ?>
 
 <script src="includes/search.js"></script>
-<!-----Scripts for YTSearch---->
-<script src="includes/GoogleAuth.js"></script>
-<script src="includes/YTSearch.js"></script>
-<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
 
 <?php
 //std tail

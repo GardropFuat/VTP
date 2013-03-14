@@ -100,7 +100,7 @@ if(isset( $_GET['id']) && isset($_GET['status']))
 <?php elseif( isset($unique_id)  && $status = '200' ) : ?>
         <div id="video-success">
             <h4>Video Successfully Uploaded!</h4>
-            <form action="http://localhost/VTP/index.php" method="post">
+            <form action="index.php" method="post">
                 <p>Here is your url to view your video in YouTube:<a href="http://www.youtube.com/watch?v=<?php echo $unique_id; ?>" target="_blank">http://www.youtube.com/watch?v=<?php echo $unique_id; ?></a></p>
                 <p>The video should be up any moment but could take up to 3 hours to be finished, Please Be Patient.
                 <input type="hidden" name="ytUrl" value="http://www.youtube.com/watch?v=<?php echo $unique_id; ?>"/>

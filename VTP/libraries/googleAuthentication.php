@@ -19,6 +19,7 @@ if($_REQUEST['method'] == 'google' &&  !empty($_REQUEST['googleId']) &&  $_REQUE
         $_SESSION['googleId'] = $_REQUEST['googleId'];
         $_SESSION['vtpUserName'] = $_REQUEST['userName'];
         $_SESSION['vtpUserType'] = $_REQUEST['method'];
+        $_SESSION['access_token'] = $_REQUEST['access_token'];
 
         // Add user to DB
         $Db->addGoogleUser($_REQUEST['googleId']);
@@ -35,7 +36,8 @@ if($_REQUEST['method'] == 'google' &&  !empty($_REQUEST['googleId']) &&  $_REQUE
     var apiKey = '<?=GOOGLE_API_KEY;?>';
     var scopes = Array('https://www.googleapis.com/auth/userinfo.profile',
                         'https://www.googleapis.com/auth/youtube');
-
+    var access_token;
+    
     function handleClientLoad() {
         gapi.client.setApiKey(apiKey);
         window.setTimeout(checkAuth,1);
@@ -66,6 +68,7 @@ if($_REQUEST['method'] == 'google' &&  !empty($_REQUEST['googleId']) &&  $_REQUE
     function makeApiCall() {
         gapi.client.load('oauth2', 'v2', function() {
             var request = gapi.client.oauth2.userinfo.get();
+            access_token = gapi.auth.getToken().access_token;
             request.execute(logResponse);
         });
     }
@@ -73,7 +76,7 @@ if($_REQUEST['method'] == 'google' &&  !empty($_REQUEST['googleId']) &&  $_REQUE
     function logResponse(response) {
         var googleId = response.result.id;
         var userName = response.result.given_name;
-        var data = 'action=login&method=google&googleId=' + googleId + '&userName=' + userName;
+        var data = 'action=login&method=google&googleId=' + googleId + '&userName=' + userName + '&access_token=' + access_token;
         window.location.href = 'index.php?' + data;
     }
 </script>

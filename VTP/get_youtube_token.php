@@ -1,11 +1,6 @@
-
 <?php
 
-define("YOUTUBE_DEVELOPER_KEY", 'AI39si7zLxgtuhVYtL4GcpnoWpgtanI0Ye3G1FyOdyvrJmhS-n2X6KK7eJDYZS7n5nI9WM_7ny0ZzBhcztbrlia3DHIPOXEAdQ');
-define("GOOGLE_DEVELOPER_KEY", 'AIzaSyAlbflcsqSg7b3-Nq-Ggo_4PVzo-MC4Y7s');
-
-//  $tokenData = json_decode($_SESSION['token'],true);
-$accessToken = $_SESSION['googleId'];
+$accessToken = $_SESSION["access_token"];
 
 
 $youtube_video_title = $_POST['video_title']; // This is the uploading video title.
@@ -84,6 +79,4 @@ curl_setopt( $curl, CURLOPT_HEADER, 0 );
 
 $response = simplexml_load_string( curl_exec( $curl ) );
 curl_close( $curl );
-
-print_r($response);
 ?>

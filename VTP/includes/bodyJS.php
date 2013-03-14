@@ -229,7 +229,7 @@ function invalidImageUrl() {
 }
 
 $(function() {
-    $( "#tagDescription" ).draggable().resizable();
+    $( "#tagDescription" ).draggable({ axis: "y" });
   });
 
 </script>

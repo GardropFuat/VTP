@@ -227,4 +227,9 @@ function invalidImageUrl() {
     $('#saveAddTagForm').attr('disabled', true);
     $('#addTagFormError').html(formError[1]);
 }
+
+$(function() {
+    $( "#tagDescription" ).draggable().resizable();
+  });
+
 </script>

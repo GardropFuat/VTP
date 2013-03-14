@@ -42,10 +42,13 @@ switch($tagType) {
                     $maxSize = 10;  //  MB
                     if($imageUpload->File($file, $directory, $fileName, $maxSize) != '') {
                         $isTagValid = false;
+
+                        echo "Incorrect Size or filetype ";
                     }
                     $content = $imageUpload->GetImagePath();
                 }else {
                     $isTagValid = false;
+                    echo "File image error != 0";
                 }
                 break;
             default:
@@ -62,6 +65,7 @@ switch($tagType) {
         break;
     case 'link':
         $isTagValid = false;
+        echo "Link";
         break;
     default:
         $isTagValid = false;

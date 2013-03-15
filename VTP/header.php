@@ -18,11 +18,14 @@ if(!empty($_SESSION['vtpUserId'])) {
     }else {
         $addlBtn = '';
     }    
+    $favoriteOptn = '<a href="favorites.php">Favorites</a>';
+    $uploadOptn = '<a href="AddVideo.php">Upload</a>';
 }else{
+    $favoriteOptn = '<a href="#" onClick="alert(\'Please Login to see favorites\');">Favorites</a>';
+    $uploadOptn = '<a href="#" onClick="alert(\'Please Login to upload videos\');">Upload</a>';
     $loginBtn = "<a href='#' data-dropdown='#loginDropdown'>Login</a>";
 }
 ?>
-
 <!----   include Dialog Boxes here      --->
 
 <!----   include Dropdown lists here    -->
@@ -45,9 +48,7 @@ if(!empty($_SESSION['vtpUserId'])) {
     </div>
 
 <!----        Header      ----->
-
     <div class='header'>
-
         <table class="headerTable">
             <tr>
                 <td>
@@ -55,8 +56,8 @@ if(!empty($_SESSION['vtpUserId'])) {
                     <button id="search-button" onclick="processSearch();">Load/Search</button> 
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td><a href="favorites.php">Favorites</a></td>
-				<td><a href="AddVideo.php">Upload</a></td>
+                <td><?=$favoriteOptn;?></td>
+				<td><?=$uploadOptn;?></td>
                 <td><?=$loginBtn;?></td>
             </tr>
         </table>

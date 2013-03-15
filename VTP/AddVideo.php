@@ -29,73 +29,90 @@ if(isset( $_GET['id']) && isset($_GET['status']))
 
 <!-- Step 1 of the youtube upload process -->
 <?php if( empty( $_POST['video_title'] ) && !isset($unique_id) ) : ?>
-    <table>
-        <form action="<?=curPageURL();?>" method="post">
-            <tr><td><label for="video_title">Video Title</label></td></tr>
-            <tr><td><input type="text" name="video_title" /></td></tr>
-            <tr><td><label for="video_description">Video Description</label></td></tr>
-            <tr><td><textarea id="video-description" name="video_description"></textarea></td></tr>
-            <tr><td><label for="category">Category</label></td>
-                <td>
-                <select id="category" name="category">
-                    <option>Film</option>
-                    <option>Autos</option>
-                    <option>Music</option>
-                    <option>Animals</option>
-                    <option>Sports</option>
-                    <option>Travel</option>
-                    <option>Shortmov</option>
-                    <option>Games</option>
-                    <option>Videblog</option>
-                    <option>People</option>
-                    <option>Comedy</option>
-                    <option>Entertainment</option>
-                    <option>News</option>
-                    <option>Howto</option>
-                    <option>Education</option>
-                    <option>Tech</option>
-                    <option>Nonprofit</option>
-                    <option>Movies</option>
-                    <option>Movies_anime_action</option>
-                    <option>Movies_action_adventure</option>
-                    <option>Movies_classics</option>
-                    <option>Movies_comedy</option>
-                    <option>Movies_documentary</option>
-                    <option>Moves_drama</option>
-                    <option>Movies_family</option>
-                    <option>Movies_foreign</option>
-                    <option>Movies_horror</option>
-                    <option>Movies_sci_fi_fantasy</option>
-                    <option>Movies_thriller</option>
-                    <option>Movies_shorts</option>
-                    <option>Shows</option>
-                    <option>Trailers</option>
-            </select></td></tr>
-            <tr><td><label for="video_keywords">Video Keywords</label></td></tr>
-            <tr><td><input type="text" name="video_keywords"/></td></tr>
-            <tr><td><input type="submit" value="Proceed to Step 2" /></td></tr>
-        </form> <!-- /form -->
-    </table>
+        <div class="form" align="center">
+            <form action="<?=curPageURL();?>" method="post">
+                <h1>Upload Video: Step 1</h1>
+                <p>
+                    <label style="padding-left:50px;">Title</label>
+                    <input type="text" name="video_title"/>
+                </p>
+                <p>
+                    <label style="vertical-align:top;">Description</label>
+                    <textarea id="video-description" name="video_description" style="height:100px;"></textarea>
+                </p>
+                <p>
+                    <label>Category</label>
+                    <select id="category" name="category">
+                            <option>Film</option>
+                            <option>Autos</option>
+                            <option>Music</option>
+                            <option>Animals</option>
+                            <option>Sports</option>
+                            <option>Travel</option>
+                            <option>Shortmov</option>
+                            <option>Games</option>
+                            <option>Videblog</option>
+                            <option>People</option>
+                            <option>Comedy</option>
+                            <option>Entertainment</option>
+                            <option>News</option>
+                            <option>Howto</option>
+                            <option>Education</option>
+                            <option>Tech</option>
+                            <option>Nonprofit</option>
+                            <option>Movies</option>
+                            <option>Movies_anime_action</option>
+                            <option>Movies_action_adventure</option>
+                            <option>Movies_classics</option>
+                            <option>Movies_comedy</option>
+                            <option>Movies_documentary</option>
+                            <option>Moves_drama</option>
+                            <option>Movies_family</option>
+                            <option>Movies_foreign</option>
+                            <option>Movies_horror</option>
+                            <option>Movies_sci_fi_fantasy</option>
+                            <option>Movies_thriller</option>
+                            <option>Movies_shorts</option>
+                            <option>Shows</option>
+                            <option>Trailers</option>
+                    </select>
+                </p>
+                <p>
+                    <label style="padding-left:10px;">Keywords</label>
+                    <input type="text" name="video_keywords"/>
+                </p>
+                <p>
+                    <input type="submit" value="Proceed to Step 2" style="width:180px;"/>
+                </p>
+            </form> <!-- /form -->
+        </div>
         <?php echo ($response->token);?>
 <!-- Step 2 -->
 <?php elseif( isset($response) && $response->token != '' ) : ?>
-        <h4>Title:</h4>
-        <p><?php echo $video_title; ?></p>
-        <h4>Description:</h4>
-        <p><?php echo $video_description; ?></p>
-        <form action="<?php echo( $response->url ); ?>?nexturl=<?=$nexturl;?>" method="post" enctype="multipart/form-data">
-            <p class="block">
-                <label>Upload Video</label>
-                <span class="youtube-input">
+        <div class="form" align="center">
+            <table cellspacing="15">
+            <tr>
+                <td style="float:right"><label>Title&nbsp;</label></td>
+                <td><span style="width:380px;"><?=$video_title;?></span></td>
+            </tr>
+            <tr>
+                <td style="float:right;"><label>Description&nbsp;</label></td>
+                <td><span style="width:380px;"><?=$video_description;?></span></td>
+            </tr>
+            <form action="<?php echo( $response->url ); ?>?nexturl=<?=$nexturl;?>" method="post" enctype="multipart/form-data">
+            <tr class="block">
+                <td style="float:right;padding-top:10px;"><label>Upload Video</label></td>
+                <td><span class="youtube-input">
                     <input id="file" type="file" name="file" />
-                </span>
-            </p>
-            <input type="hidden" name="token" value="<?php echo( $response->token ); ?>"/>
-            <input type="hidden" name="video_keywords" value="<?php echo( $_POST['video_keywords']); ?>"/>
-            <input type="hidden" name="category" value="<?php echo( $_POST['category']); ?>"/>
-            <input type="submit" value='Upload'>
-        </form>
-
+                </span></td>
+            </tr>
+            </table>
+                <input type="hidden" name="token" value="<?php echo( $response->token ); ?>"/>
+                <input type="hidden" name="video_keywords" value="<?php echo( $_POST['video_keywords']); ?>"/>
+                <input type="hidden" name="category" value="<?php echo( $_POST['category']); ?>"/>
+                <input type="submit" value='Upload' style="width: 120px;">
+            </form>
+        </div>
 <!-- Final Step -->
 <?php elseif( isset($unique_id)  && $status = '200' ) : ?>
         <div id="video-success">
@@ -111,7 +128,6 @@ if(isset( $_GET['id']) && isset($_GET['status']))
 
 if(isset($videoEntry)) {
     $state = $videoEntry->getVideoState();
-    echo "Here";
     if (isset($state)) {
         echo 'Upload status for video ID ' . $videoEntry->getVideoId() . ' is ' .
         $state->getName() . ' - ' . $state->getText() . "\n";

@@ -297,6 +297,19 @@ class DbConnector {
     {
         return $this->linkUserAccounts($vtpUserId, $googleId, 'googleId', $facebookId, 'facebookId');
     }
+	
+	
+	/*
+     * Function: getFriendId,
+     * @param $facebookID:    userId in Facebook
+     * Description: gets the friends' ids from vtp db
+     */
+	function getFriendId($facebookID)
+    {
+        $query = "SELECT `id` FROM `users` WHERE `users`.`facebookid` = '".$facebookID."' ";
+        return $this->getAllRows($query);
+
+    }
 
     /*
      * Function: disconnect

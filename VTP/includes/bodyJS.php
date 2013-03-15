@@ -9,20 +9,56 @@
  * Copyright:           Echostar Systems @ http://www.echostar.com/
  */
 
-if(!empty($videoId)) {
-    // set player height and width
-    echoScript("$('#playerFrame').height(".$playerHeight.")"); //    .width(".$playerWidth.")");
+$playerHeight = 340;
+$playerWidth = 640;
 
+if(!empty($_REQUEST['vimeoUrl'])) {
+    $vimeoUrl = $_REQUEST['vimeoUrl'];
+    $videoSource = 'vimeo';
+    $videoId = getViemoVideoId($vimeoUrl);
+    
+    //  get video title from vimeo
+    $videoData = simplexml_load_file("http://vimeo.com/api/v2/video/".$videoId.".xml");
+    $videoTitle = $videoData->video->title;
+    
+    $videoLink = "http://player.vimeo.com/video/".$vimeoUrl;
+    
+    // set player height and width & update video Info
+    echoScript("$('#playerFrame').height(".$playerHeight.").width(".$playerWidth.")");
+    echoScript("$('#videoTitle').text('".$videoTitle."')");
+    echoScript("$('[name=videoId]').attr('value', '".$videoId."')");
+    echoScript("$('[name=videoSource]').attr('value', '".$videoSource."')");
+    
     // generate player and set actions
-    $ytContent = generateVideoScript($videoId);
-    echoScript( $ytContent );
+    $viemoContent = generateVimeoVideoScript($videoId);
+    echoScript( $viemoContent );
+    
+}else {
+    $ytUrl = (empty($_REQUEST['ytUrl'])) ? "http://www.youtube.com/watch?v=kweUVUCYRa8" : $_REQUEST['ytUrl']; 
+    $videoSource = 'youtube';
+    
+    $videoId = getYtVideoId($ytUrl);
+    //  get video title from youtube
+    $videoData = file_get_contents("http://youtube.com/get_video_info?video_id=".$videoId);
+    parse_str($videoData, $videoData);
+    $videoTitle = $videoData['title'];
 
-    //  Enter test Mode
-    //  videoTestMode();
+    $videoLink = "https://www.youtube.com/v/".$videoId."?version=3&enablejsapi=1";
+    
+    // set player height and width & update video Info
+    echoScript("$('#playerFrame').height(".$playerHeight.")");
+    echoScript("$('#videoTitle').text('".$videoTitle."')");
+    echoScript("$('[name=videoId]').attr('value', '".$videoId."')");
+    echoScript("$('[name=videoSource]').attr('value', '".$videoSource."')");
+    
+    // generate player and set actions
+    $ytContent = generateYTVideoScript($videoId);
+    echoScript( $ytContent );
 }
 ?>
 
 <script type="text/javascript">
+var YOUTUBE_DEVELOPER_KEY = 'AI39si7zLxgtuhVYtL4GcpnoWpgtanI0Ye3G1FyOdyvrJmhS-n2X6KK7eJDYZS7n5nI9WM_7ny0ZzBhcztbrlia3DHIPOXEAdQ';
 var tagTypes = Array("commentTr", "imageTr", "mapTr", "linkTr");
 var formError = new Array(false, '');
 var isImgUrlTested = false;
@@ -78,8 +114,8 @@ function showHideTagTypes(tagType) {
 function updateVideoTime(idName) {
     var currentTime;
     var hours = 0;
-    var seconds = parseInt(ytVideo.currentTime() % 60, 10);
-    var minutes = parseInt(ytVideo.currentTime() / 60, 10);
+    var seconds = parseInt(video.currentTime() % 60, 10);
+    var minutes = parseInt(video.currentTime() / 60, 10);
     if(minutes > 60) {
         hours =  parseInt(minutes / 60, 10);
         minutes = parseInt(minutes % 60, 10)
@@ -89,7 +125,7 @@ function updateVideoTime(idName) {
     // show hh:mm:ss in disabled form 
     $('#' + idName).val(currentTime);
     //  show seconds in the hidden form 
-    $('[name=' + idName + ']').val(ytVideo.currentTime());
+    $('[name=' + idName + ']').val(video.currentTime());
 }
 
 /*
@@ -172,8 +208,7 @@ function validateTagInfo() {
 function make_favorite() {
     var user = "<?php echo $_SESSION['vtpUserId'];?>";
     var video = "<?php echo $videoId;?>";
-    //$('#favLink').html("Currently in Favorites");
-    $('#favLink').slideUp();
+    $('#favLink').html("Currently in Favorites");
     var query = "r=" + video;
     $.post("MakeFav.php", query, function(theResponse){
         console.log(theResponse);
@@ -227,9 +262,4 @@ function invalidImageUrl() {
     $('#saveAddTagForm').attr('disabled', true);
     $('#addTagFormError').html(formError[1]);
 }
-
-$(function() {
-    $( "#tagDescription" ).draggable({ axis: "y" });
-  });
-
 </script>

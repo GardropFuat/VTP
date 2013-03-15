@@ -12,6 +12,11 @@ function getYtVideoId($url){
    return parseUrl($url, 'v');
 }
 
+function getViemoVideoId($url){
+    $url = explode('/', $url);
+    return end($url);
+}
+
 function parseUrl($url, $key) {
     $isShortUrl = strpos($url, 'youtu.be/');
     
@@ -32,7 +37,7 @@ function echoScript($jsCode) {
 
 //  Generates script for image tags
 function imageTagJs($videoTag) {
-    $script = "ytVideo.image({
+    $script = "video.image({
                     start: ".$videoTag['start'].",
                     end: ".$videoTag['end'].",
                     href: '',
@@ -44,7 +49,7 @@ function imageTagJs($videoTag) {
 }
 
 function commentTagJs($videoTag) {
-    // $script = "ytVideo.timeline({
+    // $script = "video.timeline({
                     // start: ".$videoTag['start'].",
                     // target: 'commentsTbl',
                     // title: '',
@@ -53,7 +58,7 @@ function commentTagJs($videoTag) {
                 // });";
     // return $script;    
 
-    $script = 'ytVideo.timeline({
+    $script = 'video.timeline({
                 start: 1,
                 target: "commentsTbl",
                 title: "This is a title",
@@ -67,7 +72,7 @@ function commentTagJs($videoTag) {
 
 function mapTagJs($videoTag) {
     $script = "var content = JSON.parse('".$videoTag['content']."');";
-    $script = $script."ytVideo.googlemap({
+    $script = $script."video.googlemap({
                         start: ".$videoTag['start'].",
                         end: ".$videoTag['end'].",
                         type: 'ROADMAP',
@@ -80,12 +85,12 @@ function mapTagJs($videoTag) {
     return '';
 }
 
-function generateVideoScript($videoId) {
+function generateYTVideoScript($videoId) {
     global $Db;
     $videoTags = $Db->getYTTags($videoId);
     //  create YT player 
     //  rel = 0 will disable related videos suggestion at end of each video
-    $content = "var ytVideo = Popcorn.smart( '#playerFrame', 'http://www.youtube.com/watch?v=".$videoId."&rel=0' );";
+    $content = "var video = Popcorn.smart( '#playerFrame', 'http://www.youtube.com/watch?v=".$videoId."&rel=0' );";
     
     foreach($videoTags as $videoTag) {
         $action = $videoTag['action'].'TagJs';
@@ -94,9 +99,18 @@ function generateVideoScript($videoId) {
     return $content;
 }
 
-function videoTestMode() {
-    $script = "ytVideo.volume(1);ytVideo.play();";
-    echoScript($script);
+function generateVimeoVideoScript($videoId) {
+    global $Db;
+    $videoTags = $Db->getViemoTags($videoId);
+    //  create YT player 
+    //  rel = 0 will disable related videos suggestion at end of each video
+    $content = "var video = Popcorn.vimeo( '#playerFrame', 'http://player.vimeo.com/video/".$videoId."' );";
+    
+    foreach($videoTags as $videoTag) {
+        $action = $videoTag['action'].'TagJs';
+        $content = $content.$action($videoTag);
+    }    
+    return $content;
 }
 
 function checkFavorite($userId, $videoId){

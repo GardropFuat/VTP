@@ -98,6 +98,17 @@ class DbConnector {
         $query = "SELECT * FROM `yttags` WHERE `yttags`.`videoId` = '".$videoId."' ";
         return $this->getAllRows($query);
     }
+    
+    /*
+     * Function: getViemoTags,
+     * @param string $videoId - Viemo video id
+     * Description: Returns all tags linked to the provided youtube video id
+     */
+    function getViemoTags($videoId)
+    {
+        $query = "SELECT * FROM `viemoTags` WHERE `viemoTags`.`videoId` = '".$videoId."' ";
+        return $this->getAllRows($query);
+    }
 
     /*
      * Function: addUser,
@@ -150,9 +161,23 @@ class DbConnector {
      * Function: addYtTags,
      * Description: adds YouTube tags to the DB
      */
-    function addYtTags($videoId, $userId, $tagStartTime, $tagEndTime, $action, $content)
+    function addYtTags($videoId, $tagStartTime, $tagEndTime, $action, $content)
     {
-        $query = "INSERT INTO `yttags` SET `yttags`.`videoId`= '".$videoId."',`yttags`.`userId`='".$userId."', `yttags`.`start`= '".$tagStartTime."', `yttags`.`end`= '".$tagEndTime."', `yttags`.`action`= '".$action."', `yttags`.`content`= '".$content."' ";
+        $query = "INSERT INTO `yttags` SET `yttags`.`videoId`= '".$videoId."', `yttags`.`start`= '".$tagStartTime."', `yttags`.`end`= '".$tagEndTime."', `yttags`.`action`= '".$action."', `yttags`.`content`= '".$content."' ";
+        if($this->query($query)) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+    
+    /*
+     * Function: addVimeoTags,
+     * Description: adds Vimeo tags to the DB
+     */
+    function addVimeoTags($videoId, $tagStartTime, $tagEndTime, $action, $content)
+    {
+        $query = "INSERT INTO `vimeoTags` SET `vimeoTags`.`videoId`= '".$videoId."', `vimeoTags`.`start`= '".$tagStartTime."', `vimeoTags`.`end`= '".$tagEndTime."', `vimeoTags`.`action`= '".$action."', `vimeoTags`.`content`= '".$content."' ";
         if($this->query($query)) {
             return true;
         }else {
@@ -277,13 +302,6 @@ class DbConnector {
      * Function: disconnect
      * Description: Closes the DB connection
      */
-    function getFriendId($facebookID)
-    {
-        $query = "SELECT `id` FROM `users` WHERE `users`.`facebookid` = '".$facebookID."' ";
-        return $this->getAllRows($query);
-
-    }
-
     function disconnect()
     {
         mysql_close($this->link);

@@ -1,34 +1,67 @@
-
-// triggered when search/load button is clicked 
-// performs task based on the user query and login status 
+// triggered when search/load button is clicked
+// performs task based on the user query and login status
 function processSearch() {
     //  http://youtu.be/FD44KytW4UU
     //  http://www.youtube.com/watch?v=FD44KytW4UU
     var query = $('#query').val();
-    
-    if(( query.search("youtu.be/") !== -1 ) || ( query.search("youtube.com/watch")  !== -1 )) {
+
+    if( query.search("vimeo.com/") !== -1 ) {
+        window.location = 'index.php?vimeoUrl=' + query;
+    } else if(( query.search("youtu.be/") !== -1 ) || ( query.search("youtube.com/watch")  !== -1 )) {
         window.location = 'index.php?ytUrl=' + query;
     } else {
         // as of now search only works when user is logged in
-        yTSearch();
+        yTSearch(0);
     }
 }
 
 // Get video data from youtube and display
-function yTSearch() {
+function yTSearch(pageNum) {
     var query = $('#query').val();
-    var data = 'q=' + query + '&key=' + YOUTUBE_DEVELOPER_KEY;
-    data = data + '&part=snippet&order=relevance&maxResults=25&type=video&videoSyndicated=true&videoEmbeddable=true&videoDimension=2d';
-    $.get("https://gdata.youtube.com/feeds/api/videos", data, function(response){
+    var url = "https://gdata.youtube.com/feeds/api/videos";
+    var startIndex = 25 * pageNum;
+    var data = 'q=' + query + '&key=' + YOUTUBE_DEVELOPER_KEY;    
+    data += '&part=snippet&order=relevance&maxResults=25&type=video&videoSyndicated=true&videoEmbeddable=true&videoDimension=2d';
+    
+    if(startIndex !== 0)
+        data += '&start-index=' + startIndex;
+    
+    console.log(url +  '?' + data);
+    $.get(url, data, function(response){
+        console.log(response);
         var htmlResult = '<table class="videoResults" align="center" style="cursor:pointer;">';
+        
+        // manipulate each video entry data 
         $(response).find('entry').each(function(){
             var videoId = $(this).find("id").text().split('/').slice(-1);
             var title = $(this).find("title").text();
-            var description = $(this).find("content").text();         
+            var description = $(this).find("content").text();
             var thumbnail = $(this).find('thumbnail').attr('url');
-            htmlResult += '<tr onclick="document.location = \'index.php?ytUrl=http://www.youtube.com/watch?v=' + videoId + '\'"><td><img src="' + thumbnail + '" alt="' + title + '"/></td><td id="info"><span>'+ '<span id="title">' + title + '</span><br/><span id="description">' + description + '</span></span></td></tr>';
+
+            if(title.length > 100) {
+                title = title.substr(0, 75) + '...';
+            }
+            if(description.length > 115) {
+                description = description.substr(0, 115) + '...';
+            }
+
+            htmlResult += '<tr onclick="document.location = \'index.php?ytUrl=http://www.youtube.com/watch?v=' + videoId + '\'">';
+            htmlResult += '<td><img src="' + thumbnail + '" alt="' + title + '"/></td>';
+            htmlResult += '<td id="info"><span>'+ '<span id="title">' + title + '</span><br/>';
+            htmlResult += '<span id="description">' + description + '</span></span></td></tr>';
         });
-        htmlResult += '</table>';        
-        $('#container').html(htmlResult);        
+        htmlResult += '</table>';
+        
+        // page navigation
+        htmlResult +=  '<div class="pageNav">';
+        htmlResult +=  '<img src="images/Button-Back-icon.png"';
+        if(pageNum !== 0)  
+            htmlResult +=  ' onClick="yTSearch(' + (pageNum - 1) + ')"  title="' + (pageNum) + '"';
+        htmlResult +=  ' alt="Previous Page"/>';        
+        htmlResult +=  '<p>&nbsp;&nbsp;'+ (pageNum + 1) + '&nbsp;&nbsp;</p>';
+        htmlResult +=  '<img src="images/Button-Next-icon.png" onClick="yTSearch(' + (pageNum + 1) + ')" alt="Next Page" title="' + (pageNum + 2) + '" />';
+        htmlResult +=  '</div>';
+        
+        $('#container').html(htmlResult);
     });
 }

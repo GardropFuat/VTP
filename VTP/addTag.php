@@ -19,6 +19,7 @@ if(empty($_POST['videoId'])) {
 }
 
 $videoId = $_POST['videoId'];
+$videoSource = $_POST['videoSource'];
 $tagStartTime = $_POST['tagStartTime'];
 $tagEndTime = $_POST['tagEndTime'];
 $tagType = $_POST['tagType'];
@@ -42,13 +43,10 @@ switch($tagType) {
                     $maxSize = 10;  //  MB
                     if($imageUpload->File($file, $directory, $fileName, $maxSize) != '') {
                         $isTagValid = false;
-
-                        echo "Incorrect Size or filetype ";
                     }
                     $content = $imageUpload->GetImagePath();
                 }else {
                     $isTagValid = false;
-                    echo "File image error != 0";
                 }
                 break;
             default:
@@ -65,7 +63,6 @@ switch($tagType) {
         break;
     case 'link':
         $isTagValid = false;
-        echo "Link";
         break;
     default:
         $isTagValid = false;
@@ -73,17 +70,16 @@ switch($tagType) {
 }
 
 if($isTagValid) {
-     //echo $videoId.";".$tagStartTime.";".$tagEndTime.";".$tagType.";".$content;
-     //echo $_POST['userId'];
     // Create new database instance
     $Db = new DbConnector();
-    if($Db->addYtTags($videoId, $_POST['userId'], $tagStartTime, $tagEndTime, $tagType, $content)) {
-        header("Location: index.php?ytUrl=http://www.youtube.com/watch?v=".$_POST['videoId']."&rel=0");
-    }else {
-        header("Location: index.php?ytUrl=http://www.youtube.com/watch?v=".$_POST['videoId']."&rel=0"); 
+    if($videoSource == 'vimeo') {
+        $Db->addVimeoTags($videoId, $tagStartTime, $tagEndTime, $tagType, $content);
+    }else if($videoSource == 'youtube'){
+        $Db->addYtTags($videoId, $tagStartTime, $tagEndTime, $tagType, $content);
     }
+    header("Location: index.php"); 
 }else {
     echo 'Error: contact admin';
 }
-
+die();
 ?>

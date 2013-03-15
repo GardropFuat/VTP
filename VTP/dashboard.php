@@ -7,26 +7,13 @@
  * Last Modified:  Anudeep 10/25
  * Copyright:      Echostar Systems @ http://www.echostar.com/
  */
-
-$ytUrl = (empty($_REQUEST['ytUrl'])) ? "http://www.youtube.com/watch?v=kweUVUCYRa8" : $_REQUEST['ytUrl']; 
-$videoId = getYtVideoId($ytUrl);
-//  get video title from youtube
-$videoData = file_get_contents("http://youtube.com/get_video_info?video_id=".$videoId);
-parse_str($videoData, $videoData);
-$videoTitle = $videoData['title'];
-
-$videoLink = "https://www.youtube.com/v/".$videoId."?version=3&enablejsapi=1";
-$playerHeight = 340;
-$playerWidth = 640;
-//print_r($_SESSION);
 ?>
-
 <div id="container">
     <div id="contentTop">
-        <div class="videoTitle"><?= $videoTitle; ?></div>
+        <div class="videoTitle" id="videoTitle"><?= $videoTitle; ?></div>
         <div id="playerDiv" style="width:50%">
             <div id="playerFrame">
-                <!-- will be replaced by Video from Popcorn javaScript-->
+                <!-- will be replaced by Video from Popcorn javaScript(bodyJS.php) -->
             </div>
         </div>
         <div id="videoInfo"  style="height:<?= $playerHeight;?> px;width:50%;float:right;">
@@ -96,7 +83,6 @@ $playerWidth = 640;
                                 <td style="font-size:11px;">Drag and drop the marker to the prefered location</td>
                                 <td style="display:none;">
                                     <!-- Hidden Stuff for form data-->
-                                    <input type="text" name="userId" id="userId" value="<?php echo $_SESSION['vtpUserId']?>">
                                     <input type="text" name="lng" id="lng" value=''>
                                     <input type="text" name="lat" id="lat" value=''>
                                 </td>
@@ -113,7 +99,8 @@ $playerWidth = 640;
                     </table>
                     <br/>
                     <div id="addTagFormError" class="error"></div>
-                    <input type="text" name="videoId" value="<?=$videoId;?>" style="display:none">
+                    <input type="text" name="videoId" id="videoId" value="" style="display:none">
+                    <input type="text" name="videoSource" id="videoSource" value="" style="display:none">
                     <img id="imgPreview" style="display:none;" onError="invalidImageUrl();" onLoad="validImageUrl();">
                     <input type="button" id="previewImgUrl" value="Preview" onClick="previewImgLink();"/>
                     <input type="submit" id="saveAddTagForm" value="Save"/>

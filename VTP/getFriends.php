@@ -10,27 +10,12 @@
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
 
-//session_start();
 
 
-//  set default time zone
-//date_default_timezone_set("America/Denver");
 
-//  display/hide PHP errors 0->hide , 1-> show(default)
-//ini_set('display_errors', 1);
-
-//include("includes/errorLog.php");
-include("libraries/facebook-api-php-client/facebook.php");
-//include("libraries/DbConnector.php");
-//include("includes/functions.php");
-
-// Create new database instance
-//$Db = new DbConnector();
-
-// Get user Favorites from DB
-//$userId = $_SESSION['vtpUserId'];
-//$fav = $Db->getFavorites($userId);
 include_once( "head_std.php" );
+
+include("libraries/facebook-api-php-client/facebook.php");
 ?>
 
 

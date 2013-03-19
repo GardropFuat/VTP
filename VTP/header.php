@@ -17,10 +17,16 @@ if(!empty($_SESSION['vtpUserId'])) {
         $addlBtn = '<li style="padding:10px;height:29px;"><img src="images/link_Google_Account.png" onClick="window.location.href = \'index.php?action=login&method=google\';" alt="Link Google Account" style="cursor:pointer;"/></li>';
     }else {
         $addlBtn = '';
-    }    
+    }   
+    if(empty($_SESSION['facebookId'])) {
+        $friendsOpnt = '<a href="#" onClick="alert(\'Please Login to Facebook to see Friends\');">Friends</a>';
+    }else{
+        $friendsOptn = '<a href="getFriends.php">Friends</a>';
+    }
     $favoriteOptn = '<a href="favorites.php">Favorites</a>';
     $uploadOptn = '<a href="AddVideo.php">Upload</a>';
 }else{
+    $friendsOpnt = '<a href="#" onClick="alert(\'Please Login to Facebook to see Friends\');">Friends</a>';
     $favoriteOptn = '<a href="#" onClick="alert(\'Please Login to see favorites\');">Favorites</a>';
     $uploadOptn = '<a href="#" onClick="alert(\'Please Login to upload videos\');">Upload</a>';
     $loginBtn = "<a href='#' data-dropdown='#loginDropdown'>Login</a>";
@@ -56,6 +62,7 @@ if(!empty($_SESSION['vtpUserId'])) {
                     <button id="search-button" onclick="processSearch();">Load/Search</button> 
                 </td>
                 <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td><?=$friendsOptn;?></td>
                 <td><?=$favoriteOptn;?></td>
 				<td><?=$uploadOptn;?></td>
                 <td><?=$loginBtn;?></td>

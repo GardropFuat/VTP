@@ -10,7 +10,7 @@
  */
 
 if(!empty($_SESSION['vtpUserId'])) {
-    $loginBtn = "<a href='#' data-dropdown='#logoutDropdown'>".$_SESSION['vtpUserName']."</a>";
+    $loginBtn = "<a href='#' data-dropdown='#logoutDropdown'>&nbsp;&nbsp;".$_SESSION['vtpUserName']."</a>";
     if(empty($_SESSION['facebookId'])) {
         $addlBtn = '<li style="padding:10px;height:29px;"><img src="images/link_Facebook_Account.png" onClick="window.location.href = \'index.php?action=login&method=facebook\';" alt="Link Facebook Account" style="cursor:pointer;"/></li>';
         $addlBtn = $addlBtn.'<li><hr style="padding-left: 10px;width: 125px;"></li>';
@@ -20,19 +20,16 @@ if(!empty($_SESSION['vtpUserId'])) {
     }else {
         $addlBtn = '';
     }    
-    
+        
     if(empty($_SESSION['facebookId'])) {
-        $friendsOpnt = '<a href="#" onClick="alert(\'Please Login to Facebook to see Friends\');">Friends</a>';
+        $friendsOptn = '<li style="padding: 10px;font-size: 15px;font-weight: bold;" onClick="alert(\'Please Login to Facebook to see Friends\');"><img src="images/friends.png" style="padding-bottom: 0px;width: 16px;"><span class="link"> Friends</span></li>';
     }else{
-        $friendsOptn = '<a href="getFriends.php">Friends</a>';
+        $friendsOptn = '<li style="padding: 10px;font-size: 15px;font-weight: bold;" onclick="window.location.href = \'getFriends.php\';"><img src="images/friends.png" style="padding-bottom: 0px;width: 16px;"><span class="link"> Friends</span></li>';
     }
-    $favoriteOptn = '<a href="favorites.php">Favorites</a>';
-    $uploadOptn = '<a href="AddVideo.php">Upload</a>';
+    $favoriteOptn = '<li style="padding: 10px;font-size: 15px;font-weight: bold;" onclick="window.location.href = \'favorites.php\';"><img src="images/favorites.png" style="padding-bottom: 0px;width: 16px;"><span class="link"> Favorites</span></li>';
+    $uploadOptn = '<li style="padding: 10px;font-size: 15px;font-weight: bold;" onclick="window.location.href = \'AddVideo.php\';"><img src="images/upload.png" style="padding-bottom: 0px;width: 16px;"><span class="link"> Upload</span></li>';
 }else{
-    $friendsOpnt = '<a href="#" onClick="alert(\'Please Login to Facebook to see Friends\');">Friends</a>';
-    $favoriteOptn = '<a href="#" onClick="alert(\'Please Login to see favorites\');">Favorites</a>';
-    $uploadOptn = '<a href="#" onClick="alert(\'Please Login to upload videos\');">Upload</a>';
-    $loginBtn = "<a href='#' data-dropdown='#loginDropdown'>Login</a>";
+    $loginBtn = "<a href='#' data-dropdown='#loginDropdown' style='padding-left:10px;'>Login</a>";
 }
 ?>
 <!----   include Dialog Boxes here      --->
@@ -52,22 +49,24 @@ if(!empty($_SESSION['vtpUserId'])) {
     <div id="logoutDropdown" class="dropdown-menu has-tip">
         <ul>
             <?=$addlBtn;?>
-            <li style="padding: 10px;" align="center"><span onClick="window.location.href = 'login.php?login=logout';" class="link"><img src="images/logout-icon-16.png" style="padding:0px;">Logout</span></li>
+            <?=$friendsOptn;?>
+            <?=$favoriteOptn;?>
+            <?=$uploadOptn;?>
+            <li style="padding: 10px;font-size: 15px;font-weight: bold;" onclick="window.location.href = 'login.php?login=logout';">
+                <img src="images/logout-icon-16.png" style="padding-bottom: 0px;width: 16px;">
+                <span class="link"> Logout</span>
+            </li>
         </ul>
     </div>
 
 <!----        Header      ----->
-<div class="headerTable">
-    <form class="form" onSubmit="processSearch();">
-        <p style="margin:0px;">
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <input type="text" style="width:400px;" id="query" value=''/>
-            <input type="submit" id="search-button" value="Load/Search" style="width:100px;"/>
-            <?=$friendsOptn;?>
-            <?=$favoriteOptn;?>
-            <?=$uploadOptn;?>
-            <?=$loginBtn;?>
-        </p>
-    </form>
-</div>
-    
+    <div class="headerTable">
+        <div class="form">
+            <p style="margin:0px;">
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" style="width:550px;" id="query" value=''/>
+                <input type="submit" id="search-button" value="Load/Search" style="width:100px;" onClick="processSearch();"/>
+                <?=$loginBtn;?>
+            </p>
+        </div>
+    </div>

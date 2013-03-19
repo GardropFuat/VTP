@@ -208,7 +208,8 @@ function validateTagInfo() {
 function make_favorite() {
     var user = "<?php echo $_SESSION['vtpUserId'];?>";
     var video = "<?php echo $videoId;?>";
-    $('#favLink').html("Currently in Favorites");
+    //$('#favLink').html("Currently in Favorites");
+    $('#favLink').slideUp();
     var query = "r=" + video;
     $.post("MakeFav.php", query, function(theResponse){
         console.log(theResponse);
@@ -263,7 +264,23 @@ function invalidImageUrl() {
     $('#addTagFormError').html(formError[1]);
 }
 $(function() {
-    $( "#tagDescription" ).draggable({ axis: "y" });
+    $( "#tagDescription" ).draggable({
+        drag: function(){
+            var offset = $(this).offset();
+            var xPos = offset.left;
+            var yPos = offset.top;
+        },
+        stop: function(){
+            var finalOffset = $(this).offset();
+            var finalxPos = finalOffset.left;
+            var finalyPos = finalOffset.top;
+            $.post("../CapturePos.php", { data: finalxPos} );
+        }
+    });
+  });
+
+$(function() {
+    $( "#playerFrame" ).draggable();
   });
 
 </script>

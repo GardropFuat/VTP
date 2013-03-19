@@ -123,6 +123,12 @@
     </div>
     <div id="addFavorite"> 
         <?php
+        //print_r ($_POST);
+        $videoId = getYtVideoId($_POST['ytUrl']);
+        if(!isset($videoId)){
+            $videoId = getYtVideoId($_GET['ytUrl']);
+        }
+
         if (!empty($_SESSION['vtpUserId'])) {
             if(checkFavorite($_SESSION['vtpUserId'], $videoId)){
                 echo "Currently in favorites";

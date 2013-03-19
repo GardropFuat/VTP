@@ -263,7 +263,11 @@ function invalidImageUrl() {
     $('#addTagFormError').html(formError[1]);
 }
 $(function() {
-    $( "#tagDescription" ).draggable({ axis: "y" });
+    $( "#tagDescription" ).draggable();
+  });
+
+$(function() {
+    $( "#playerDiv" ).draggable();
   });
 
 </script>

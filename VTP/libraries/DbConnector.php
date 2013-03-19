@@ -311,6 +311,18 @@ class DbConnector {
 
     }
 
+    function setContainerPos($Posx, $userId)
+    {
+        $query = "INSERT INTO ContainerPos (userId, tagContainer) VALUES( \"".$userId."\",\"".$Posx."\")";
+        if($this->query($query)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+
+    }
+
     /*
      * Function: disconnect
      * Description: Closes the DB connection

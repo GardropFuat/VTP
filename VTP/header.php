@@ -13,11 +13,14 @@ if(!empty($_SESSION['vtpUserId'])) {
     $loginBtn = "<a href='#' data-dropdown='#logoutDropdown'>".$_SESSION['vtpUserName']."</a>";
     if(empty($_SESSION['facebookId'])) {
         $addlBtn = '<li style="padding:10px;height:29px;"><img src="images/link_Facebook_Account.png" onClick="window.location.href = \'index.php?action=login&method=facebook\';" alt="Link Facebook Account" style="cursor:pointer;"/></li>';
+        $addlBtn = $addlBtn.'<li><hr style="padding-left: 10px;width: 125px;"></li>';
     }else if(empty($_SESSION['googleId'])) {
         $addlBtn = '<li style="padding:10px;height:29px;"><img src="images/link_Google_Account.png" onClick="window.location.href = \'index.php?action=login&method=google\';" alt="Link Google Account" style="cursor:pointer;"/></li>';
+        $addlBtn = $addlBtn.'<li><hr style="padding-left: 10px;width: 125px;"></li>';
     }else {
         $addlBtn = '';
-    }   
+    }    
+    
     if(empty($_SESSION['facebookId'])) {
         $friendsOpnt = '<a href="#" onClick="alert(\'Please Login to Facebook to see Friends\');">Friends</a>';
     }else{
@@ -49,24 +52,22 @@ if(!empty($_SESSION['vtpUserId'])) {
     <div id="logoutDropdown" class="dropdown-menu has-tip">
         <ul>
             <?=$addlBtn;?>
-            <li style="padding: 10px;"><span onClick="window.location.href = 'login.php?login=logout';" class="link">Logout</span></li>
+            <li style="padding: 10px;" align="center"><span onClick="window.location.href = 'login.php?login=logout';" class="link"><img src="images/logout-icon-16.png" style="padding:0px;">Logout</span></li>
         </ul>
     </div>
 
 <!----        Header      ----->
-    <div class='header'>
-        <table class="headerTable">
-            <tr>
-                <td>
-                    <input id="query" value='' type="text" style="width:400px;"/> 
-                    <button id="search-button" onclick="processSearch();">Load/Search</button> 
-                </td>
-                <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td><?=$friendsOptn;?></td>
-                <td><?=$favoriteOptn;?></td>
-				<td><?=$uploadOptn;?></td>
-                <td><?=$loginBtn;?></td>
-            </tr>
-        </table>
-    </div>
+<div class="headerTable">
+    <form class="form" onSubmit="processSearch();">
+        <p style="margin:0px;">
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" style="width:400px;" id="query" value=''/>
+            <input type="submit" id="search-button" value="Load/Search" style="width:100px;"/>
+            <?=$friendsOptn;?>
+            <?=$favoriteOptn;?>
+            <?=$uploadOptn;?>
+            <?=$loginBtn;?>
+        </p>
+    </form>
+</div>
     

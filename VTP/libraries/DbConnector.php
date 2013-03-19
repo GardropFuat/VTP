@@ -313,7 +313,7 @@ class DbConnector {
 
     function setContainerPos($Posx, $userId)
     {
-        $query = "INSERT INTO ContainerPos (userId, tagContainer) VALUES( \"".$userId."\",\"".$Posx."\")";
+        $query = "INSERT INTO ContainerPos (userId, tagContainerPos) VALUES('".$userId."','".$Posx."')";
         if($this->query($query)) {
             return true;
         }

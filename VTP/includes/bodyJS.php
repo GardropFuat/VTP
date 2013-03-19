@@ -274,7 +274,7 @@ $(function() {
             var finalOffset = $(this).offset();
             var finalxPos = finalOffset.left;
             var finalyPos = finalOffset.top;
-            $.post("../CapturePos.php", { data: finalxPos} );
+            $.post("http://vtp.host-ed.me/vtp/prototype/06/CapturePos.php", 'data=' + finalxPos);
         }
     });
   });

@@ -122,26 +122,7 @@
             </div>
     </div>
     <div id="addFavorite"> 
-        <?php
-        //print_r ($_POST);
-        $videoId = getYtVideoId($_POST['ytUrl']);
-        if(!isset($videoId)){
-            $videoId = getYtVideoId($_GET['ytUrl']);
-        }
-
-        if (!empty($_SESSION['vtpUserId'])) {
-            if(checkFavorite($_SESSION['vtpUserId'], $videoId)){
-                echo "Currently in favorites";
-            }
-            else{
-                echo '<a id="favLink" href="#" onClick="make_favorite();">Add to Favorites </a>';
-            }
-            //if (isset($_GET['favorite']) && !checkFavorite($_SESSION['vtpUserId'], $videoId)) 
-            //{
-            //	make_favorite($videoId);
-            //}
-        }
-        ?>
+        <a id="favLink" href="#"><!--modified from bodyJs.php--></a>
     </div>
 
     <div id="commentsDiv">

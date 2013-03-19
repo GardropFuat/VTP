@@ -29,6 +29,14 @@ if(!empty($_REQUEST['vimeoUrl'])) {
     echoScript("$('[name=videoId]').attr('value', '".$videoId."')");
     echoScript("$('[name=videoSource]').attr('value', '".$videoSource."')");
     
+    // Check if video is favorite
+    $isFavorite = $Db->isFavorite($userId, $videoId);
+    if( $userId && $isFavorite ) {
+        echoScript('$("#favLink").html("Currently in favorites").attr("onClick", "")');
+    }else {
+        echoScript('$("#favLink").html("Add to Favorites").attr("onClick", "make_favorite())');
+    }
+    
     // generate player and set actions
     $viemoContent = generateVimeoVideoScript($videoId);
     echoScript( $viemoContent );
@@ -50,6 +58,14 @@ if(!empty($_REQUEST['vimeoUrl'])) {
     echoScript("$('#videoTitle').text('".$videoTitle."')");
     echoScript("$('[name=videoId]').attr('value', '".$videoId."')");
     echoScript("$('[name=videoSource]').attr('value', '".$videoSource."')");
+    
+    // Check if video is favorite
+    $isFavorite = $Db->isFavorite($userId, $videoId);
+    if( $userId && $isFavorite ) {
+        echoScript('$("#favLink").html("Currently in favorites").attr("onClick", "")');
+    }else {
+        echoScript('$("#favLink").html("Add to Favorites").attr("onClick", "make_favorite())');
+    }
     
     // generate player and set actions
     $ytContent = generateYTVideoScript($videoId);

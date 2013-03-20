@@ -21,27 +21,26 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     $vimeoUrl = $_REQUEST['vimeoUrl'];
     $videoSource = 'vimeo';
     $videoId = getViemoVideoId($vimeoUrl);
-    
+
     //  get video title from vimeo
     $videoData = simplexml_load_file("http://vimeo.com/api/v2/video/".$videoId.".xml");
     $videoTitle = $videoData->video->title;
-    
+
     $videoLink = "http://player.vimeo.com/video/".$vimeoUrl;
-    
+
     // set player height and width & update video Info
     echoScript("$('#playerFrame').height(".$playerHeight.").width(".$playerWidth.")");
     echoScript("$('#videoTitle').text('".$videoTitle."')");
     echoScript("$('[name=videoId]').attr('value', '".$videoId."')");
     echoScript("$('[name=videoSource]').attr('value', '".$videoSource."')");
-    
+
         // Check if video is favorite
     $isFavorite = $Db->isFavorite($userId, $videoId);
     if( $userId && $isFavorite ) {
         echoScript('$("#favLink").html("Currently in favorites").attr("onClick", "")');
     }else {
         echoScript('$("#favLink").html("Add to Favorites").attr("onClick", "make_favorite()")');
-   }
-
+    }
 
     // generate player and set actions
     $viemoContent = generateVimeoVideoScript($videoId);

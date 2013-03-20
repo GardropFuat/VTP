@@ -311,14 +311,16 @@ class DbConnector {
 
     }
 
-    function setContainerPos($Posx, $userId)
+    function setContainerPos($Posx, $Posy,$container_type, $userId)
     {
-        $query = "INSERT INTO ContainerPos (userId, tagContainerPos) VALUES('".$userId."','".$Posx."')";
-        if($this->query($query)) {
-            return true;
+        $query = "SELECT `userId` FROM `ContainerPos` WHERE `ContainerPos`.`userId` = '".$userId."' ";
+        if($this->getAllRows($query) ) {
+            $query = "UPDATE `ContainerPos` SET `".$container_type."_x` = '".$Posx."', `".$container_type."_y` = '".$Posy."' WHERE `ContainerPos`.`userId` = '".$userId."' ";
+            $this->query($query);
         }
         else {
-            return false;
+            $query = "INSERT INTO `ContainerPos` (`userId`, `".$container_type."_x`, `".$container_type."_y`) VALUES('".$userId."','".$Posx."','".$Posy."')";
+            $this->query($query);
         }
 
     }

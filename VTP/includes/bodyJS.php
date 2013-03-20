@@ -288,13 +288,64 @@ $(function() {
             var finalOffset = $(this).offset();
             var finalxPos = finalOffset.left;
             var finalyPos = finalOffset.top;
-            $.post("http://vtp.host-ed.me/vtp/prototype/06/CapturePos.php", 'data=' + finalxPos);
+            var container_type = "tagContainer1"
+            $.post("CapturePos.php", 'data=' + finalxPos+ '&data2=' + finalyPos +'&data3=' +container_type );
         }
     });
   });
 
 $(function() {
-    $( "#playerFrame" ).draggable();
+    $( "#playerFrame" ).draggable({
+        drag: function(){
+            var offset = $(this).offset();
+            var xPos = offset.left;
+            var yPos = offset.top;
+        },
+        stop: function(){
+            var finalOffset = $(this).offset();
+            var finalxPos = finalOffset.left;
+            var finalyPos = finalOffset.top;
+            var container_type = "player"
+            $.post("CapturePos.php", 'data=' + finalxPos+ '&data2=' + finalyPos +'&data3=' +container_type );
+        }
+    });
   });
+
+
+$(function() {
+    $( "#commentsTbl" ).draggable({
+        drag: function(){
+            var offset = $(this).offset();
+            var xPos = offset.left;
+            var yPos = offset.top;
+        },
+        stop: function(){
+            var finalOffset = $(this).offset();
+            var finalxPos = finalOffset.left;
+            var finalyPos = finalOffset.top;
+            var container_type = "comment"
+            $.post("CapturePos.php", 'data=' + finalxPos+ '&data2=' + finalyPos +'&data3=' +container_type );
+        }
+    });
+  });
+
+$(function() {
+    $( "#videoTitle" ).draggable({
+        drag: function(){
+            var offset = $(this).offset();
+            var xPos = offset.left;
+            var yPos = offset.top;
+        },
+        stop: function(){
+            var finalOffset = $(this).offset();
+            var finalxPos = finalOffset.left;
+            var finalyPos = finalOffset.top;
+            var container_type = "comment"
+            $.post("CapturePos.php", 'data=' + finalxPos+ '&data2=' + finalyPos +'&data3=' +container_type );
+        }
+    });
+  });
+
+
 
 </script>

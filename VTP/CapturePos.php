@@ -3,9 +3,7 @@
 include_once( "head_std.php" );
 
 $userId = $_SESSION['vtpUserId'];
-$fav = $Db->setContainerPos($_POST['data'], $userId);
-
-echo ($userId);
-print_r($_POST);
+$fav = $Db->setContainerPos($_POST['data'], $_POST['data2'],$_POST['data3'],$userId);
+//$fav = $Db->setContainerPos('200', $userId);
 
 ?>

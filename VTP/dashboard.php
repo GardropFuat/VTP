@@ -110,6 +110,7 @@
             <div id="tagDescription" style="overflow-y:auto;"><!-- Display Picture/Other tags here--></div>
         </div>
     </div>
+
     <div id="tagControls" style="width:50%">
             Show Tags:
             <input type="radio" name="tagFilter"/>None
@@ -122,8 +123,28 @@
             </div>
     </div>
     <div id="addFavorite"> 
-        <a id="favLink" href="#"><!--modified from bodyJs.php--></a>
+        <?php
+        //print_r ($_POST);
+        $videoId = getYtVideoId($_POST['ytUrl']);
+        if(!isset($videoId)){
+            $videoId = getYtVideoId($_GET['ytUrl']);
+        }
+
+        if (!empty($_SESSION['vtpUserId'])) {
+            if(checkFavorite($_SESSION['vtpUserId'], $videoId)){
+                echo "Currently in favorites";
+            }
+            else{
+                echo '<a id="favLink" href="#" onClick="make_favorite();">Add to Favorites </a>';
+            }
+            //if (isset($_GET['favorite']) && !checkFavorite($_SESSION['vtpUserId'], $videoId)) 
+            //{
+            //	make_favorite($videoId);
+            //}
+        }
+        ?>
     </div>
+
 
     <div id="commentsDiv">
         <div id="commentsTbl">

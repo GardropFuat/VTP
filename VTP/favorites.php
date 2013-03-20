@@ -8,18 +8,18 @@
  * Last Modified:   Travis 3/05/13
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
-include("libraries/facebook-api-php-client/facebook.php");
 include_once( "head_std.php" );
-$test = $userId[0];
+
 $fav = $Db->getFavorites($_SESSION['vtpUserId']);
 
-$facebook = new Facebook(array(
-                'appId'  => '200590423408456',
-                'secret' => '22eae2f5ee955789dcf2529993a04ca6',
-            ));
+if(!empty($_SESSION['facebookId'])) {
+    $profileImg = '<img src="http://graph.facebook.com/'.$_SESSION['facebookId'].'/picture" height="100" width"100"><br>';
+}else if(!empty($_SESSION['googleId'])){
+    $profileImg = '<img src="'.$_SESSION['googleProfileImg'].'" height="100" width"100"><br>';
+}else {
+    die('Restricted access. Contact administrator.');
+}
 
-$facebook = $facebook->api('me');
-//$("#mydiv").width(width);
 ?>
         
             <script type='text/javascript'>
@@ -31,9 +31,10 @@ $facebook = $facebook->api('me');
             </script>
 
 
-            <h1><?php echo $facebook["name"]; ?></h1>
-            <?php echo ('<img src="http://graph.facebook.com/'.$facebook['id'].'/picture" height="100" width"100"><br>');
-            echo('<a href='.$facebook['link'].'>View Facebook Profile</a><br>');
+            <h1><?php echo $_SESSION['vtpUserName']; ?></h1>
+            <?=$profileImg;?>
+            <?php
+            //  echo('<a href='.$facebook['link'].'>View Facebook Profile</a><br>');
             ?>
 
             <div id="profileContainer">

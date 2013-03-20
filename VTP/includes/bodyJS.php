@@ -12,7 +12,12 @@
 $playerHeight = 340;
 $playerWidth = 640;
 
-if(!empty($_REQUEST['vimeoUrl'])) {
+// find the requsted
+$requestedPage = explode('/', $_SERVER['SCRIPT_NAME']);
+$requestedPage = end($requestedPage);
+
+
+if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     $vimeoUrl = $_REQUEST['vimeoUrl'];
     $videoSource = 'vimeo';
     $videoId = getViemoVideoId($vimeoUrl);
@@ -34,7 +39,7 @@ if(!empty($_REQUEST['vimeoUrl'])) {
     if( $userId && $isFavorite ) {
         echoScript('$("#favLink").html("Currently in favorites").attr("onClick", "")');
     }else {
-        echoScript('$("#favLink").html("Add to Favorites").attr("onClick", "make_favorite())');
+        echoScript('$("#favLink").html("Add to Favorites").attr("onClick", "make_favorite()")');
    }
 
 
@@ -42,8 +47,9 @@ if(!empty($_REQUEST['vimeoUrl'])) {
     $viemoContent = generateVimeoVideoScript($videoId);
     echoScript( $viemoContent );
     
-}else {
-    $ytUrl = (empty($_REQUEST['ytUrl'])) ? "http://www.youtube.com/watch?v=kweUVUCYRa8" : $_REQUEST['ytUrl']; 
+}else if( !empty( $_REQUEST['ytUrl'] ) && ($requestedPage == 'index.php') ) {
+    // $ytUrl = (empty($_REQUEST['ytUrl'])) ? "http://www.youtube.com/watch?v=kweUVUCYRa8" : $_REQUEST['ytUrl']; 
+    $ytUrl = $_REQUEST['ytUrl']; 
     $videoSource = 'youtube';
     
     $videoId = getYtVideoId($ytUrl);
@@ -63,11 +69,13 @@ if(!empty($_REQUEST['vimeoUrl'])) {
     if( $userId && $isFavorite ) {
         echoScript('$("#favLink").html("Currently in favorites").attr("onClick", "")');
     }else {
-        echoScript('$("#favLink").html("Add to Favorites").attr("onClick", "make_favorite())');
+        echoScript('$("#favLink").html("Add to Favorites").attr("onClick", "make_favorite()")');
     }
     // generate player and set actions
     $ytContent = generateYTVideoScript($videoId);
     echoScript( $ytContent );
+} else {
+    echoScript( "var loadSearch = true;" );
 }
 ?>
 
@@ -79,6 +87,10 @@ var isImgUrlTested = false;
 
 $(document).ready(function() {
     imageSrcChange('webLink');
+    if(loadSearch)
+    {
+        processSearch();
+    }
 });
 
 /*

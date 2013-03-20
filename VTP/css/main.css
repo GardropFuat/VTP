@@ -5,35 +5,24 @@ a {
 
 a:hover{
     /*
-    color: #FF0000;  
+    color: #FF0000;
     text-decoration: underline;
     */
 }
 
-/*
+#addTagForm p{
+    float: left;
+    padding-left: 100px;
+}
+
 body {
     color: #111111;
     font-family: 'Droid Sans',sans-serif;
-    background-image: url('../images/background.png');
-    background-repeat: repeat-y;
-	background-image: url('../images/Picture1.png');
-}
-*/
-body {
-   /* color: rgb(230,230,230);*/
-	color: black;
-    font-family: 'Droid Sans',sans-serif;
-	background-color: rgb(210,210,210);
-    background-image: url('../images/Picture1.png'),url('../images/background2.jpg');
-    background-repeat: no-repeat,repeat-x;
-	
-}
-h1{
-	color: rgb(230,230,230);
+    background-color: #f1f1f1;
 }
 
-.clear { 
-    clear: both; 
+.clear {
+    clear: both;
 }
 
 #container{
@@ -79,19 +68,58 @@ h1{
 
 }
 
-img {
-    padding-bottom: 25px;
-    max-height: 340px;
-    max-width: 500px;
+.form h1,h2,h3,h4,h5,h6{
+    color:  rgba(0, 0, 0, 0.37);
+    margin: 0px;
+}
+
+.form input[type="text"], input[type="button"], input[type="submit"], textarea {
+    padding: 9px;
+    border: solid 1px #E5E5E5;
+    outline: 0;
+    font: normal 13px/100% Verdana, Tahoma, sans-serif;
+    width: 380px;
+    background: #FFFFFF;
+    box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+    -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+    -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+}
+
+.form label {
+    margin-left: 10px;
+    color: #999999;
+}
+
+.form select {
+    margin-right: 215px;
+}
+
+h1{
+	color: rgb(230,230,230);
 }
 
 .headerTable{
     width:  800px;
     margin-right: auto;
     margin-left: auto;
-    background-color: #c8cdd3;
+    /*  background-color: #c8cdd3;  */
     border-radius:25px;
     -moz-border-radius:25px; /* Firefox 3.6 and earlier */
+}
+
+img {
+    padding-bottom: 25px;
+    max-height: 340px;
+    max-width: 500px;
+}
+
+input:hover, input:focus, textarea:hover, textarea:focus {
+    border-color: #C9C9C9;
+    
+}
+
+input:disabled {
+    color: #999999;
 }
 
 .link{
@@ -103,8 +131,8 @@ img {
 }
 
 .map{
-    height: 300px; 
-    width:300px; 
+    height: 300px;
+    width:300px;
 }
 
 .optionsTable tr {
@@ -133,6 +161,15 @@ img {
 
 #playerDiv{
     float: left;
+}
+
+.submit input {
+    width: auto;
+    padding: 9px 15px;
+    background: #617798;
+    border: 0;
+    font-size: 14px;
+    color: #FFFFFF;
 }
 
 #tagDescription{
@@ -166,9 +203,12 @@ img {
 }
 
 .videoResults{
-    width: 450px;    
+    width: 450px;
 }
 
+.videoResults tr:hover{
+    background-color: #d8d8d8;
+}
 .videoResults img{
     float: left;
     width: 185px;
@@ -189,38 +229,3 @@ img {
     font-size: 12px;
     color: #707070;
 }
-
-.form input, textarea {   
-    padding: 9px;  
-    border: solid 1px #E5E5E5;  
-    outline: 0;  
-    font: normal 13px/100% Verdana, Tahoma, sans-serif;  
-    width: 380px;  
-    background: #FFFFFF;  
-    box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;  
-    -moz-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;  
-    -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
-}  
-   
- 
-input:hover, textarea:hover, input:focus, textarea:focus {   
-    border-color: #C9C9C9;   
-}  
-  
-.form label {   
-    margin-left: 10px;   
-    color: #999999;   
-}  
-
-.form select {
-    margin-right: 215px;    
-}
-  
-.submit input {  
-    width: auto;  
-    padding: 9px 15px;  
-    background: #617798;  
-    border: 0;  
-    font-size: 14px;  
-    color: #FFFFFF;  
-}  

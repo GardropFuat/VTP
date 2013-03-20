@@ -8,7 +8,10 @@
  * Last Modified:   
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
-
+?>
+        <?php //script for search bar ?>
+        <script src="includes/search.js"></script>
+        <?php
             // bodyJS.php should be at the end of the page
             include("includes/bodyJS.php");
         ?>

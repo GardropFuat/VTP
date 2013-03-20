@@ -82,7 +82,11 @@ if(isset( $_GET['id']) && isset($_GET['status']))
                     <input type="text" name="video_keywords"/>
                 </p>
                 <p>
-                    <input type="submit" value="Proceed to Step 2" style="width:180px;"/>
+                    <label style="padding-left:10px;"><input type="checkbox" name="disclaimer"/>Allow VTP to upload this video into YouTube</label>                    
+                </p>
+                <p>
+                    <input type="submit" id="submitBtn" value="Proceed to Step 2" style="width:180px;" disabled/>
+                    <input type="button" value="Cancel" onClick="window.location='index.php'" style="width:100px;"/>
                 </p>
             </form> <!-- /form -->
         </div>
@@ -99,11 +103,11 @@ if(isset( $_GET['id']) && isset($_GET['status']))
                 <td style="float:right;"><label>Description&nbsp;</label></td>
                 <td><span style="width:380px;"><?=$video_description;?></span></td>
             </tr>
-            <form action="<?php echo( $response->url ); ?>?nexturl=<?=$nexturl;?>" method="post" enctype="multipart/form-data">
+            <form action="<?php echo( $response->url ); ?>?nexturl=<?=$nexturl;?>" method="post" onSubmit='return validateFile();' enctype="multipart/form-data">
             <tr class="block">
                 <td style="float:right;padding-top:10px;"><label>Upload Video</label></td>
                 <td><span class="youtube-input">
-                    <input id="file" type="file" name="file" />
+                    <input id="file" type="file" name="file" accept='video/*'/>
                 </span></td>
             </tr>
             </table>
@@ -115,29 +119,46 @@ if(isset( $_GET['id']) && isset($_GET['status']))
         </div>
 <!-- Final Step -->
 <?php elseif( isset($unique_id)  && $status = '200' ) : ?>
-        <div id="video-success">
+        <div id="video-success" class="form">
             <h4>Video Successfully Uploaded!</h4>
-            <form action="index.php" method="post">
-                <p>Here is your url to view your video in YouTube:<a href="http://www.youtube.com/watch?v=<?php echo $unique_id; ?>" target="_blank">http://www.youtube.com/watch?v=<?php echo $unique_id; ?></a></p>
-                <p>The video should be up any moment but could take up to 3 hours to be finished, Please Be Patient.
-                <input type="hidden" name="ytUrl" value="http://www.youtube.com/watch?v=<?php echo $unique_id; ?>"/>
-                <input type="submit" value="Finish" />
+            <p>Here is your url to view your video on VTP: <a href="index.php?ytUrl=http://www.youtube.com/watch?v=<?php echo $unique_id; ?>" target="_SELF">here</a></p>
+            <p>The video should be up any moment but could take up to 3 hours to be finished, Please Be Patient.</p>
+            <p><input type="hidden" name="ytUrl" value="http://www.youtube.com/watch?v=<?php echo $unique_id; ?>"/></p>
+            <input type="button" value="Finish" onClick="window.location='index.php'"/>
         </div> <!-- /div#video-success -->
 <?php
-  endif;
+    endif;
 
-if(isset($videoEntry)) {
-    $state = $videoEntry->getVideoState();
-    if (isset($state)) {
-        echo 'Upload status for video ID ' . $videoEntry->getVideoId() . ' is ' .
-        $state->getName() . ' - ' . $state->getText() . "\n";
-    } else {
-        echo "Not able to retrieve the video status information yet. " .
-                    "Please try again later.\n";
+    if(isset($videoEntry)) {
+        $state = $videoEntry->getVideoState();
+        if (isset($state)) {
+            echo 'Upload status for video ID ' . $videoEntry->getVideoId() . ' is ' .
+            $state->getName() . ' - ' . $state->getText() . "\n";
+        } else {
+            echo "Not able to retrieve the video status information yet. " .
+                        "Please try again later.\n";
+        }
     }
-}
 ?>
+
 <script src="includes/GoogleAuth.js"></script>
+
+<script>
+    $('[name=disclaimer]').change(function() {
+        if(this.checked) {
+            $('#submitBtn').attr('disabled', false);
+        }else {
+            $('#submitBtn').attr('disabled', true);
+        }
+    });
+    
+    function  validateFile(){
+        if($('#file').val() !== '')
+            return true;
+        return false;
+    }
+</script>
+
 <?php
     include_once( 'tail_std.php' );
 ?>

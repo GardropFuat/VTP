@@ -62,7 +62,7 @@ body {
 
 .favVideoThumbnail {
     float: left;
-}
+    }
 
 .favVideoTitle {
 
@@ -99,7 +99,7 @@ h1{
 }
 
 .headerTable{
-    width:  800px;
+    width:  825px;
     margin-right: auto;
     margin-left: auto;
     /*  background-color: #c8cdd3;  */

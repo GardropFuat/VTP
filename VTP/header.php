@@ -62,6 +62,7 @@ if(!empty($_SESSION['vtpUserId'])) {
     <div class="headerTable">
         <div class="form">
             <p>
+                <input type="button" value="" style="width: 40px;background-image: url('images/home.png');background-repeat: no-repeat;background-position:center;" onclick="window.location='index.php'">
                 <input type="text" style="width:550px;" id="query" value=''/>
                 <input type="submit" id="search-button" value="Search/Load URL" style="width:100px;" onClick="processSearch();"/>
                 <?=$loginBtn;?>

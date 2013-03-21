@@ -30,8 +30,7 @@
                 <a id="favLink" href="#"></a>
             </div>
             <div id="commentsDiv">
-                <div id="commentsTbl">
-                    No Comments
+                <div id="commentsTbl">                    
                 </div>
             </div>
         </div>
@@ -86,7 +85,7 @@
                         <input type="text" name="lng" id="lng" value='' style="display:none;">
                         <input type="text" name="lat" id="lat" value='' style="display:none;">
                     </p>
-                    <p class="mapTr map" id="map_canvas"style="display:none;"></p>
+                    <p class="mapTr map" id="map_canvas"style="display:none;margin-left: 150px;"></p>
                     <p class="linkTr" style="display:none;">
                         <label style="padding-left:50px;">Url:</label>
                         <input name="webLink" id="webLink" placeholder="http://www.google.com" style="width:150px;"/>

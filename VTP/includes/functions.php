@@ -49,25 +49,15 @@ function imageTagJs($videoTag) {
 }
 
 function commentTagJs($videoTag) {
-    // $script = "video.timeline({
-                    // start: ".$videoTag['start'].",
-                    // target: 'commentsTbl',
-                    // title: '',
-                    // text: '".$videoTag['content']."',
-                    // innerHTML: ''                    
-                // });";
-    // return $script;    
-
-    $script = 'video.timeline({
-                start: 1,
-                target: "commentsTbl",
-                title: "This is a title",
-                text: "this is some interesting text that goes inside",
-                innerHTML: "Click here for <a href=\'http://www.google.ca\'>Google</a>" ,
-                direction: "down"
-              })';
-    //  return $script;
-    return '';
+    $script = "video.timeline({
+                    start: ".$videoTag['start'].",
+                    target: 'commentsTbl',
+                    title: '',
+                    text: '".$videoTag['content']."',
+                    innerHTML: '',
+                    direction: 'down'
+                });";
+    return $script;    
 }
 
 function mapTagJs($videoTag) {
@@ -78,11 +68,10 @@ function mapTagJs($videoTag) {
                         type: 'ROADMAP',
                         target: 'map',
                         lat: content[1]['lng'],
-                        lng: content[2]['lat'],
-                        onmaploaded: alert('Map Loaded')
-                    })";
-    //  return $script;
-    return '';
+                        lng: content[2]['lat']
+                    });";
+    return $script;
+    // return '';
 }
 
 function generateYTVideoScript($videoId) {

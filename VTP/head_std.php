@@ -30,9 +30,9 @@ $Db = new DbConnector();
                             <!--    Javascript files   -->
         <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-        <script src="http://popcornjs.org/code/dist/popcorn-complete.js"></script>
+        <script src="libraries/popcorn-complete.js"></script>
         <script src="libraries/jquery.dropdown.js" type="text/javascript"></script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlbflcsqSg7b3-Nq-Ggo_4PVzo-MC4Y7s&sensor=true"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlbflcsqSg7b3-Nq-Ggo_4PVzo-MC4Y7s&sensor=false"></script>
         <script src="includes/functions.js" type="text/javascript"></script>
         <?php
             include 'includes/headJS.php';

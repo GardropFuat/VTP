@@ -4458,7 +4458,7 @@ var googleCallback;
     // for some reason the Google Map API adds content to the body
     if ( document.body ) {
       _mapFired = true;
-      Popcorn.getScript( "//maps.google.com/maps/api/js?sensor=false&callback=googleCallback" );
+      //    Popcorn.getScript( "//maps.google.com/maps/api/js?sensor=false&callback=googleCallback" );
     } else {
       setTimeout(function () {
         loadMaps();
@@ -6758,7 +6758,7 @@ document.addEventListener( "click", function( event ) {
       }
       else {
 
-        container.appendChild( contentDiv );
+        target.appendChild( contentDiv );
       }
 
     }
@@ -6768,8 +6768,10 @@ document.addEventListener( "click", function( event ) {
     //  Default to empty if not used
     //options.innerHTML = options.innerHTML || "";
 
-    contentDiv.innerHTML = "<p><span id='big' style='font-size:24px; line-height: 130%;' >" + options.title + "</span><br />" +
-    "<span id='mid' style='font-size: 16px;'>" + options.text + "</span><br />" + options.innerHTML;
+    // contentDiv.innerHTML = "<p><span id='big' style='font-size:24px; line-height: 130%;' >" + options.title + "</span><br />" +
+    // "<span id='mid' style='font-size: 16px;'>" + options.text + "</span><br />" + options.innerHTML;
+
+    contentDiv.innerHTML = options.text;
 
     return {
 

@@ -325,6 +325,22 @@ class DbConnector {
 
     }
 
+	/*
+     * Function: isVideoTagged,
+     * @param $videoId:    Video id
+     * @param $source:    if 'youtube' then searches in 'yttags' table else searches in 'vimeoTags' table
+     * Description: checks and returns bool if the video exists.
+     */
+    function isVideoTagged( $videoId , $source = 'youtube') {
+        $table = ($source == 'youtube') ? 'yttags':'vimeoTags';
+        $query = "SELECT * FROM `".$table."` WHERE `".$table."`.`videoId` = '".$videoId."' LIMIT 1";
+        if($this->getAllRows($query)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     /*
      * Function: disconnect
      * Description: Closes the DB connection

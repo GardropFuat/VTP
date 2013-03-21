@@ -26,6 +26,7 @@ body {
 }
 
 #container{
+    display: none;
     position: relative;
     margin-top: 40px;
     width: 100%;
@@ -62,7 +63,7 @@ body {
 
 .favVideoThumbnail {
     float: left;
-    }
+}
 
 .favVideoTitle {
 
@@ -95,11 +96,11 @@ body {
 }
 
 h1{
-	color: rgb(230,230,230);
+	color:  rgba(0, 0, 0, 0.37);
 }
 
 .headerTable{
-    width:  825px;
+    width:  855px;
     margin-right: auto;
     margin-left: auto;
     /*  background-color: #c8cdd3;  */

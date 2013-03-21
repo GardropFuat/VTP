@@ -45,7 +45,7 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     // generate player and set actions
     $viemoContent = generateVimeoVideoScript($videoId);
     echoScript( $viemoContent );
-    
+    echoScript( "$('#container').css('display', 'block');" );
 }else if( !empty( $_REQUEST['ytUrl'] ) && ($requestedPage == 'index.php') ) {
     // $ytUrl = (empty($_REQUEST['ytUrl'])) ? "http://www.youtube.com/watch?v=kweUVUCYRa8" : $_REQUEST['ytUrl']; 
     $ytUrl = $_REQUEST['ytUrl']; 
@@ -73,6 +73,7 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     // generate player and set actions
     $ytContent = generateYTVideoScript($videoId);
     echoScript( $ytContent );
+    echoScript( "$('#container').css('display', 'block');" );
 } else {
     echoScript( "var loadSearch = true;" );
 }

@@ -68,7 +68,6 @@ if($_REQUEST['method'] == 'google' &&  !empty($_REQUEST['googleId']) &&  $_REQUE
     function makeApiCall() {
         gapi.client.load('oauth2', 'v2', function() {
             var request = gapi.client.oauth2.userinfo.get();
-            alert(request);
             access_token = gapi.auth.getToken().access_token;
             request.execute(logResponse);
         });

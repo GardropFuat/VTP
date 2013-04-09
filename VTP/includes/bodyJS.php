@@ -35,6 +35,7 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     echoScript("$('[name=videoSource]').attr('value', '".$videoSource."')");
 
         // Check if video is favorite
+    $userId =$_SESSION['vtpUserId'];
     $isFavorite = $Db->isFavorite($userId, $videoId);
     if( $userId && $isFavorite ) {
         echoScript('$("#favLink").html("Currently in favorites").attr("onClick", "")');
@@ -46,6 +47,7 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     $viemoContent = generateVimeoVideoScript($videoId);
     echoScript( $viemoContent );
     echoScript( "$('#container').css('display', 'block');" );
+    echoScript( "var loadSearch = false;" );
 }else if( !empty( $_REQUEST['ytUrl'] ) && ($requestedPage == 'index.php') ) {
     // $ytUrl = (empty($_REQUEST['ytUrl'])) ? "http://www.youtube.com/watch?v=kweUVUCYRa8" : $_REQUEST['ytUrl']; 
     $ytUrl = $_REQUEST['ytUrl']; 
@@ -64,6 +66,7 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     echoScript("$('#videoTitle').text('".$videoTitle."')");
     echoScript("$('[name=videoId]').attr('value', '".$videoId."')");
     echoScript("$('[name=videoSource]').attr('value', '".$videoSource."')");
+    $userId =$_SESSION['vtpUserId'];
     $isFavorite = $Db->isFavorite($userId, $videoId);
     if( $userId && $isFavorite ) {
         echoScript('$("#favLink").html("Currently in favorites").attr("onClick", "")');
@@ -74,6 +77,8 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     $ytContent = generateYTVideoScript($videoId);
     echoScript( $ytContent );
     echoScript( "$('#container').css('display', 'block');" );
+    echoScript( "var loadSearch = false;" );
+    
 } else {
     echoScript( "var loadSearch = true;" );
 }
@@ -200,8 +205,8 @@ function validateTagInfo() {
                     formError = Array(true, '*Please provide title for marker');
                 }
                 // update form data
-                $("[name=lng]").val(mapMarker['position']['Ya']);
-                $("[name=lat]").val(mapMarker['position']['Za']);
+                $("[name=lng]").val(mapMarker['position']['kb']);
+                $("[name=lat]").val(mapMarker['position']['lb']);
                 break;
             case 'link':
                 break;
@@ -215,7 +220,7 @@ function validateTagInfo() {
         formError[1] = "*End Time cannot be equal to Start Time.";
     }else{
         formError[0] = true;
-        formError[1] = "*End Time cannot be greater than Start Time.";
+        formError[1] = "*End Time cannot be less than Start Time.";
     }
     
     //  Display Error Message
@@ -289,6 +294,9 @@ function invalidImageUrl() {
     $('#saveAddTagForm').attr('disabled', true);
     $('#addTagFormError').html(formError[1]);
 }
+//adds the ability to move the individual div's on a page
+//the key is to make them relative to the screen such that 
+//different screen sizes have similar orintations
 $(function() {
     $( "#tagDescription" ).draggable({
         drag: function(){
@@ -298,8 +306,8 @@ $(function() {
         },
         stop: function(){
             var finalOffset = $(this).offset();
-            var finalxPos = finalOffset.left;
-            var finalyPos = finalOffset.top;
+            var finalxPos = finalOffset.left  - (screen.width/2);
+            var finalyPos = finalOffset.top -169;
             var container_type = "tagContainer1"
             $.post("CapturePos.php", 'data=' + finalxPos+ '&data2=' + finalyPos +'&data3=' +container_type );
         }
@@ -316,7 +324,7 @@ $(function() {
         stop: function(){
             var finalOffset = $(this).offset();
             var finalxPos = finalOffset.left;
-            var finalyPos = finalOffset.top;
+            var finalyPos = finalOffset.top -169;
             var container_type = "player"
             $.post("CapturePos.php", 'data=' + finalxPos+ '&data2=' + finalyPos +'&data3=' +container_type );
         }
@@ -352,12 +360,20 @@ $(function() {
             var finalOffset = $(this).offset();
             var finalxPos = finalOffset.left;
             var finalyPos = finalOffset.top;
-            var container_type = "comment"
+            var container_type = "videoTitle"
             $.post("CapturePos.php", 'data=' + finalxPos+ '&data2=' + finalyPos +'&data3=' +container_type );
+            
+
+            //an attempt at making a cookie to hold the oriantation of the screen values
+            /*function setCookie(cookieName, finalxPos+'_'+finalyPos, exp ){
+                cookieName = "videoTitleCookie";
+                cookieValue = finalxPos+'_'+finalyPos;
+                var exp = new Date();
+                exp.setTime(exp.getTime()+(1000 * 60 * 60 * 24));//this is one day before it expires
+                document.cookie = cookieName+"="+escape(cookieValue) + ";expires="+expire.toGMTString();
+            }*/
+
         }
     });
   });
-
-
-
 </script>

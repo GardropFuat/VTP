@@ -17,6 +17,7 @@ $fav = $Db->getFavorites($test['id']);
 ?>
 		
 		    <script type='text/javascript'>
+		    	//function that opens the link of a video in our site
 		    	function getlink (selectedSite)
 	            {
 	              document.site.ytUrl.value = selectedSite ;
@@ -59,6 +60,7 @@ $fav = $Db->getFavorites($test['id']);
 			                        echo "</td></tr>";
 			                    }
 			                    echo "<tr><td>";
+			                    //image from youtube
 			                    echo "<img src=\"//img.youtube.com/vi/".$x['videoId']."/2.jpg\" alt=\"".$x['videoId']."\">";
 			                    echo "</td></tr>";
 			                }

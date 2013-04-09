@@ -7,11 +7,19 @@
  * Last Modified:  Anudeep 10/25
  * Copyright:      Echostar Systems @ http://www.echostar.com/
  */
+
+
+$userId = $_SESSION['vtpUserId'];
+$posArray = $Db->getContainerPos($userId);
+$posArray = $posArray[0];
+//print_r($posArray);
+//echo($posArray['tagContainer1_x']);
+//echo($posArray['tagContainer1_y']);
 ?>
 <div id="container">
     <div id="contentTop">
         <div class="videoTitle" id="videoTitle"><?= $videoTitle; ?></div>
-        <div id="playerDiv" style="width:50%">
+        <div id="playerDiv" style="width:50%" >
             <div id="playerFrame">
                 <!-- will be replaced by Video from Popcorn javaScript(bodyJS.php) -->
             </div>
@@ -104,7 +112,8 @@
                     </p>
                 </form>
             </div>
-            <div id="tagDescription" style="overflow-y:auto;"><!-- Display Picture/Other tags here--></div>
+            <!--<div id="tagDescription" style="overflow-y:auto;position: relative; left: <?echo($posArray['tagContainer1_x']);?>px; top: <?echo($posArray['tagContainer1_y']);?>px"><!-- Display Picture/Other tags here </div> -->
+            <div id="tagDescription" style="overflow-y:auto"><!-- Display Picture/Other tags here--></div>
             <div id="map"></div>
         </div>
     </div>    

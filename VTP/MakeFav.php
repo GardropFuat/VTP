@@ -2,7 +2,7 @@
 /**
  *
  * File Name:       MakeFav.php
- * Description:     
+ * Description:     Helper function that adds a favorite to the database
  * Author:          Travis Rous
  * Created:         
  * Last Modified:   Anudeep 12/03/12

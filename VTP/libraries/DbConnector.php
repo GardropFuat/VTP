@@ -325,6 +325,12 @@ class DbConnector {
 
     }
 
+    function getContainerPos($userId)
+    {
+        $query = "SELECT * FROM `ContainerPos` WHERE `ContainerPos`.`userId` = '".$userId."' ";
+        return $this->getAllRows($query);
+    }
+
 	/*
      * Function: isVideoTagged,
      * @param $videoId:    Video id

@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * File Name:       getFriends
+ * File Name:       favorites.php
  * Description:     Find the friends that are uploading videos to our site
  * Author:
  * Created:         09/27/2012

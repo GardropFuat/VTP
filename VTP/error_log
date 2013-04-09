@@ -1,0 +1,24 @@
+[20-Mar-2013 13:02:13 America/Denver] PHP Fatal error:  Uncaught OAuthException: An active access token must be used to query information about the current user.
+  thrown in /home/vtphoste/public_html/vtp/prototype/06/libraries/facebook-api-php-client/base_facebook.php on line 1238
+[20-Mar-2013 15:10:32 America/Denver] PHP Fatal error:  Uncaught OAuthException: An active access token must be used to query information about the current user.
+  thrown in /home/vtphoste/public_html/vtp/prototype/06/libraries/facebook-api-php-client/base_facebook.php on line 1238
+[20-Mar-2013 22:41:57 Europe/Berlin] PHP Warning:  session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent (output started at /home/vtphoste/public_html/vtp/prototype/06/getFriends.php:2) in /home/vtphoste/public_html/vtp/prototype/06/config.php on line 2
+[20-Mar-2013 23:06:27 Europe/Berlin] PHP Warning:  session_start() [<a href='function.session-start'>function.session-start</a>]: Cannot send session cache limiter - headers already sent (output started at /home/vtphoste/public_html/vtp/prototype/06/getFriends.php:2) in /home/vtphoste/public_html/vtp/prototype/06/config.php on line 2
+[20-Mar-2013 16:06:27 America/Denver] PHP Fatal error:  Uncaught OAuthException: An active access token must be used to query information about the current user.
+  thrown in /home/vtphoste/public_html/vtp/prototype/06/libraries/facebook-api-php-client/base_facebook.php on line 1238
+[20-Mar-2013 16:23:49 America/Denver] PHP Parse error:  syntax error, unexpected '<' in /home/vtphoste/public_html/vtp/prototype/06/includes/bodyJS.php on line 80
+[20-Mar-2013 16:23:52 America/Denver] PHP Parse error:  syntax error, unexpected '<' in /home/vtphoste/public_html/vtp/prototype/06/includes/bodyJS.php on line 80
+[20-Mar-2013 16:23:53 America/Denver] PHP Parse error:  syntax error, unexpected '<' in /home/vtphoste/public_html/vtp/prototype/06/includes/bodyJS.php on line 80
+[20-Mar-2013 18:23:03 America/Denver] PHP Fatal error:  Uncaught OAuthException: An active access token must be used to query information about the current user.
+  thrown in /home/vtphoste/public_html/vtp/prototype/06/libraries/facebook-api-php-client/base_facebook.php on line 1238
+[06-Apr-2013 12:53:31 America/Denver] PHP Parse error:  syntax error, unexpected '[' in /home/vtphoste/public_html/vtp/prototype/07/dashboard.php on line 112
+[06-Apr-2013 13:07:49 America/Denver] PHP Fatal error:  Uncaught OAuthException: An active access token must be used to query information about the current user.
+  thrown in /home/vtphoste/public_html/vtp/prototype/07/libraries/facebook-api-php-client/base_facebook.php on line 1238
+[06-Apr-2013 13:13:19 America/Denver] PHP Fatal error:  Uncaught OAuthException: An active access token must be used to query information about the current user.
+  thrown in /home/vtphoste/public_html/vtp/prototype/07/libraries/facebook-api-php-client/base_facebook.php on line 1238
+[06-Apr-2013 13:46:17 America/Denver] PHP Fatal error:  Uncaught OAuthException: An active access token must be used to query information about the current user.
+  thrown in /home/vtphoste/public_html/vtp/prototype/07/libraries/facebook-api-php-client/base_facebook.php on line 1238
+[07-Apr-2013 19:52:48 America/Denver] PHP Fatal error:  Uncaught OAuthException: An active access token must be used to query information about the current user.
+  thrown in /home/vtphoste/public_html/vtp/prototype/07/libraries/facebook-api-php-client/base_facebook.php on line 1238
+[08-Apr-2013 16:28:35 America/Denver] PHP Fatal error:  Uncaught OAuthException: An active access token must be used to query information about the current user.
+  thrown in /home/vtphoste/public_html/vtp/prototype/07/libraries/facebook-api-php-client/base_facebook.php on line 1238

@@ -23,14 +23,14 @@ function yTSearch(pageNum) {
     var data = 'q=' + query + '&key=' + YOUTUBE_DEVELOPER_KEY;
     var htmlResult = '';
     var isSearchSucessful = false;
-    
+    var videoIds = [];
     data += '&part=snippet&order=relevance&maxResults=25&type=video&videoSyndicated=true&videoEmbeddable=true&videoDimension=2d';
 
     if(startIndex !== 0)
         data += '&start-index=' + startIndex;
 
     $.get(url, data, function(response){
-        console.log(response);
+        //  console.log(response);
         if(query === '')
             htmlResult = '<h1 align="center">Most popular videos</h1>';
         htmlResult += '<table class="videoResults" align="center" style="cursor:pointer;">';
@@ -42,26 +42,42 @@ function yTSearch(pageNum) {
             var title = $(this).find("title").text();
             var description = $(this).find("content").text();
             var thumbnail = $(this).find('thumbnail').attr('url');
-
+            
+            // copy the video id for displaying tag 
+            videoIds.push(videoId);
+            
             if(title.length > 100) {
                 title = title.substr(0, 75) + '...';
             }
             if(description.length > 115) {
                 description = description.substr(0, 115) + '...';
             }
-
+            
             htmlResult += '<tr onclick="document.location = \'index.php?ytUrl=http://www.youtube.com/watch?v=' + videoId + '\'">';
+            htmlResult += '<td style="width:16px;"><img id="tag-icon-' + videoId + '" src="images/tag.png" style="width:16px;height:16px;float:right;display:none;" title="This video hasbeen tagged"></td>';
             htmlResult += '<td><img src="' + thumbnail + '" alt="' + title + '"/></td>';
             htmlResult += '<td id="info"><span>'+ '<span id="title">' + title + '</span><br/>';
             htmlResult += '<span id="description">' + description + '</span></span></td></tr>';
         });
         htmlResult += '</table>';
+        
         if(!isSearchSucessful) {
             htmlResult += '<div class="form">';
             htmlResult += '<p align="center"><label>No video results found for query "' + query + '"</label></p>';
             htmlResult += '<p align="center"><label>Hint: Type few words for better results</label></p>';
             htmlResult += '</div>';
         }else {
+            
+            var postData = JSON.stringify(videoIds);
+            postData = {json:postData};
+            $.post('isVideoTagged.php', postData, function(myResponse){
+                videoIds = $.parseJSON(myResponse);
+                for (var i = 0; i < videoIds.length; i++){
+                    // display tag icon for videos which are tagged in VTP
+                    $('#tag-icon-' + videoIds[i] ).css('display', 'block')
+                }
+            });
+            
             // page navigation
             htmlResult +=  '<div class="pageNav">';
             htmlResult +=  '<img src="images/Button-Back-icon.png"';
@@ -73,5 +89,15 @@ function yTSearch(pageNum) {
             htmlResult +=  '</div>';
         }
         $('#container').html(htmlResult);
+        $('#container').css('display', 'block');
     });
 }
+
+$(document).ready(function(){
+    // event listner for enter key press on search bar
+    $('#query').keypress(function(event){
+        if(event.which == 13){
+            processSearch();
+        }
+    });
+});

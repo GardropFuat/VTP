@@ -32,8 +32,18 @@ $Db = new DbConnector();
         <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
         <script src="libraries/popcorn-complete.js"></script>
         <script src="libraries/jquery.dropdown.js" type="text/javascript"></script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAlbflcsqSg7b3-Nq-Ggo_4PVzo-MC4Y7s&sensor=false"></script>
-        <script src="includes/functions.js" type="text/javascript"></script>
+        <script src="includes/functions.js" type="text/javascript"/></script>
+        <script>
+        $.getScript('https://www.google.com/jsapi', function()
+        {
+            google.load('maps', '3', { other_params: 'sensor=false', callback: function(data)
+            {
+                googleCallback(data);
+                initializeMap(google);
+                initializeTagMap();
+            }});
+        });    
+        </script>
         <?php
             include 'includes/headJS.php';
         ?>

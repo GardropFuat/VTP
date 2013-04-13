@@ -21,44 +21,42 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     $vimeoUrl = $_REQUEST['vimeoUrl'];
     $videoSource = 'vimeo';
     $videoId = getViemoVideoId($vimeoUrl);
-
-    //  get video title from vimeo
+    
+    //  get video info from vimeo
     $videoData = simplexml_load_file("http://vimeo.com/api/v2/video/".$videoId.".xml");
     $videoTitle = $videoData->video->title;
-
+    
     $videoLink = "http://player.vimeo.com/video/".$vimeoUrl;
-
+    
     // set player height and width & update video Info
     echoScript("$('#playerFrame').height(".$playerHeight.").width(".$playerWidth.")");
     echoScript("$('#videoTitle').text('".$videoTitle."')");
     echoScript("$('[name=videoId]').attr('value', '".$videoId."')");
     echoScript("$('[name=videoSource]').attr('value', '".$videoSource."')");
-
+    
         // Check if video is favorite
-    $userId =$_SESSION['vtpUserId'];
     $isFavorite = $Db->isFavorite($userId, $videoId);
     if( $userId && $isFavorite ) {
         echoScript('$("#favLink").html("Currently in favorites").attr("onClick", "")');
     }else {
         echoScript('$("#favLink").html("Add to Favorites").attr("onClick", "make_favorite()")');
-    }
+   }
+
 
     // generate player and set actions
     $viemoContent = generateVimeoVideoScript($videoId);
     echoScript( $viemoContent );
     echoScript( "$('#container').css('display', 'block');" );
-    echoScript( "var loadSearch = false;" );
 }else if( !empty( $_REQUEST['ytUrl'] ) && ($requestedPage == 'index.php') ) {
-    // $ytUrl = (empty($_REQUEST['ytUrl'])) ? "http://www.youtube.com/watch?v=kweUVUCYRa8" : $_REQUEST['ytUrl']; 
     $ytUrl = $_REQUEST['ytUrl']; 
     $videoSource = 'youtube';
     
     $videoId = getYtVideoId($ytUrl);
-    //  get video title from youtube
+    
+    //  get video info from youtube
     $videoData = file_get_contents("http://youtube.com/get_video_info?video_id=".$videoId);
     parse_str($videoData, $videoData);
     $videoTitle = $videoData['title'];
-
     $videoLink = "https://www.youtube.com/v/".$videoId."?version=3&enablejsapi=1";
     
     // set player height and width & update video Info
@@ -66,7 +64,6 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     echoScript("$('#videoTitle').text('".$videoTitle."')");
     echoScript("$('[name=videoId]').attr('value', '".$videoId."')");
     echoScript("$('[name=videoSource]').attr('value', '".$videoSource."')");
-    $userId =$_SESSION['vtpUserId'];
     $isFavorite = $Db->isFavorite($userId, $videoId);
     if( $userId && $isFavorite ) {
         echoScript('$("#favLink").html("Currently in favorites").attr("onClick", "")');
@@ -77,10 +74,8 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     $ytContent = generateYTVideoScript($videoId);
     echoScript( $ytContent );
     echoScript( "$('#container').css('display', 'block');" );
-    echoScript( "var loadSearch = false;" );
-    
 } else {
-    echoScript( "var loadSearch = true;" );
+    echoScript( "loadSearch = true;" );
 }
 ?>
 
@@ -96,6 +91,7 @@ $(document).ready(function() {
     {
         processSearch();
     }
+    
 });
 
 /*
@@ -103,6 +99,7 @@ $(document).ready(function() {
  */
 function hideAddTagForm() {
     $('#tagDescription').css('display', 'block');
+    $('#map').css('display', 'block');
     $('#addTagFormDiv').css('display', 'none');
 }
 
@@ -111,6 +108,7 @@ function hideAddTagForm() {
  */
 function showAddTagForm(videoId) {
     $('#tagDescription').css('display', 'none');
+    $('#map').css('display', 'none');
     $('#addTagFormDiv').css('display', 'block');
 }
 
@@ -205,8 +203,8 @@ function validateTagInfo() {
                     formError = Array(true, '*Please provide title for marker');
                 }
                 // update form data
-                $("[name=lng]").val(mapMarker['position']['kb']);
-                $("[name=lat]").val(mapMarker['position']['lb']);
+                $("[name=lng]").val(mapMarker['position'].lng());
+                $("[name=lat]").val(mapMarker['position'].lat());
                 break;
             case 'link':
                 break;
@@ -220,7 +218,7 @@ function validateTagInfo() {
         formError[1] = "*End Time cannot be equal to Start Time.";
     }else{
         formError[0] = true;
-        formError[1] = "*End Time cannot be less than Start Time.";
+        formError[1] = "*End Time cannot be greater than Start Time.";
     }
     
     //  Display Error Message
@@ -294,6 +292,7 @@ function invalidImageUrl() {
     $('#saveAddTagForm').attr('disabled', true);
     $('#addTagFormError').html(formError[1]);
 }
+
 //adds the ability to move the individual div's on a page
 //the key is to make them relative to the screen such that 
 //different screen sizes have similar orintations

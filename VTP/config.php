@@ -9,11 +9,19 @@ ini_set('display_errors', 1);
 
 include("includes/errorLog.php");
 
+/*  Database info    */
+define('DB_HOST', 'localhost');
+define('DB_DB', 'vtphost1_videotagportal');
+define('DB_USER', 'vtphost1_root');
+define('DB_PASSWORD', 'VTPvtp123123');
+
+/* Google API Data  */
 define('GOOGLE_CLIENT_ID', '52837008745-ooej09e6nrgama8p8ptl3p8f5qtomt42.apps.googleusercontent.com');
 define('GOOGLE_CLIENT_SECRET', '2I5UR3U8xD5Fgpb__Wm_-TPD');
 define('GOOGLE_API_KEY', 'AIzaSyAlbflcsqSg7b3-Nq-Ggo_4PVzo-MC4Y7s');
 define("YOUTUBE_DEVELOPER_KEY", 'AI39si7zLxgtuhVYtL4GcpnoWpgtanI0Ye3G1FyOdyvrJmhS-n2X6KK7eJDYZS7n5nI9WM_7ny0ZzBhcztbrlia3DHIPOXEAdQ');
 
+/* Facebook API Data    */
 define('FACEBOOK_API_ID', '200590423408456');
 define('FACEBOOK_SECRET_KEY', '22eae2f5ee955789dcf2529993a04ca6');
 ?>

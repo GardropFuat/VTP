@@ -19,7 +19,7 @@ class DbConnector {
      * Function: DbConnector
      * Description: Connects to the database
      */
-    function DbConnector($host = 'localhost', $database = 'vtphoste_vtp', $user = 'vtphoste_root', $password = 'VTPvtp123123')
+    function DbConnector($host = DB_HOST, $database = DB_DB, $user = DB_USER, $password = DB_PASSWORD)
     {
         $this->link = mysql_connect($host, $user, $password);
         mysql_select_db($database);

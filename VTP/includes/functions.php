@@ -8,6 +8,8 @@
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
  
+$mapTagCount = 0;
+
 function getYtVideoId($url){
    return parseUrl($url, 'v');
 }
@@ -60,18 +62,22 @@ function commentTagJs($videoTag) {
     return $script;    
 }
 
+// generates JS code for Map Tags
 function mapTagJs($videoTag) {
-    $script = "var content = JSON.parse('".$videoTag['content']."');";
-    $script = $script."video.googlemap({
+    global $mapTagCount;
+    $script = "content[".$mapTagCount."] = JSON.parse('".$videoTag['content']."');";
+    $script = $script."video.code({
                         start: ".$videoTag['start'].",
                         end: ".$videoTag['end'].",
-                        type: 'ROADMAP',
-                        target: 'map',
-                        lat: content[1]['lng'],
-                        lng: content[2]['lat']
+                        onStart: function( ) {
+                            showMarker(".$mapTagCount.", content[".$mapTagCount."][0]['markerTitle'], content[".$mapTagCount."][2]['lat'], content[".$mapTagCount."][1]['lng']);
+                        },
+                        onEnd: function( ) {
+                            hideMarker(".$mapTagCount.");
+                        }                        
                     });";
+    $mapTagCount++;
     return $script;
-    // return '';
 }
 
 function generateYTVideoScript($videoId) {

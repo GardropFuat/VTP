@@ -1,5 +1,4 @@
 <?php
-
 /*
  *
  * File Name:       DbConnector.php
@@ -10,6 +9,12 @@
  * Last Updated:
  */
 
+if(file_exists('config.php')) {
+    include_once 'config.php';
+} else if(file_exists('../config.php')) {
+    include_once '../config.php';
+}
+ 
 class DbConnector {
 
     var $theQuery;
@@ -113,21 +118,27 @@ class DbConnector {
     /*
      * Function: addUser,
      * @param $userId - userId on hostSite
-     * @param string $hostSite - Faceboor or Google
+     * @param string $hostSite - facebookId or googleId
      * Description: Checks for existing users and adds them to DB
      */
-    function addUser($userId, $hostSite, $otherSite)
+    function addUser($userId, $hostSite, $otherSite, $refreshToken = '')
     {
         global $_SESSION;
         // check if user already existed
-        $query = "SELECT `users`.`id`, `users`.`".$otherSite."` FROM `users` WHERE `users`.`".$hostSite."` = '".$userId."' LIMIT 1";
+        $query = "SELECT `users`.`id`, `users`.`".$otherSite."`, `users`.`googleRefreshtkn` FROM `users` WHERE `users`.`".$hostSite."` = '".$userId."' LIMIT 1";
         $user = $this->getAllRows($query);
         if($user) {
             $_SESSION['vtpUserId'] = $user[0]['id'];
             $_SESSION[$otherSite] = $user[0][$otherSite];
+            if( ($hostSite == 'facebookId') && !empty($user[0]['googleRefreshtkn']) ) {
+                if(is_file('includes/getOauth2Token.php')){
+                    include_once 'includes/getOauth2Token.php';
+                    $_SESSION['access_token'] = getAccessToken($user[0]['googleRefreshtkn']);
+                }
+            }
             return true;
         } else {
-            $query = "INSERT INTO `users` SET `users`.`".$hostSite."` = '".$userId."'";
+            $query = "INSERT INTO `users` SET `users`.`".$hostSite."` = '".$userId."', `users`.`googleRefreshtkn` = '".$refreshToken."'";
             if($this->query($query)) {
                 return true;
             }else {
@@ -150,11 +161,12 @@ class DbConnector {
     /*
      * Function: addGoogleUser,
      * @param $googleId - userId on Google.com
+     * @param $refreshtoken - refresh token is given at initial authentication by Google
      * Description: Checks for existing users and adds them to DB
      */
-    function addGoogleUser($googleId)
+    function addGoogleUser($googleId, $refreshToken)
     {
-        return $this->addUser($googleId, 'googleId', 'facebookId');
+        return $this->addUser($googleId, 'googleId', 'facebookId', $refreshToken);
     }
 
     /*
@@ -252,28 +264,29 @@ class DbConnector {
      *        $hostSite:    name of the hosting site (Google or Facebook)
      *        $otherId:      userId of the other site (Facebook or Google)
      *        $otherSite:    name of the other site (Facebook or Google)
+     *        $refreshToken:    refresh token provided by Google
+     *                          empty if it is facebook authentication
      * Description: links user accounts from different hosts
      */
-    function linkUserAccounts($vtpUserId, $hostId, $hostSite, $otherId, $otherSite)
+    function linkUserAccounts($vtpUserId, $hostId, $hostSite, $otherId, $otherSite, $refreshToken = '')
     {
         global $_SESSION;
         $query = "SELECT `users`.`id` FROM `users` WHERE `users`.`id` = '".$vtpUserId."' AND `users`.`".$hostSite."` = '".$hostId."' LIMIT 1";
         $user = $this->getAllRows($query);
         if($user) {
             // user account exists
-            $query = "UPDATE `users` SET `users`.`".$otherSite."` = '".$otherId."' WHERE `users`.`id` = '".$vtpUserId."' ";
+            $addlQuery = (!empty($refreshToken)) ? ', `users`.`googleRefreshtkn` = "'.$refreshToken.'"':'';
+            $query = "UPDATE `users` SET `users`.`".$otherSite."` = '".$otherId."' WHERE `users`.`id` = '".$vtpUserId."'".$addlQuery;
+            
             if($this->query($query))
-            {   
+            {
                 $_SESSION[$otherSite] = $otherId;
                 return true;
             }
-        } else {
-            // user account does not exists
-            return false;
         }
         return false;
     }
-    
+
     /*
      * Function: linkGoogleAccount,
      * @param $vtpUserId:   userId in VTP DB
@@ -281,9 +294,9 @@ class DbConnector {
      *        $googleId:      userId in Google
      * Description: links Google account to existing Facebook account
      */
-    function linkGoogleAccount($vtpUserId, $facebookId, $googleId)
+    function linkGoogleAccount($vtpUserId, $facebookId, $googleId, $refreshToken)
     {
-        return $this->linkUserAccounts($vtpUserId, $facebookId, 'facebookId', $googleId, 'googleId');
+        return $this->linkUserAccounts($vtpUserId, $facebookId, 'facebookId', $googleId, 'googleId', $refreshToken);
     }
 
     /*

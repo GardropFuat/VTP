@@ -9,6 +9,11 @@
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
 
+
+$scopes = 'https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/youtube';
+$redirect_uri = curPath().'libraries/googleAuthentication.php'; 
+$googleLgnUrl = "https://accounts.google.com/o/oauth2/auth?scope=".$scopes."&redirect_uri=".$redirect_uri."&response_type=code&client_id=".GOOGLE_CLIENT_ID."&access_type=offline";
+
 if(!empty($_SESSION['vtpUserId'])) {
     $loginBtn = "<input type='button' data-dropdown='#logoutDropdown' value='".$_SESSION['vtpUserName']."' style='width:100px;'/>";
     $friendsOptn = '<li style="padding: 10px;font-size: 15px;font-weight: bold;" onclick="window.location.href = \'getFriends.php\';"><img src="images/friends.png" style="padding-bottom: 0px;width: 16px;"><span class="link"> Friends</span></li>';
@@ -20,7 +25,7 @@ if(!empty($_SESSION['vtpUserId'])) {
         $addlBtn = $addlBtn.'<li><hr style="padding-left: 10px;width: 125px;"></li>';
         $friendsOptn = '<li style="padding: 10px;font-size: 15px;font-weight: bold;" onClick="alert(\'Please Login to Facebook to see Friends\');"><img src="images/friends.png" style="padding-bottom: 0px;width: 16px;"><span class="link"> Friends</span></li>';
     }else if(empty($_SESSION['googleId'])) {
-        $addlBtn = '<li style="padding:10px;height:29px;"><img src="images/link_Google_Account.png" onClick="window.location.href = \'index.php?action=login&method=google\';" alt="Link Google Account" style="cursor:pointer;"/></li>';
+        $addlBtn = '<li style="padding:10px;height:29px;"><img src="images/link_Google_Account.png" onClick="window.location.href = \''.$googleLgnUrl.'\';" alt="Link Google Account" style="cursor:pointer;"/></li>';
         $addlBtn = $addlBtn.'<li><hr style="padding-left: 10px;width: 125px;"></li>';
         $uploadOptn = '<li style="padding: 10px;font-size: 15px;font-weight: bold;" onclick="alert(\'Please Login to Google to Upload Videos into YouTube\');"><img src="images/upload.png" style="padding-bottom: 0px;width: 16px;"><span class="link"> Upload</span></li>';
     }else {
@@ -29,6 +34,7 @@ if(!empty($_SESSION['vtpUserId'])) {
 }else{
     $loginBtn = "<input type='button' data-dropdown='#loginDropdown' value='Login' style='width:100px;'/>";
 }
+
 ?>
 
 <!----   include Dialog Boxes here      --->
@@ -40,7 +46,7 @@ if(!empty($_SESSION['vtpUserId'])) {
             <ul>
                 <li style="padding:10px;height:29px;"><img src="images/facebook_login_icon.png" onClick="window.location.href = 'index.php?action=login&method=facebook';" alt="Login with Facebook" style="cursor:pointer;"/></li>
                 <li align="center">- OR -</li>
-                <li style="padding:10px;height:29px;"><img src="images/google_login_icon.png" onClick="window.location.href = 'index.php?action=login&method=google';" alt="Login with Google" style="cursor:pointer;"/></li>
+                <li style="padding:10px;height:29px;"><img src="images/google_login_icon.png" onClick="window.location.href = '<?=$googleLgnUrl;?>';" alt="Login with Google" style="cursor:pointer;"/></li>
             </ul>
         </form>
     </div>

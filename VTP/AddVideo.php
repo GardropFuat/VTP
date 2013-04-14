@@ -9,7 +9,20 @@
  * Copyright:       Echostar Systems @ http://www.echostar.com/
  */
 
+
+ 
 include_once( 'head_std.php' );
+
+if(empty($_SESSION['access_token'])) {
+    echo '<h1 align="center">Restricted Access</h1>';
+    echo '<h6 align="center">Redirecting to homepage...</h6>';
+    echo '<script>  
+                setTimeout(function(){
+                                window.location = "index.php";
+                        },3500);                
+            </script>';
+    die();
+}
 
 if( isset( $_POST['video_title'] ) && isset( $_POST['video_description'] ) ) {
     $video_title = stripslashes( $_POST['video_title'] );
@@ -24,8 +37,10 @@ if(isset( $_GET['id']) && isset($_GET['status']))
     $unique_id = $_GET['id'];
     $status = $_GET['status'];
 }
-
 ?>
+
+
+
 
 <!-- Step 1 of the youtube upload process -->
 <?php if( empty( $_POST['video_title'] ) && !isset($unique_id) ) : ?>
@@ -157,6 +172,14 @@ if(isset( $_GET['id']) && isset($_GET['status']))
             return true;
         return false;
     }
+    
+    $.getJSON( "https://www.googleapis.com/oauth2/v1/tokeninfo", "access_token=<?=$_SESSION['access_token'];?>", function(response) {
+        if(typeof (response.error) !== "undefined") {
+            console.log(response);
+            alert("Session Expired!\nPlease verify your Identity");
+            window.location.href = 'login.php?login=logout';
+        }
+    });    
 </script>
 
 <?php

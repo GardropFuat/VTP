@@ -2,6 +2,7 @@
 //  Ref:    https://github.com/facebook/facebook-php-sdk
 
 include_once 'config.php';
+include_once 'includes/functions.php';
 
 require 'libraries/facebook-api-php-client/facebook.php';
 
@@ -31,25 +32,25 @@ if ($user) {
             //  $_SESSION['vtpFBLogoutUrl']= $facebook->getLogoutUrl();
 
             $Db->addFBUser($user_profile['id']);
-
+            
             // Redirect to home page
-            header('location: index.php');
+            jsRedirect('index.php', true);
             exit;
         }
         // Go back to home page
-        header('Location: '.$_SERVER['PHP_SELF']);
+        jsRedirect($_SERVER['PHP_SELF'], true);
         exit;
     } catch (FacebookApiException $e) {
         error_log($e);
         $user = null;
         //  Redirect
-        header('Location: notfound.html');
+        jsRedirect('notfound.html', true);
         exit;
     }
 } else {
     //  Redirect to Facebook Authentication approval page
     $loginUrl = $facebook->getLoginUrl();
-    header('location: '.$loginUrl);
+    jsRedirect($loginUrl, true);
     exit;
 }
 ?>

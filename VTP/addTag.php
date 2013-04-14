@@ -8,9 +8,11 @@
  * Last Modified:       Anudeep 12/01/2012
  * Copyright:           Echostar Systems @ http://www.echostar.com/
  */
-
+ 
+include_once("config.php");
 require_once("libraries/ImageUpload.php");
 require_once("libraries/DbConnector.php");
+
 $isTagValid = true;
 
 if(empty($_POST['videoId'])) {

@@ -118,6 +118,7 @@ function addToFavorites($userId, $videoId){
 	return $Db->addFavorites($userId, $videoId);
 }
 
+// Returns current page url
 function curPageURL() {
     $pageURL = 'http';
     if ($_SERVER["HTTPS"] == "on") {
@@ -133,5 +134,38 @@ function curPageURL() {
     }
     
     return $pageURL;
+}
+
+// Gives current page path
+function curPath()
+{
+    $pagePath = 'http';
+    if ($_SERVER["HTTPS"] == "on") {
+        $pagePath .= "s";
+    }
+    
+    $pagePath .= "://";
+    
+    if ($_SERVER["SERVER_PORT"] != "80") {
+        $pagePath .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"];
+    } else {
+        $pagePath .= $_SERVER["SERVER_NAME"];
+    }
+    
+    $pos = strripos($_SERVER['REQUEST_URI'], '/');
+    if($pos !== false) {
+        $pagePath = $pagePath.substr($_SERVER['REQUEST_URI'], 0, $pos).'/';
+    }
+    
+    return $pagePath;
+}
+// generates Javascript Redirect 
+function jsRedirect($location, $newPage = false)
+{
+    $code = "<script>window.location = '".$location."';</script>";
+    if($newPage) {
+        $code = "<html><head>".$code."</head><body></body></html>";
+    }
+    echo $code;
 }
 ?>

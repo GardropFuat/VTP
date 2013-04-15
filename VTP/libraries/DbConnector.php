@@ -153,7 +153,7 @@ class DbConnector {
      * @param $facebookId - userId on Facebook.com
      * Description: Checks for existing users and adds them to DB
      */
-    function addFBUser($facebookId)
+    function addFBUser($name, $facebookId)
     {
         return $this->addUser($name, $facebookId, 'facebookId', 'googleId');
     }
@@ -164,7 +164,7 @@ class DbConnector {
      * @param $refreshtoken - refresh token is given at initial authentication by Google
      * Description: Checks for existing users and adds them to DB
      */
-    function addGoogleUser($googleId, $refreshToken)
+    function addGoogleUser($name, $googleId, $refreshToken)
     {
         return $this->addUser($name, $googleId, 'googleId', 'facebookId', $refreshToken);
     }

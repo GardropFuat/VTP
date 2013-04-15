@@ -62,6 +62,27 @@ if(!empty($_SESSION['facebookId'])) {
     </div>
     <div id="uploads" style="width:50%; float:right;">
         <h2>Uploads</h2>
+        <table class="videoResults" style="cursor:pointer;">
+            <?php
+                if(!empty($_SESSION['access_token'])) {
+                    $link = 'http://gdata.youtube.com/feeds/api/users/default/uploads?oauth_token='.$_SESSION['access_token'];
+                    $xml = simplexml_load_file($link);
+
+                    foreach($xml->entry as $entry) {
+                        $videoId = end(explode('/', $entry->id));
+                        $videoTitle = $entry->title;
+                        $videoDes = $entry->content;
+                        $imgSrc = '//img.youtube.com/vi/'.$videoId.'/2.jpg';
+                        echo '<tr onclick="window.location = \'index.php?ytUrl=http://www.youtube.com/watch?v='.$videoId.'\'" >';
+                        echo '<td style="width:185px;"><img src="'.$imgSrc.'" alt="'.$videoTitle.'"/></td>';
+                        echo '<td id="info"><span><span id="title">'.$videoTitle.'</span><br/>';
+                        echo '<span id="description">'.$videoDes.'</span></span></td></tr>';
+                    }
+                }else{
+                    echo 'Please link you google account to see the uploads';
+                }
+            ?>
+        </table>
     </div>
 </div>
 <?php

@@ -11,10 +11,6 @@
 
 session_start();
 
-//  display/hide PHP errors 0->hide , 1-> show(default)
-ini_set('display_errors', 1);
-
-include("includes/errorLog.php");
 include("libraries/DbConnector.php");
 include("includes/functions.php");
 

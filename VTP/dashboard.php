@@ -115,7 +115,7 @@ $posArray = $posArray[0];
             <!--<div id="tagDescription" style="overflow-y:auto;position: relative; left: <?echo($posArray['tagContainer1_x']);?>px; top: <?echo($posArray['tagContainer1_y']);?>px"><!-- Display Picture/Other tags here </div> -->
             <div id="tagDescription" style="overflow-y:auto"><!-- Display Picture/Other tags here--></div>
             <div id="map">
-                <div id="actualMap" style="margin-left:150px;max-height:400px;max-width:400px;"></div>
+                <div id="actualMap" style="display:none;margin-left:150px;max-height:400px;max-width:400px;"></div>
             </div>
         </div>
     </div>    

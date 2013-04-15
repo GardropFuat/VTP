@@ -53,10 +53,10 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     
     $videoId = getYtVideoId($ytUrl);
     
-    //  get video info from youtube
-    $videoData = file_get_contents("http://youtube.com/get_video_info?video_id=".$videoId);
-    parse_str($videoData, $videoData);
-    $videoTitle = $videoData['title'];
+    $link = "https://gdata.youtube.com/feeds/api/videos/".$videoId."?v=2";
+    $xml = simplexml_load_file($link);
+    $videoTitle = $xml->title;
+
     $videoLink = "https://www.youtube.com/v/".$videoId."?version=3&enablejsapi=1";
     
     // set player height and width & update video Info
@@ -107,9 +107,13 @@ function hideAddTagForm() {
  * Hides pictures and shows Add tag form
  */
 function showAddTagForm(videoId) {
-    $('#tagDescription').css('display', 'none');
-    $('#map').css('display', 'none');
-    $('#addTagFormDiv').css('display', 'block');
+    if('<?=$_SESSION["vtpUserId"]?>' === '') {
+        alert("Please login to add a tag.");
+    }else {
+        $('#tagDescription').css('display', 'none');
+        $('#map').css('display', 'none');
+        $('#addTagFormDiv').css('display', 'block');
+    }
 }
 
 /*
@@ -240,9 +244,7 @@ function make_favorite() {
     //$('#favLink').html("Currently in Favorites");
     $('#favLink').slideUp();
     var query = "r=" + video;
-    $.post("MakeFav.php", query, function(theResponse){
-        console.log(theResponse);
-    });
+    $.post("MakeFav.php", query);
 }
 
 /*
@@ -291,6 +293,12 @@ function invalidImageUrl() {
     formError = Array(true, '*Link is not a valid image');
     $('#saveAddTagForm').attr('disabled', true);
     $('#addTagFormError').html(formError[1]);
+}
+
+function getVevoInfo(videoId) {
+    $.getJSON( "http://youtube.com/get_video_info", "video_id="+ videoId +"&el=vevo", function(response){
+        console.log(response);
+    });
 }
 
 //adds the ability to move the individual div's on a page

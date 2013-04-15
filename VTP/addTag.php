@@ -71,17 +71,23 @@ switch($tagType) {
         break;
 }
 
+$userId = $_SESSION['vtpUserId'];
+
+
 if($isTagValid) {
     // Create new database instance
     $Db = new DbConnector();
     if($videoSource == 'vimeo') {
-        $Db->addVimeoTags($videoId, $tagStartTime, $tagEndTime, $tagType, $content);
+        $Db->addVimeoTags($userId, $videoId, $tagStartTime, $tagEndTime, $tagType, $content);
+        $query = '?vimeoUrl=https://vimeo.com/'.$videoId;
     }else if($videoSource == 'youtube'){
-        $Db->addYtTags($videoId, $tagStartTime, $tagEndTime, $tagType, $content);
+        $Db->addYtTags($userId, $videoId, $tagStartTime, $tagEndTime, $tagType, $content);
+        $query = '?ytUrl=http://www.youtube.com/watch?v='.$videoId;
     }
-    header("Location: index.php"); 
+    header("Location: index.php".$query); 
+    die('Unable to redirect');
 }else {
-    echo 'Error: contact admin';
+    die('Error: contact admin');
 }
-die();
+
 ?>

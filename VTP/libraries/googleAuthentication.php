@@ -40,7 +40,7 @@ if (!empty($accessToken)){
         $_SESSION['access_token'] = $accessToken;
 
         // Add user to DB
-        $Db->addGoogleUser($_SESSION['googleId'], $refreshToken);
+        $Db->addGoogleUser($user->name, $_SESSION['googleId'], $refreshToken);
     }
     
     // Go back to home page

@@ -117,15 +117,15 @@ class DbConnector {
 
     /*
      * Function: addUser,
-     * @param $userId - userId on hostSite
+     * @param $hostId - User id on hostSite
      * @param string $hostSite - facebookId or googleId
      * Description: Checks for existing users and adds them to DB
      */
-    function addUser($userId, $hostSite, $otherSite, $refreshToken = '')
+    function addUser($name, $hostId, $hostSite, $otherSite, $refreshToken = '')
     {
         global $_SESSION;
         // check if user already existed
-        $query = "SELECT `users`.`id`, `users`.`".$otherSite."`, `users`.`googleRefreshtkn` FROM `users` WHERE `users`.`".$hostSite."` = '".$userId."' LIMIT 1";
+        $query = "SELECT `users`.`id`, `users`.`".$otherSite."`, `users`.`googleRefreshtkn` FROM `users` WHERE `users`.`".$hostSite."` = '".$hostId."' LIMIT 1";
         $user = $this->getAllRows($query);
         if($user) {
             $_SESSION['vtpUserId'] = $user[0]['id'];
@@ -138,7 +138,7 @@ class DbConnector {
             }
             return true;
         } else {
-            $query = "INSERT INTO `users` SET `users`.`".$hostSite."` = '".$userId."', `users`.`googleRefreshtkn` = '".$refreshToken."'";
+            $query = "INSERT INTO `users` SET `users`.`name` = '".$name."', `users`.`".$hostSite."` = '".$hostId."', `users`.`googleRefreshtkn` = '".$refreshToken."'";
             if($this->query($query)) {
                 return true;
             }else {
@@ -155,7 +155,7 @@ class DbConnector {
      */
     function addFBUser($facebookId)
     {
-        return $this->addUser($facebookId, 'facebookId', 'googleId');
+        return $this->addUser($name, $facebookId, 'facebookId', 'googleId');
     }
 
     /*
@@ -166,16 +166,16 @@ class DbConnector {
      */
     function addGoogleUser($googleId, $refreshToken)
     {
-        return $this->addUser($googleId, 'googleId', 'facebookId', $refreshToken);
+        return $this->addUser($name, $googleId, 'googleId', 'facebookId', $refreshToken);
     }
 
     /*
      * Function: addYtTags,
      * Description: adds YouTube tags to the DB
      */
-    function addYtTags($videoId, $tagStartTime, $tagEndTime, $action, $content)
+    function addYtTags($userId, $videoId, $tagStartTime, $tagEndTime, $action, $content)
     {
-        $query = "INSERT INTO `yttags` SET `yttags`.`videoId`= '".$videoId."', `yttags`.`start`= '".$tagStartTime."', `yttags`.`end`= '".$tagEndTime."', `yttags`.`action`= '".$action."', `yttags`.`content`= '".$content."' ";
+        $query = "INSERT INTO `yttags` SET `yttags`.`userId`= '".$userId."', `yttags`.`videoId`= '".$videoId."', `yttags`.`start`= '".$tagStartTime."', `yttags`.`end`= '".$tagEndTime."', `yttags`.`action`= '".$action."', `yttags`.`content`= '".$content."' ";
         if($this->query($query)) {
             return true;
         }else {
@@ -187,9 +187,9 @@ class DbConnector {
      * Function: addVimeoTags,
      * Description: adds Vimeo tags to the DB
      */
-    function addVimeoTags($videoId, $tagStartTime, $tagEndTime, $action, $content)
+    function addVimeoTags($userId, $videoId, $tagStartTime, $tagEndTime, $action, $content)
     {
-        $query = "INSERT INTO `vimeoTags` SET `vimeoTags`.`videoId`= '".$videoId."', `vimeoTags`.`start`= '".$tagStartTime."', `vimeoTags`.`end`= '".$tagEndTime."', `vimeoTags`.`action`= '".$action."', `vimeoTags`.`content`= '".$content."' ";
+        $query = "INSERT INTO `vimeoTags` SET `vimeoTags`.`userId`= '".$userId."', `vimeoTags`.`videoId`= '".$videoId."', `vimeoTags`.`start`= '".$tagStartTime."', `vimeoTags`.`end`= '".$tagEndTime."', `vimeoTags`.`action`= '".$action."', `vimeoTags`.`content`= '".$content."' ";
         if($this->query($query)) {
             return true;
         }else {
@@ -358,6 +358,17 @@ class DbConnector {
         } else {
             return false;
         }
+    }
+    /*
+     *
+     */
+    function getFirstName($userId) {
+        $query = "SELECT `users`.`name` FROM `users` WHERE `users`.`id` = '".$userId."' LIMIT 1";
+        $user = $this->getAllRows($query);
+        if($user) {
+            return $user[0]['name'];
+        }
+        return 'Anonymous';
     }
     
     /*

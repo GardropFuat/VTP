@@ -36,6 +36,16 @@ body {
     width: 100%;
 }
 
+.comment {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.37);
+    border-radius:10px;
+    -moz-border-radius:10px; /* Firefox 3.6 and earlier */
+    margin: 5px;
+    background-color: #f1f1f1;
+}
+
 #commentsDiv{
     float: left;
     width: 100%;
@@ -45,9 +55,12 @@ body {
     margin-top: 10px;
     text-align: center;
     width: 500px;
+    max-height: 150px;
     border: 2px solid #E9ECEF;
     border-radius:25px;
     -moz-border-radius:25px; /* Firefox 3.6 and earlier */
+    overflow-y: scroll;
+    word-wrap:break-word;
 }
 
 .error {

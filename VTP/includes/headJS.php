@@ -24,6 +24,13 @@ var mapMarker;
 var loadSearch = false;
 
 
+// on window resize set player height
+$(window).resize(function() {
+    $('#playerDiv').height('50%');
+    $('#tagdescription').height('50%');
+});
+
+// shows markers on Google Maps
 function showMarker(index, markerTitle, markerLat, markerLng) {
     if(typeof googleMap !== 'undefined' || typeof tagMap !== 'undefined'){
         markersArray[index] = new googleMap.maps.Marker({
@@ -46,6 +53,7 @@ function showMarker(index, markerTitle, markerLat, markerLng) {
     }
 }
 
+// Hides Markers on Google Maps
 function hideMarker(index) {
     if(typeof googleMap !== 'undefined'){
         markersArray[index].setMap(null);
@@ -108,12 +116,6 @@ function initializeMap(localGoogle)
 }
 
 
-// on window resize set player height
-$(window).resize(function() {
-    $('#playerDiv').height('50%');
-    $('#tagdescription').height('50%');
-});
-
 /*
  * Get the selected value of the radio field
  * @param name: name of the radio field
@@ -125,4 +127,14 @@ function radioVal(name) {
         selectedVal = selected.val();
     return selectedVal;
 }
+
+function showComment(id, comment, name) {
+    comment = '<div id="comment-'+ id +'" class="comment">'+ comment +' - <span style="color:blue;">'+ name +'</span></div>';
+    $("#commentsTbl").prepend(comment);
+}
+
+function hideComment(id) {
+    $('#comment-'+ id ).remove();
+}
+
 </script>

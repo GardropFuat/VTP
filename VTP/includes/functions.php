@@ -51,15 +51,22 @@ function imageTagJs($videoTag) {
 }
 
 function commentTagJs($videoTag) {
-    $script = "video.timeline({
-                    start: ".$videoTag['start'].",
-                    target: 'commentsTbl',
-                    title: '',
-                    text: '".$videoTag['content']."',
-                    innerHTML: '',
-                    direction: 'down'
-                });";
-    return $script;    
+    global $Db;
+
+    $videoTag['name'] = $Db->getFirstName($videoTag['userId']);
+    $videoTag['content'] = json_encode($videoTag['content']);
+    $script = $script."video.code({
+                        start: ".$videoTag['start'].",
+                        end: ".$videoTag['end'].",
+                        onStart: function( ) {
+                            showComment('".$videoTag['id']."', '".$videoTag['content']."', '".$videoTag['name']."');
+                        },
+                        onEnd: function( ) {
+                            hideComment('".$videoTag['id']."');
+                        }                        
+                    });";
+    $mapTagCount++;
+    return $script;
 }
 
 // generates JS code for Map Tags
@@ -151,10 +158,20 @@ function curPath()
     } else {
         $pagePath .= $_SERVER["SERVER_NAME"];
     }
+
+    $reqUri = $_SERVER['REQUEST_URI'];
     
-    $pos = strripos($_SERVER['REQUEST_URI'], '/');
+    // remove query at the end of the link
+    $pos = strpos($reqUri, '?');
     if($pos !== false) {
-        $pagePath = $pagePath.substr($_SERVER['REQUEST_URI'], 0, $pos).'/';
+        // remove queries at the end
+        $reqUri = substr($reqUri, 0, $pos);
+    }
+    
+    // remove filename at the end
+    $pos = strripos($reqUri, '/');
+    if($pos !== false && $pos !== strlen($reqUri)) {
+        $pagePath = $pagePath.substr($reqUri, 0, $pos).'/';
     }
     
     return $pagePath;
@@ -167,5 +184,18 @@ function jsRedirect($location, $newPage = false)
         $code = "<html><head>".$code."</head><body></body></html>";
     }
     echo $code;
+}
+
+/********************************************************************
+// Function: 			Shorten
+// Description:			Shortens the strings which have more charecters than the allowed.
+// @param $string: 		String that should be shortened.
+// @param $max: 		maximum charecters allowed in the string 
+//						default max = 27 which is idle for data tables
+********************************************************************/
+function Shorten($string, $max = '27') {
+	if (strlen($string) > $max)
+		$string = substr_replace($string, '...', $max);
+    return $string;
 }
 ?>

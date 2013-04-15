@@ -10,7 +10,7 @@
  */
 include_once( "head_std.php" );
 
-$fav = $Db->getFavorites($_SESSION['vtpUserId']);
+$favVideos = $Db->getFavorites($_SESSION['vtpUserId']);
 
 if(!empty($_SESSION['facebookId'])) {
     $profileImg = '<img src="http://graph.facebook.com/'.$_SESSION['facebookId'].'/picture" height="100" width"100"><br>';
@@ -22,66 +22,48 @@ if(!empty($_SESSION['facebookId'])) {
 
 ?>
         
-            <script type='text/javascript'>
-                function getlink (selectedSite)
-                {
-                  document.site.ytUrl.value = selectedSite ;
-                  document.site.submit() ;
-                }
-            </script>
+<script type='text/javascript'>
+    function getlink (selectedSite)
+    {
+      document.site.ytUrl.value = selectedSite ;
+      document.site.submit() ;
+    }
+</script>
 
 
-            <h1><?php echo $_SESSION['vtpUserName']; ?></h1>
-            <?=$profileImg;?>
+<h1><?php echo $_SESSION['vtpUserName']; ?></h1>
+<?=$profileImg;?>
+<?php
+//  echo('<a href='.$facebook['link'].'>View Facebook Profile</a><br>');
+?>
+
+<div id="profileContainer">
+    <div id="favorites" style="width:50%; float:left;">
+        <h2>Favorites</h2>
+
+       <table class="videoResults" style="cursor:pointer;">
             <?php
-            //  echo('<a href='.$facebook['link'].'>View Facebook Profile</a><br>');
+                foreach ($favVideos as $video)
+                {
+                    //  get video title from youtube
+                    $link = "https://gdata.youtube.com/feeds/api/videos/".$video['videoId']."?v=2";
+                    $xml = simplexml_load_file($link);
+                    $videoTitle = $xml->title;
+                    $matches = $xml->xpath('media:group/media:description');
+                    $videoDes = Shorten($matches[0], 100);
+                    $imgSrc = '//img.youtube.com/vi/'.$video['videoId'].'/2.jpg';
+                    echo '<tr onclick="window.location = \'index.php?ytUrl=http://www.youtube.com/watch?v='.$video['videoId'].'\'" >';
+                    echo '<td><img src="'.$imgSrc.'" alt="'.$videoTitle.'"/></td>';
+                    echo '<td id="info"><span><span id="title">'.$videoTitle.'</span><br/>';
+                    echo '<span id="description">'.$videoDes.'</span></span></td></tr>';
+                }
             ?>
-
-            <div id="profileContainer">
-                <div id="test">
-                <div id="favorites" style="width:50%; float:left;">
-                    <h2>Favorites</h2>
-
-                    <table>
-                        <?php
-                            echo "<form name=\"site\" method=\"post\" action=\"index.php\">";
-                            foreach ($fav as $x)
-                            {
-                                //  get video title from youtube
-                                $videoData = file_get_contents("http://youtube.com/get_video_info?video_id=".$x['videoId']);
-                                $site = "http://www.youtube.com/watch?v=".$x['videoId'];
-                                parse_str($videoData);
-                                if (is_null($title))
-                                {
-                                }
-                                else
-                                {
-                                    echo "<tr><td>";
-                                    echo "<input type=\"hidden\" name=\"ytUrl\" >";
-                                    echo "<a href=\"javascript:getlink('".$site."')\">".$title."</a>";
-                                    echo "</form>";
-                                    //$videoTitle = $title;
-
-                                    //echo $videoTitle;
-                                    echo "</td></tr>";
-                                }
-                                echo "<tr><td>";
-                                echo "<img src=\"//img.youtube.com/vi/".$x['videoId']."/2.jpg\" alt=\"".$x['videoId']."\">";
-                                echo "</td></tr>";
-                            }
-                        ?>
-                    </table>
-
-
-
-                </div>
-                <div id="uploads" style="width:50%; float:right;">
-                    <h2>Uploads</h2>
-                </div>
-            </div>
-            </div>
-
-    
+        </table>
+    </div>
+    <div id="uploads" style="width:50%; float:right;">
+        <h2>Uploads</h2>
+    </div>
+</div>
 <?php
     include_once( "tail_std.php" );
 ?>

@@ -31,7 +31,7 @@ if ($user) {
             $_SESSION['vtpUserType'] = 'facebook';
             //  $_SESSION['vtpFBLogoutUrl']= $facebook->getLogoutUrl();
 
-            $Db->addFBUser($user_profile['id']);
+            $Db->addFBUser($user_profile['first_name'], $user_profile['id']);
             
             // Redirect to home page
             jsRedirect('index.php', true);

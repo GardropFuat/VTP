@@ -39,7 +39,7 @@ function yTSearch(pageNum) {
         $(response).find('entry').each(function(){
             isSearchSucessful = true;
             var videoId = $(this).find("id").text().split('/').slice(-1);
-            var title = $(this).find("title").text();
+            var title = $($(this).find("title")[0]).text();
             var description = $(this).find("content").text();
             var thumbnail = $(this).find('thumbnail').attr('url');
             

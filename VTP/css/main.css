@@ -59,7 +59,7 @@ body {
     border: 2px solid #E9ECEF;
     border-radius:25px;
     -moz-border-radius:25px; /* Firefox 3.6 and earlier */
-    overflow-y: scroll;
+    overflow-y: auto;
     word-wrap:break-word;
 }
 

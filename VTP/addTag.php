@@ -64,7 +64,7 @@ switch($tagType) {
         $content = json_encode($content);        
         break;
     case 'link':
-        $isTagValid = false;
+        $content = $_POST['webLink'];
         break;
     default:
         $isTagValid = false;

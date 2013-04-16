@@ -100,6 +100,7 @@ $(document).ready(function() {
 function hideAddTagForm() {
     $('#tagDescription').css('display', 'block');
     $('#map').css('display', 'block');
+    $('#commentsDiv').css('display', 'block');
     $('#addTagFormDiv').css('display', 'none');
 }
 
@@ -112,6 +113,7 @@ function showAddTagForm(videoId) {
     }else {
         $('#tagDescription').css('display', 'none');
         $('#map').css('display', 'none');
+        $('#commentsDiv').css('display', 'none');
         $('#addTagFormDiv').css('display', 'block');
     }
 }
@@ -211,6 +213,11 @@ function validateTagInfo() {
                 $("[name=lat]").val(mapMarker['position'].lat());
                 break;
             case 'link':
+                var link = $('[name=webLink]').val();
+                if(!validateURL(link)) {
+                    formError[0] = true;
+                    formError[1] = "*Please provide a valid Url.";
+                }
                 break;
             default:
                 formError[0] = true;
@@ -227,7 +234,7 @@ function validateTagInfo() {
     
     //  Display Error Message
     if(formError[0] === true) {
-        $('#addTagFormError').html(formError[1]);
+        $('#addTagFormError').html(formError[1]+'<br/>');
         formError = Array(false, '');
         return false;
     }else {
@@ -299,6 +306,11 @@ function getVevoInfo(videoId) {
     $.getJSON( "http://youtube.com/get_video_info", "video_id="+ videoId +"&el=vevo", function(response){
         console.log(response);
     });
+}
+
+function validateURL(textval) {
+    var urlregex = new RegExp("^(http|https|ftp)\://([a-zA-Z0-9\.\-]+(\:[a-zA-Z0-9\.&amp;%\$\-]+)*@)*((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0-9\-]+\.)*[a-zA-Z0-9\-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(\:[0-9]+)*(/($|[a-zA-Z0-9\.\,\?\'\\\+&amp;%\$#\=~_\-]+))*$");
+    return urlregex.test(textval);
 }
 
 //adds the ability to move the individual div's on a page

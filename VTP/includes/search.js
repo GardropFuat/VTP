@@ -1,14 +1,13 @@
 // triggered when search/load button is clicked
 // performs task based on the user query and login status
 function processSearch() {
-    //  http://youtu.be/FD44KytW4UU
-    //  http://www.youtube.com/watch?v=FD44KytW4UU
     var query = $('#query').val();
-
     if( query.search("vimeo.com/") !== -1 ) {
         window.location = 'index.php?vimeoUrl=' + query;
     } else if(( query.search("youtu.be/") !== -1 ) || ( query.search("youtube.com/watch")  !== -1 )) {
         window.location = 'index.php?ytUrl=' + query;
+    } else if(document.URL.search('index') === -1 && query !== '') {
+        window.location = 'index.php?vq=' + query;
     } else {
         // as of now search only works when user is logged in
         yTSearch(0);
@@ -38,6 +37,7 @@ function yTSearch(pageNum) {
         // manipulate each video entry data
         $(response).find('entry').each(function(){
             isSearchSucessful = true;
+            // console.log($(this).find("title")[0]);
             var videoId = $(this).find("id").text().split('/').slice(-1);
             var title = $($(this).find("title")[0]).text();
             var description = $(this).find("content").text();

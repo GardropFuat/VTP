@@ -51,15 +51,15 @@ body {
     width: 100%;
 }
 
-#commentsTbl{
+#linksTbl, #commentsTbl{
     margin-top: 10px;
     text-align: center;
-    width: 500px;
+    width: 600px;
     max-height: 150px;
     border: 2px solid #E9ECEF;
     border-radius:25px;
     -moz-border-radius:25px; /* Firefox 3.6 and earlier */
-    overflow-y: auto;
+    overflow-y: scroll;
     word-wrap:break-word;
 }
 

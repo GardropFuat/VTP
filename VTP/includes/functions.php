@@ -52,8 +52,8 @@ function imageTagJs($videoTag) {
 
 function commentTagJs($videoTag) {
     global $Db;
-
     $videoTag['name'] = $Db->getFirstName($videoTag['userId']);
+    // encode for html charecters
     $videoTag['content'] = json_encode($videoTag['content']);
     $script = $script."video.code({
                         start: ".$videoTag['start'].",
@@ -65,7 +65,6 @@ function commentTagJs($videoTag) {
                             hideComment('".$videoTag['id']."');
                         }                        
                     });";
-    $mapTagCount++;
     return $script;
 }
 
@@ -84,6 +83,23 @@ function mapTagJs($videoTag) {
                         }                        
                     });";
     $mapTagCount++;
+    return $script;
+}
+
+// generates JS code for link Tags
+function linkTagJs($videoTag) {
+    // encode for html charecters
+    $videoTag['content'] = json_encode($videoTag['content']);
+    $script = $script."video.code({
+                        start: ".$videoTag['start'].",
+                        end: ".$videoTag['end'].",
+                        onStart: function() {
+                            showLink('".$videoTag['id']."', '".$videoTag['content']."');
+                        },
+                        onEnd: function() {
+                            hideLink('".$videoTag['id']."');
+                        }                        
+                    });";
     return $script;
 }
 

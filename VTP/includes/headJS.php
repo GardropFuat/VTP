@@ -15,6 +15,7 @@
 // increase the default animation speed to exaggerate the effect
 $.fx.speeds._default = 500;
 var googleMap;
+var mapOptions;
 var tagMap;
 var markersArray = [];
 var markersShown = 0;
@@ -33,19 +34,23 @@ $(window).resize(function() {
 // shows markers on Google Maps
 function showMarker(index, markerTitle, markerLat, markerLng) {
     if(typeof googleMap !== 'undefined' || typeof tagMap !== 'undefined'){
+        $('#actualMap').show();
         markersArray[index] = new googleMap.maps.Marker({
             position: new googleMap.maps.LatLng(markerLat, markerLng),
             map: tagMap,
             draggable: true,
             title: markerTitle
         });
-        tagMap.setCenter(markersArray[index].getPosition(), 11);
+
         googleMap.maps.event.addListener(markersArray[index], 'click', function() {
             tagMap.setZoom(8);
             tagMap.setCenter(markersArray[index].getPosition());
         });
-        $('#actualMap').show();
         markersShown++;
+        setTimeout(function(){
+                    googleMap.maps.event.trigger(tagMap, 'resize');
+                    tagMap.setCenter(markersArray[index].getPosition(), 11);
+                },100);
     }else {
         setTimeout(function(){
                     showMarker(index, markerTitle, markerLat, markerLng);
@@ -59,7 +64,7 @@ function hideMarker(index) {
         markersArray[index].setMap(null);
         markersShown--;
         if(markersShown <= 0) {
-            markersShown = 0; 
+            markersShown = 0;
             $('#actualMap').hide();
         }
     }else {
@@ -75,7 +80,7 @@ function hideMarker(index) {
 function initializeTagMap()
 {
     // map options
-    var mapOptions = {
+    mapOptions = {
         zoom: 3,
         center: new googleMap.maps.LatLng(41.42889198568996, -101.09739291088863),
         streetViewControl: false,
@@ -83,8 +88,7 @@ function initializeTagMap()
     };
 
     tagMap = new googleMap.maps.Map(document.getElementById('actualMap'), mapOptions);
-    $('#actualMap').width(300).height(300);
-    googleMap.maps.event.trigger(tagMap, 'resize');
+    $('#actualMap').width(400).height(300);
 }
 
 // initialize Google Map for Addtag form this is called from head_std.php
@@ -93,7 +97,7 @@ function initializeMap(localGoogle)
 {
     googleMap = localGoogle;
     // map options
-    var mapOptions = {
+    mapOptions = {
         zoom: 3,
         center: new localGoogle.maps.LatLng(55.06780214639464, -124.47629916088863),
         streetViewControl: false,
@@ -129,13 +133,23 @@ function radioVal(name) {
     return selectedVal;
 }
 
+// displays comment tags
 function showComment(id, comment, name) {
     comment = '<div id="comment-'+ id +'" class="comment">'+ comment +' - <span style="color:blue;">'+ name +'</span></div>';
     $("#commentsTbl").prepend(comment);
 }
 
+// hides comment tags
 function hideComment(id) {
     $('#comment-'+ id ).remove();
 }
 
+function showLink(id, link) {
+    var content = '<div id="link-'+ id +'" class="link"><a href="'+link+'" target="_BLANK">'+ link +'</a></div>';
+    $("#linksTbl").prepend(content);
+}
+
+function hideLink(id) {
+    $('#link-'+ id ).remove();
+}
 </script>

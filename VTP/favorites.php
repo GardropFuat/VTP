@@ -32,9 +32,6 @@ if(!empty($_SESSION['facebookId'])) {
 
 <h1><?php echo $_SESSION['vtpUserName']; ?></h1>
 <img src="<?=$profileImgSrc;?>" height="100" width"100"><br>
-<?php
-//  echo('<a href='.$facebook['link'].'>View Facebook Profile</a><br>');
-?>
 
 <div id="profileContainer">
     <div id="favorites" style="width:50%; float:left;">

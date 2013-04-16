@@ -34,12 +34,12 @@ $posArray = $posArray[0];
                         </a>
                     </div>
             </div>
-            <div id="addFavorite"> 
+            <div id="addFavorite">
                 <a id="favLink" href="#"></a>
             </div>
             <div id="commentsDiv">
-                <div id="commentsTbl">                    
-                </div>
+                <div id="linksTbl"></div>
+                <div id="commentsTbl"></div>
             </div>
         </div>
         <div id="videoInfo"  style="height:<?= $playerHeight;?> px;width:50%;float:right;">
@@ -52,13 +52,13 @@ $posArray = $posArray[0];
                         <input type="text" id="tagStartTime" value="0:0:0" style="width:50px;" disabled>
                         <input type="text" name="tagStartTime" value="0" style="display:none">
                         <input type="button" value="Use Current Time" onClick="updateVideoTime('tagStartTime')" style="width:140px;">
-                    </p>    
+                    </p>
                     <p>
                         <label style="padding-left:50px;">End Time:</label>
                         <input type="text" id="tagEndTime" value="0:0:0" style="width:50px;" disabled>
                         <input type="text" name="tagEndTime" value="0" style="display:none">
                         <input type="button" value="Use Current Time" onClick="updateVideoTime('tagEndTime')" style="width:140px;">
-                    </p>    
+                    </p>
                     <p>
                         <label style="padding-left:50px;">Type:</label>
                         <input type="radio" name="tagType" value="comment" onClick="showHideTagTypes('commentTr')"/>Comment
@@ -70,7 +70,7 @@ $posArray = $posArray[0];
                         <label style="vertical-align:top;">Comment:</label>
                         <textarea rows='4' cols='25' id='comment' name='comment'></textarea>
                     </p>
-                    <p  class="imageTr">
+                    <p class="imageTr">
                         <label style="padding-left:50px;">Source:</label>
                         <input type="radio" name="imageSrc" value="webLink" onClick="imageSrcChange('webLink');" checked/>Web
                         <input type="radio" name="imageSrc" value="upload" onClick="imageSrcChange('upload');"/>My Computer
@@ -81,7 +81,7 @@ $posArray = $posArray[0];
                     </p>
                     <p class="imageTr" id="imgSrcUpload" style="display:none;">
                         <label style="padding-left:50px;">Upload:</label>
-                        <input type="file" accept="image/*" name="imageUpload" id="imageUpload" style="width:300px;"> 
+                        <input type="file" accept="image/*" name="imageUpload" id="imageUpload" style="width:300px;">
                     </p>
                     <p  class="mapTr" style="display:none;">
                         <label style="padding-left:50px;">Marker Title:</label>
@@ -96,13 +96,13 @@ $posArray = $posArray[0];
                     <p class="mapTr map" id="map_canvas"style="display:none;margin-left: 150px;"></p>
                     <p class="linkTr" style="display:none;">
                         <label style="padding-left:50px;">Url:</label>
-                        <input name="webLink" id="webLink" placeholder="http://www.google.com" style="width:150px;"/>
+                        <input type="text" name="webLink" id="webLink" placeholder="http://www.google.com" style="width:200px;"/>
                     </p>
                     <p style="margin:0px;">
                         <label style="color:red;" id="addTagFormError" class="error"></label>
                         <input type="text" name="videoId" id="videoId" value="" style="display:none">
                         <input type="text" name="videoSource" id="videoSource" value="" style="display:none">
-                        <img id="imgPreview" style="padding:0px 50px;display:none;" onError="invalidImageUrl();" onLoad="validImageUrl();">
+                        <img id="imgPreview" class="imageTr" style="padding:0px 50px;display:none;" onError="invalidImageUrl();" onLoad="validImageUrl();">
                     </p>
                     <p>
                         <label style="padding-left:50px;"></label>
@@ -115,8 +115,8 @@ $posArray = $posArray[0];
             <!--<div id="tagDescription" style="overflow-y:auto;position: relative; left: <?echo($posArray['tagContainer1_x']);?>px; top: <?echo($posArray['tagContainer1_y']);?>px"><!-- Display Picture/Other tags here </div> -->
             <div id="tagDescription" style="overflow-y:auto"><!-- Display Picture/Other tags here--></div>
             <div id="map">
-                <div id="actualMap" style="display:none;margin-left:150px;max-height:400px;max-width:400px;"></div>
+                <div id="actualMap" style="display:none;margin-left:150px;width:400px;height:300px;"></div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>

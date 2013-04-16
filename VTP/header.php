@@ -15,7 +15,8 @@ $redirect_uri = curPath().'libraries/googleAuthentication.php';
 $googleLgnUrl = "https://accounts.google.com/o/oauth2/auth?scope=".$scopes."&redirect_uri=".$redirect_uri."&response_type=code&client_id=".GOOGLE_CLIENT_ID."&access_type=offline";
 
 if(!empty($_SESSION['vtpUserId'])) {
-    $loginBtn = "<input type='button' data-dropdown='#logoutDropdown' value='".$_SESSION['vtpUserName']."' style='width:100px;'/>";
+    $name = explode(" ", $_SESSION['vtpUserName']);
+    $loginBtn = "<input type='button' data-dropdown='#logoutDropdown' value='".$name[0]."' style='width:100px;'/>";
     $friendsOptn = '<li style="padding: 10px;font-size: 15px;font-weight: bold;" onclick="window.location.href = \'getFriends.php\';"><img src="images/friends.png" style="padding-bottom: 0px;width: 16px;"><span class="link"> Friends</span></li>';
     $uploadOptn = '<li style="padding: 10px;font-size: 15px;font-weight: bold;" onclick="window.location.href = \'AddVideo.php\';"><img src="images/upload.png" style="padding-bottom: 0px;width: 16px;"><span class="link"> Upload</span></li>';
     $favoriteOptn = '<li style="padding: 10px;font-size: 15px;font-weight: bold;" onclick="window.location.href = \'favorites.php\';"><img src="images/favorites.png" style="padding-bottom: 0px;width: 16px;"><span class="link"> Favorites</span></li>';
@@ -69,7 +70,7 @@ if(!empty($_SESSION['vtpUserId'])) {
         <div class="form">
             <p>
                 <input type="button" value="" style="width: 40px;background-image: url('images/home.png');background-repeat: no-repeat;background-position:center;" onclick="window.location='index.php'">
-                <input type="text" style="width:550px;" id="query" value=''/>
+                <input type="text" style="width:550px;" id="query" value='<?=$_REQUEST['vq'];?>'/>
                 <input type="submit" id="search-button" value="Search/Load URL" style="width:130px;" onClick="processSearch();"/>
                 <?=$loginBtn;?>
             </p>

@@ -97,7 +97,7 @@ if(isset( $_GET['id']) && isset($_GET['status']))
                     <input type="text" name="video_keywords"/>
                 </p>
                 <p>
-                    <label style="padding-left:10px;"><input type="checkbox" name="disclaimer"/>Allow VTP to upload this video into YouTube</label>                    
+                    <label style="padding-left:85px;"><input type="checkbox" name="disclaimer"/>Allow VTP to upload this video into my YouTube account</label>                    
                 </p>
                 <p>
                     <input type="submit" id="submitBtn" value="Proceed to Step 2" style="width:180px;" disabled/>
@@ -133,8 +133,8 @@ if(isset( $_GET['id']) && isset($_GET['status']))
             </form>
         </div>
 <!-- Final Step -->
-<?php elseif( isset($unique_id)  && $status = '200' ) : ?>
-        <div id="video-success" class="form">
+<?php elseif( isset($unique_id)  && $status = '200' ): ?>
+        <div id="video-success" align="center" class="form">
             <h4>Video Successfully Uploaded!</h4>
             <p>Here is your url to view your video on VTP: <a href="index.php?ytUrl=http://www.youtube.com/watch?v=<?php echo $unique_id; ?>" target="_SELF">here</a></p>
             <p>The video should be up any moment but could take up to 3 hours to be finished, Please Be Patient.</p>

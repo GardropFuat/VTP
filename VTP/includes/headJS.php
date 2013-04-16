@@ -84,6 +84,7 @@ function initializeTagMap()
 
     tagMap = new googleMap.maps.Map(document.getElementById('actualMap'), mapOptions);
     $('#actualMap').width(300).height(300);
+    googleMap.maps.event.trigger(tagMap, 'resize');
 }
 
 // initialize Google Map for Addtag form this is called from head_std.php

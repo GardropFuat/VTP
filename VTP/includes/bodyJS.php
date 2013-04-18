@@ -16,24 +16,23 @@ $playerWidth = 640;
 $requestedPage = explode('/', $_SERVER['SCRIPT_NAME']);
 $requestedPage = end($requestedPage);
 
-
 if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
     $vimeoUrl = $_REQUEST['vimeoUrl'];
     $videoSource = 'vimeo';
     $videoId = getViemoVideoId($vimeoUrl);
-    
+
     //  get video info from vimeo
     $videoData = simplexml_load_file("http://vimeo.com/api/v2/video/".$videoId.".xml");
     $videoTitle = $videoData->video->title;
-    
+
     $videoLink = "http://player.vimeo.com/video/".$vimeoUrl;
-    
+
     // set player height and width & update video Info
     echoScript("$('#playerFrame').height(".$playerHeight.").width(".$playerWidth.")");
     echoScript("$('#videoTitle').text('".$videoTitle."')");
     echoScript("$('[name=videoId]').attr('value', '".$videoId."')");
     echoScript("$('[name=videoSource]').attr('value', '".$videoSource."')");
-    
+
         // Check if video is favorite
     $isFavorite = $Db->isFavorite($userId, $videoId);
     if( $userId && $isFavorite ) {
@@ -42,23 +41,22 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
         echoScript('$("#favLink").html("Add to Favorites").attr("onClick", "make_favorite()")');
    }
 
-
     // generate player and set actions
-    $viemoContent = generateVimeoVideoScript($videoId);
+    $viemoContent = generateVimeoVideoScript($videoId, $_SESSION['tagFilter']);
     echoScript( $viemoContent );
     echoScript( "$('#container').css('display', 'block');" );
 }else if( !empty( $_REQUEST['ytUrl'] ) && ($requestedPage == 'index.php') ) {
-    $ytUrl = $_REQUEST['ytUrl']; 
+    $ytUrl = $_REQUEST['ytUrl'];
     $videoSource = 'youtube';
-    
+
     $videoId = getYtVideoId($ytUrl);
-    
+
     $link = "https://gdata.youtube.com/feeds/api/videos/".$videoId."?v=2";
     $xml = simplexml_load_file($link);
     $videoTitle = $xml->title;
 
     $videoLink = "https://www.youtube.com/v/".$videoId."?version=3&enablejsapi=1";
-    
+
     // set player height and width & update video Info
     echoScript("$('#playerFrame').height(".$playerHeight.")");
     echoScript("$('#videoTitle').text('".$videoTitle."')");
@@ -71,7 +69,7 @@ if( !empty( $_REQUEST['vimeoUrl'] ) && ($requestedPage == 'index.php') ) {
         echoScript('$("#favLink").html("Add to Favorites").attr("onClick", "make_favorite()")');
     }
     // generate player and set actions
-    $ytContent = generateYTVideoScript($videoId);
+    $ytContent = generateYTVideoScript($videoId, $_SESSION['tagFilter']);
     echoScript( $ytContent );
     echoScript( "$('#container').css('display', 'block');" );
 } else {
@@ -84,6 +82,7 @@ var YOUTUBE_DEVELOPER_KEY = 'AI39si7zLxgtuhVYtL4GcpnoWpgtanI0Ye3G1FyOdyvrJmhS-n2
 var tagTypes = Array("commentTr", "imageTr", "mapTr", "linkTr");
 var formError = new Array(false, '');
 var isImgUrlTested = false;
+var isTagsHidden = false;
 
 $(document).ready(function() {
     imageSrcChange('webLink');
@@ -91,17 +90,35 @@ $(document).ready(function() {
     {
         processSearch();
     }
-    
+
+    $('[name=tagFilter]').change(function(e){
+        switch($(this).val())
+        {
+            case 'none':
+                isTagsHidden = true;
+                window.location = '<?=curPageUrl();?>&t=0';
+                // hideTags();
+                break;
+            case 'friends':
+                isTagsHidden = false;
+                window.location = '<?=curPageUrl();?>&t=1';
+                break;
+            case 'all':
+                isTagsHidden = false;
+                window.location = '<?=curPageUrl();?>&t=2';
+                // showTags();
+                break;
+        }
+    });
 });
 
 /*
  * Hides Add tag form and shows pictures
  */
 function hideAddTagForm() {
-    $('#tagDescription').css('display', 'block');
-    $('#map').css('display', 'block');
-    $('#commentsDiv').css('display', 'block');
     $('#addTagFormDiv').css('display', 'none');
+    if(!isTagsHidden)
+        showTags();
 }
 
 /*
@@ -111,15 +128,27 @@ function showAddTagForm(videoId) {
     if('<?=$_SESSION["vtpUserId"]?>' === '') {
         alert("Please login to add a tag.");
     }else {
-        $('#tagDescription').css('display', 'none');
-        $('#map').css('display', 'none');
-        $('#commentsDiv').css('display', 'none');
+        hideTags();
         $('#addTagFormDiv').css('display', 'block');
     }
 }
 
+
+function showTags() {
+    $('#tagDescription').css('display', 'block');
+    $('#map').css('display', 'block');
+    $('#commentsDiv').css('display', 'block');
+}
+
+function hideTags() {
+    $('#tagDescription').css('display', 'none');
+    $('#map').css('display', 'none');
+    $('#commentsDiv').css('display', 'none');
+}
+
+
 /*
- * shows selected tag type and hides rest others
+ * shows selected tag type and hides rest others in Add tag Form
  * Requires all possible adtypes in "tagTypes" array
  */
 function showHideTagTypes(tagType) {
@@ -127,7 +156,7 @@ function showHideTagTypes(tagType) {
     $('#addTagFormError').html('');
     formError = Array(false, '');
     $('#saveAddTagForm').attr('disabled', false);
-    
+
     $.each(tagTypes, function(index, value) {
         if(tagType === value) {
             $('.' + tagType).css('display', 'block');
@@ -135,7 +164,7 @@ function showHideTagTypes(tagType) {
             $('.' + value).css('display', 'none');
         }
     });
-    
+
     // resize maps
     if(tagType === 'mapTr')
         google.maps.event.trigger(map, 'resize');
@@ -156,10 +185,10 @@ function updateVideoTime(idName) {
         minutes = parseInt(minutes % 60, 10)
     }
     currentTime = hours + ':' + minutes + ':' + seconds;
-    
-    // show hh:mm:ss in disabled form 
+
+    // show hh:mm:ss in disabled form
     $('#' + idName).val(currentTime);
-    //  show seconds in the hidden form 
+    //  show seconds in the hidden form
     $('[name=' + idName + ']').val(video.currentTime());
 }
 
@@ -170,7 +199,7 @@ function validateTagInfo() {
     var tagStartTime =  parseInt($('[name=tagStartTime]').val());
     var tagEndTime = parseInt($('[name=tagEndTime]').val());
     var tagType = radioVal('tagType');
-    
+
     if(tagStartTime < tagEndTime) {
         switch(tagType) {
             case 'comment':
@@ -187,7 +216,7 @@ function validateTagInfo() {
                         if(imageUrl === ''  || typeof imageUrl === 'undefined' || imageUrl == null) {
                             formError = Array(true, '*Please provide image Url');
                         }else {
-                            // do nothing 
+                            // do nothing
                             //      image url validation should be done from imageSrcChange()
                         }
                         break;
@@ -229,9 +258,9 @@ function validateTagInfo() {
         formError[1] = "*End Time cannot be equal to Start Time.";
     }else{
         formError[0] = true;
-        formError[1] = "*End Time cannot be greater than Start Time.";
+        formError[1] = "*Start Time cannot be greater than End Time.";
     }
-    
+
     //  Display Error Message
     if(formError[0] === true) {
         $('#addTagFormError').html(formError[1]+'<br/>');
@@ -259,8 +288,8 @@ function make_favorite() {
  */
 function imageSrcChange(src) {
     if(src === 'webLink') {
-        $('#imgSrcUpload').hide(); 
-        $('#imgSrcLink').show();        
+        $('#imgSrcUpload').hide();
+        $('#imgSrcLink').show();
         $('#previewImgUrl').show();
         $('#saveAddTagForm').attr('disabled', true);
     }else if(src === 'upload') {
@@ -314,7 +343,7 @@ function validateURL(textval) {
 }
 
 //adds the ability to move the individual div's on a page
-//the key is to make them relative to the screen such that 
+//the key is to make them relative to the screen such that
 //different screen sizes have similar orintations
 $(function() {
     $( "#tagDescription" ).draggable({
@@ -381,7 +410,7 @@ $(function() {
             var finalyPos = finalOffset.top;
             var container_type = "videoTitle"
             $.post("CapturePos.php", 'data=' + finalxPos+ '&data2=' + finalyPos +'&data3=' +container_type );
-            
+
 
             //an attempt at making a cookie to hold the oriantation of the screen values
             /*function setCookie(cookieName, finalxPos+'_'+finalyPos, exp ){

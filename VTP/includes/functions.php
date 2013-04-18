@@ -103,9 +103,31 @@ function linkTagJs($videoTag) {
     return $script;
 }
 
-function generateYTVideoScript($videoId) {
+function generateYTVideoScript($videoId, $filter = '') {
     global $Db;
-    $videoTags = $Db->getYTTags($videoId);
+    
+    if($filter == 0) {
+        $videoTags = array();
+    }else if($filter == 1) {  // filter tags by facebook friend
+        include("libraries/facebook-api-php-client/facebook.php");
+        $facebook = new Facebook(array(
+                                    'appId'  => FACEBOOK_API_ID,
+                                    'secret' => FACEBOOK_SECRET_KEY,
+                                ));
+
+        $fbUserData = $facebook->api('me/friends?fields=id');
+        $users = $fbUserData['data'];
+        $facebookIds = '';
+        foreach ($users as $user) {
+            $facebookIds = $user['id'].','.$facebookIds;
+        }
+        $facebookIds = substr($facebookIds, 0, -1);
+
+        $videoTags = $Db->getYTTags($videoId, $facebookIds);
+    }else {
+        $videoTags = $Db->getYTTags($videoId);
+    }
+
     //  create YT player 
     //  rel = 0 will disable related videos suggestion at end of each video
     $content = "var video = Popcorn.smart( '#playerFrame', 'http://www.youtube.com/watch?v=".$videoId."&rel=0' );";
@@ -117,10 +139,32 @@ function generateYTVideoScript($videoId) {
     return $content;
 }
 
-function generateVimeoVideoScript($videoId) {
+function generateVimeoVideoScript($videoId, $filter = '') {
     global $Db;
-    $videoTags = $Db->getViemoTags($videoId);
-    //  create YT player 
+    
+    if($filter == 2) {
+        include("libraries/facebook-api-php-client/facebook.php");
+        $facebook = new Facebook(array(
+                                    'appId'  => FACEBOOK_API_ID,
+                                    'secret' => FACEBOOK_SECRET_KEY,
+                                ));
+
+        $fbUserData = $facebook->api('me/friends?fields=id');
+        $users = $fbUserData['data'];
+        $facebookIds = '';
+        foreach ($users as $user) {
+            $facebookIds = $user['id'].','.$facebookIds;
+        }
+        $facebookIds = substr($facebookIds, 0, -1);
+
+        $videoTags = $Db->getViemoTags($videoId, $facebookIds);
+    }else{
+        $videoTags = $Db->getViemoTags($videoId);
+    }
+    
+    
+    
+    //  create Video player 
     //  rel = 0 will disable related videos suggestion at end of each video
     $content = "var video = Popcorn.vimeo( '#playerFrame', 'http://player.vimeo.com/video/".$videoId."' );";
     

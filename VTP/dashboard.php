@@ -12,22 +12,32 @@
 $userId = $_SESSION['vtpUserId'];
 $posArray = $Db->getContainerPos($userId);
 $posArray = $posArray[0];
-//print_r($posArray);
-//echo($posArray['tagContainer1_x']);
-//echo($posArray['tagContainer1_y']);
+$tagFilter = Array();
+
+// set Filter options
+if(isset($_REQUEST['t'])) {
+    $_SESSION['tagFilter'] = $_REQUEST['t'];
+}else if(isset($_SESSION['tagFilter'])) {
+    // do nothing
+}else{
+    $_SESSION['tagFilter'] = 2; // all
+}
+
+$tagFilter[$_SESSION['tagFilter']] = 'checked';
+
 ?>
 <div id="container">
     <div id="contentTop">
         <div class="videoTitle" id="videoTitle"><?= $videoTitle; ?></div>
-        <div id="playerDiv" style="width:50%" >
+        <div id="playerDiv" style="width:50%">
             <div id="playerFrame">
                 <!-- will be replaced by Video from Popcorn javaScript(bodyJS.php) -->
             </div>
             <div id="tagControls">
                     Show Tags:
-                    <input type="radio" name="tagFilter"/>None
-                    <input type="radio" name="tagFilter"/>Friends
-                    <input type="radio" name="tagFilter" checked/>All
+                    <input type="radio" name="tagFilter" value="none" <?=$tagFilter[0];?>/>None
+                    <input type="radio" name="tagFilter" value="friends" <?=$tagFilter[1];?>/>Friends
+                    <input type="radio" name="tagFilter" value="all" <?=$tagFilter[2];?>/>All
                     <div style="float:right;">
                         <a href="#" onClick="showAddTagForm('<?=$videoId;?>');">
                             <!--<img class="ui-icon ui-icon-plusthick"/> -->Add Tag

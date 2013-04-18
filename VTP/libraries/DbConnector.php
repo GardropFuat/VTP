@@ -98,9 +98,10 @@ class DbConnector {
      * @param string $videoId - youtube video id
      * Description: Returns all tags linked to the provided youtube video id
      */
-    function getYTTags($videoId)
+    function getYTTags($videoId, $filterIds = '')
     {
-        $query = "SELECT * FROM `yttags` WHERE `yttags`.`videoId` = '".$videoId."' ";
+        $addlQuery = (empty($filterIds)) ? '':"AND `yttags`.`userId` IN (SELECT `users`.`id` FROM `users` WHERE `users`.`facebookId` IN ($filterIds))";
+        $query = "SELECT * FROM `yttags` WHERE `yttags`.`videoId` = '".$videoId."' ".$addlQuery;
         return $this->getAllRows($query);
     }
     
@@ -109,9 +110,10 @@ class DbConnector {
      * @param string $videoId - Viemo video id
      * Description: Returns all tags linked to the provided youtube video id
      */
-    function getViemoTags($videoId)
+    function getViemoTags($videoId, $filterIds = '')
     {
-        $query = "SELECT * FROM `viemoTags` WHERE `viemoTags`.`videoId` = '".$videoId."' ";
+        $addlQuery = (empty($filterIds)) ? '':"AND `viemoTags`.`userId` IN (SELECT `users`.`id` FROM `users` WHERE `users`.`facebookId` IN ($filterIds))";
+        $query = "SELECT * FROM `viemoTags` WHERE `viemoTags`.`videoId` = '".$videoId."' ".$addlQuery;
         return $this->getAllRows($query);
     }
 
@@ -380,5 +382,4 @@ class DbConnector {
         mysql_close($this->link);
     }
 }
-
 ?>

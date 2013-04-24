@@ -6,7 +6,7 @@ include_once 'includes/functions.php';
 
 require 'libraries/facebook-api-php-client/facebook.php';
 
-// Create our Application instance (replace this with your appId and secret).
+// Create Facebook API instance
 $facebook = new Facebook(array( 'appId'  => FACEBOOK_API_ID, 'secret' => FACEBOOK_SECRET_KEY ));
 
 // Get User ID
@@ -16,13 +16,15 @@ if ($user) {
     try {
         // get user profile details
         $user_profile = $facebook->api('/me');
-
+        
+        $fbFriendIds = getFbFriends();
+        
         include_once 'libraries/DbConnector.php';
         $Db = new DbConnector();
 
         if( !empty($_SESSION['vtpUserId']) && !empty($_SESSION['googleId']) ) {
             // Linking Google account
-            $Db->linkFacebookAccount($_SESSION['vtpUserId'], $user_profile['id'], $_SESSION['googleId']);
+            $Db->linkFacebookAccount($_SESSION['vtpUserId'], $user_profile['id'], $_SESSION['googleId'], $fbFriendIds);
         }else {
             // new login
             $_SESSION['vtpUserId'] = $user_profile['id'];
@@ -31,7 +33,7 @@ if ($user) {
             $_SESSION['vtpUserType'] = 'facebook';
             //  $_SESSION['vtpFBLogoutUrl']= $facebook->getLogoutUrl();
 
-            $Db->addFBUser($user_profile['first_name'], $user_profile['id']);
+            $Db->addFBUser($user_profile['first_name'], $user_profile['id'], $fbFriendIds);
             
             // Redirect to home page
             jsRedirect('index.php', true);

@@ -123,7 +123,7 @@ class DbConnector {
      * @param string $hostSite - facebookId or googleId
      * Description: Checks for existing users and adds them to DB
      */
-    function addUser($name, $hostId, $hostSite, $otherSite, $refreshToken = '')
+    function addUser($name, $hostId, $hostSite, $otherSite, $refreshToken = '', $fbFriendIds = '')
     {
         global $_SESSION;
         // check if user already existed
@@ -137,10 +137,18 @@ class DbConnector {
                     include_once 'includes/getOauth2Token.php';
                     $_SESSION['access_token'] = getAccessToken($user[0]['googleRefreshtkn']);
                 }
+                
+                $friendIds = $this->getFriendIds($fbFriendIds);
+                if(!empty($friendIds)) {
+                    $query = "UPDATE `users` SET `users`.`friendIds` = '".$friendIds."' WHERE `users`.`id` = '".$user[0]['id']."'";
+                    $this->query($query);
+                }
             }
             return true;
         } else {
-            $query = "INSERT INTO `users` SET `users`.`name` = '".$name."', `users`.`".$hostSite."` = '".$hostId."', `users`.`googleRefreshtkn` = '".$refreshToken."'";
+            $friendIds = $this->getFriendIds($fbFriendIds);
+        
+            $query = "INSERT INTO `users` SET `users`.`name` = '".$name."', `users`.`".$hostSite."` = '".$hostId."', `users`.`googleRefreshtkn` = '".$refreshToken."', `users`.`friendIds` = '".$friendIds."' ";
             if($this->query($query)) {
                 return true;
             }else {
@@ -150,14 +158,43 @@ class DbConnector {
         return false;
     }
 
+    function getFriendIds($fbFriendIds)
+    {
+        if(empty($fbFriendIds))
+            return '';
+        $query = "SELECT `users`.`id` FROM `users` WHERE `users`.`facebookId` IN ($fbFriendIds)";
+        $users = $this->getAllRows($query);
+        foreach ($users as $user) {
+            $friendIds = $user['id'].','.$friendIds;
+        }
+        $friendIds = substr($friendIds, 0, -1);
+        return $friendIds;
+    }
+    
+    function getFbFriendIds($userId)
+    {
+        $query = "SELECT `users`.`friendIds` FROM `users` WHERE `users`.`id` = '".$userId."' LIMIT 1";
+        $userIds = $this->getAllRows($query);
+        if(!empty($userIds)) {
+            $query = "SELECT `users`.`facebookId` FROM `users` WHERE `users`.`id` IN (".$userIds[0]['friendIds'].") ";
+            $users = $this->getAllRows($query);
+            $facebookIds = array();
+            foreach ($users as $user) {
+                array_push($facebookIds, $user['facebookId']);
+            }
+            return $facebookIds;
+        }
+        return '';
+    }
+    
     /*
      * Function: addFBUser,
      * @param $facebookId - userId on Facebook.com
      * Description: Checks for existing users and adds them to DB
      */
-    function addFBUser($name, $facebookId)
+    function addFBUser($name, $facebookId, $fbFriendIds)
     {
-        return $this->addUser($name, $facebookId, 'facebookId', 'googleId');
+        return $this->addUser($name, $facebookId, 'facebookId', 'googleId', '', $fbFriendIds);
     }
 
     /*
@@ -245,7 +282,7 @@ class DbConnector {
     /*
      * Function: getFriends,
      * @param int $userId
-     * Description: Finds the freinds that use the site
+     * Description: Finds the friends that use the site
      */
     function getFriends($userId)
     {
@@ -270,15 +307,18 @@ class DbConnector {
      *                          empty if it is facebook authentication
      * Description: links user accounts from different hosts
      */
-    function linkUserAccounts($vtpUserId, $hostId, $hostSite, $otherId, $otherSite, $refreshToken = '')
+    function linkUserAccounts($vtpUserId, $hostId, $hostSite, $otherId, $otherSite, $refreshToken = '', $fbFriendIds = '')
     {
         global $_SESSION;
-        $query = "SELECT `users`.`id` FROM `users` WHERE `users`.`id` = '".$vtpUserId."' AND `users`.`".$hostSite."` = '".$hostId."' LIMIT 1";
+        $query = "SELECT `users`.`id` FROM `users` WHERE `users`.`".$hostSite."` = '".$hostId."' LIMIT 1";
         $user = $this->getAllRows($query);
         if($user) {
+            $friendIds = $this->getFriendIds($fbFriendIds);
+            
             // user account exists
-            $addlQuery = (!empty($refreshToken)) ? ', `users`.`googleRefreshtkn` = "'.$refreshToken.'"':'';
-            $query = "UPDATE `users` SET `users`.`".$otherSite."` = '".$otherId."' WHERE `users`.`id` = '".$vtpUserId."'".$addlQuery;
+            $addlQuery = (!empty($refreshToken)) ? ' , `users`.`googleRefreshtkn` = "'.$refreshToken.'"':'';
+            $addlQuery = (!empty($friendIds)) ? ' , `users`.`friendIds` = "'.$friendIds.'"':$addlQuery;
+            $query = "UPDATE `users` SET `users`.`".$otherSite."` = '".$otherId."' ".$addlQuery." WHERE `users`.`id` = '".$vtpUserId."'";
             
             if($this->query($query))
             {
@@ -308,9 +348,9 @@ class DbConnector {
      *        $googleId:      userId in Google
      * Description: links Facebook account to existing Google Account
      */
-    function linkFacebookAccount($vtpUserId, $facebookId, $googleId)
+    function linkFacebookAccount($vtpUserId, $facebookId, $googleId, $fbFriendIds)
     {
-        return $this->linkUserAccounts($vtpUserId, $googleId, 'googleId', $facebookId, 'facebookId');
+        return $this->linkUserAccounts($vtpUserId, $googleId, 'googleId', $facebookId, 'facebookId', '', $fbFriendIds);
     }
 	
 	
@@ -382,4 +422,5 @@ class DbConnector {
         mysql_close($this->link);
     }
 }
+
 ?>

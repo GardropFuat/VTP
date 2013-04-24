@@ -32,6 +32,22 @@ function parseUrl($url, $key) {
     }
 }
 
+function getFbFriends() {
+    global $Db;
+    global $facebook;
+    
+    $fbUserData = $facebook->api('me/friends?fields=id');
+    $users = $fbUserData['data'];
+    $fbFriendIds = '';
+    foreach ($users as $user) {
+        $fbFriendIds = $user['id'].','.$fbFriendIds;
+    }
+    $fbFriendIds = substr($fbFriendIds, 0, -1);
+    // $fbFriendIds = $db->getFbFriendsVtpIds($fbFriendIds);
+    
+    return $fbFriendIds;
+}
+
 // add script tags to JavaScript
 function echoScript($jsCode) {
     echo "<script type='text/javascript'>".$jsCode."</script>";
@@ -54,7 +70,7 @@ function commentTagJs($videoTag) {
     global $Db;
     $videoTag['name'] = $Db->getFirstName($videoTag['userId']);
     // encode for html charecters
-    $videoTag['content'] = json_encode($videoTag['content']);
+    $videoTag['content'] = addslashes(json_encode(addslashes($videoTag['content'])));
     $script = $script."video.code({
                         start: ".$videoTag['start'].",
                         end: ".$videoTag['end'].",
@@ -109,21 +125,8 @@ function generateYTVideoScript($videoId, $filter = '') {
     if($filter == 0) {
         $videoTags = array();
     }else if($filter == 1) {  // filter tags by facebook friend
-        include("libraries/facebook-api-php-client/facebook.php");
-        $facebook = new Facebook(array(
-                                    'appId'  => FACEBOOK_API_ID,
-                                    'secret' => FACEBOOK_SECRET_KEY,
-                                ));
-
-        $fbUserData = $facebook->api('me/friends?fields=id');
-        $users = $fbUserData['data'];
-        $facebookIds = '';
-        foreach ($users as $user) {
-            $facebookIds = $user['id'].','.$facebookIds;
-        }
-        $facebookIds = substr($facebookIds, 0, -1);
-
-        $videoTags = $Db->getYTTags($videoId, $facebookIds);
+        $fbFriendIds = getFbFriends();
+        $videoTags = $Db->getYTTags($videoId, $fbFriendIds);
     }else {
         $videoTags = $Db->getYTTags($videoId);
     }
@@ -142,27 +145,14 @@ function generateYTVideoScript($videoId, $filter = '') {
 function generateVimeoVideoScript($videoId, $filter = '') {
     global $Db;
     
-    if($filter == 2) {
-        include("libraries/facebook-api-php-client/facebook.php");
-        $facebook = new Facebook(array(
-                                    'appId'  => FACEBOOK_API_ID,
-                                    'secret' => FACEBOOK_SECRET_KEY,
-                                ));
-
-        $fbUserData = $facebook->api('me/friends?fields=id');
-        $users = $fbUserData['data'];
-        $facebookIds = '';
-        foreach ($users as $user) {
-            $facebookIds = $user['id'].','.$facebookIds;
-        }
-        $facebookIds = substr($facebookIds, 0, -1);
-
-        $videoTags = $Db->getViemoTags($videoId, $facebookIds);
-    }else{
+    if($filter == 0) {
+        $videoTags = array();
+    }else if($filter == 1) {  // filter tags by facebook friend
+        $fbFriendIds = getFbFriends();
+        $videoTags = $Db->getViemoTags($videoId, $fbFriendIds);
+    }else {
         $videoTags = $Db->getViemoTags($videoId);
     }
-    
-    
     
     //  create Video player 
     //  rel = 0 will disable related videos suggestion at end of each video

@@ -41,7 +41,6 @@ function yTSearch(pageNum) {
             var videoId = $(this).find("id").text().split('/').slice(-1);
             var title = $($(this).find("title")[0]).text();
             var description = $(this).find("content").text();
-            var thumbnail = $(this).find('thumbnail').attr('url');
             
             // copy the video id for displaying tag 
             videoIds.push(videoId);
@@ -52,10 +51,10 @@ function yTSearch(pageNum) {
             if(description.length > 115) {
                 description = description.substr(0, 115) + '...';
             }
-            
+
             htmlResult += '<tr onclick="document.location = \'index.php?ytUrl=http://www.youtube.com/watch?v=' + videoId + '\'">';
             htmlResult += '<td style="width:16px;"><img id="tag-icon-' + videoId + '" src="images/tag.png" style="width:16px;height:16px;float:right;display:none;" title="This video hasbeen tagged"></td>';
-            htmlResult += '<td><img src="' + thumbnail + '" alt="' + title + '"/></td>';
+            htmlResult += '<td><img src="http://i.ytimg.com/vi/'+ videoId +'/0.jpg" alt="' + title + '"/></td>';
             htmlResult += '<td id="info"><span>'+ '<span id="title">' + title + '</span><br/>';
             htmlResult += '<span id="description">' + description + '</span></span></td></tr>';
         });

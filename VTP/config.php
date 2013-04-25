@@ -5,23 +5,23 @@ session_start();
 date_default_timezone_set("America/Denver");
 
 //  display/hide PHP errors 0->hide , 1-> show(default)
-ini_set('display_errors', 1);
+ini_set('display_errors', 0);
 
 include("includes/errorLog.php");
 
 /*  Database info    */
-define('DB_HOST', 'localhost');
-define('DB_DB', 'vtphost1_videotagportal');
-define('DB_USER', 'vtphost1_root');
-define('DB_PASSWORD', 'VTPvtp123123');
+define('DB_HOST', 'localhost'); //  host is usually localhost for servers also
+define('DB_DB', 'MY_DB_NAME'); //  Database name for vtp
+define('DB_USER', 'MY_DB_USER_NAME'); // user Id for the Database
+define('DB_PASSWORD', 'MY_DB_PASSWORD');  // password for the Database
 
-/* Google API Data  */
-define('GOOGLE_CLIENT_ID', '52837008745-ooej09e6nrgama8p8ptl3p8f5qtomt42.apps.googleusercontent.com');
-define('GOOGLE_CLIENT_SECRET', '2I5UR3U8xD5Fgpb__Wm_-TPD');
-define('GOOGLE_API_KEY', 'AIzaSyAlbflcsqSg7b3-Nq-Ggo_4PVzo-MC4Y7s');
-define("YOUTUBE_DEVELOPER_KEY", 'AI39si7zLxgtuhVYtL4GcpnoWpgtanI0Ye3G1FyOdyvrJmhS-n2X6KK7eJDYZS7n5nI9WM_7ny0ZzBhcztbrlia3DHIPOXEAdQ');
+/* Google API Data. */
+define('GOOGLE_CLIENT_ID', 'MY_GOOGLE_CLIENT_ID');
+define('GOOGLE_CLIENT_SECRET', 'MY_GOOGLE_CLIENT_SECRET');
+define('GOOGLE_API_KEY', 'MY_GOOGLE_API_KEY');
+define("YOUTUBE_DEVELOPER_KEY", 'MY_YOUTUBE_DEVELOPER_KEY');
 
-/* Facebook API Data    */
-define('FACEBOOK_API_ID', '200590423408456');
-define('FACEBOOK_SECRET_KEY', '22eae2f5ee955789dcf2529993a04ca6');
+/* Facebook API Data. */
+define('FACEBOOK_API_ID', 'MY_FACEBOOK_API_ID');
+define('FACEBOOK_SECRET_KEY', 'MY_FACEBOOK_SECRET_KEY');
 ?>
